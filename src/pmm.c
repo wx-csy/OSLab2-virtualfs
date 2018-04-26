@@ -30,7 +30,7 @@ static void *mem_table;
 
 static void pmm_init() {
   start = _heap.start;
-  end = _heap.end();
+  end = _heap.end;
   
 }
 
