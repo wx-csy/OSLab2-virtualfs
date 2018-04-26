@@ -30,8 +30,12 @@ static void *start, *end;
 // static void *mem_table;
 
 static void pmm_init() {
-  start = _heap.start;
-  end = _heap.end;
+  start = align_up(_heap.start);
+  end = align_down(_heap.end);
+  if (start >= end) {
+    puts("Lack of memory.");
+    _exit(0);
+  }
   printf("start=%p, end=%p\n", start, end); 
 }
 
