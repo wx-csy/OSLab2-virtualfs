@@ -48,9 +48,10 @@ static void pmm_init() {
   memset(mem_table, 0, chk_end - chk_start);
   for (size_t chk_i = 0; chk_i < chk_start; chk_i++) 
     mem_table[chk_i] = -1;
-  void *test = pmm_alloc(2935264);
+  void *test = pmm_alloc(935), *test2 = pmm_alloc(236234);
   printf("addr = %p\n", test);
-  pmm_free(test - 1);
+  pmm_free(test);
+  pmm_free(test2 - 1);
 }
 
 static void *pmm_alloc(size_t size) {
