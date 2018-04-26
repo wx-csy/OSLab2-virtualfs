@@ -4,7 +4,7 @@ static void kmt_init();
 static int kmt_create(thread_t *thread, void (*entry)(void *arg), 
     void *arg);
 static void kmt_teardown(thread_t *thread);
-thread_t *kmt_schedule();
+static thread_t *kmt_schedule();
 static void kmt_spin_init(spinlock_t *lk, const char *name);
 static void kmt_spin_lock(spinlock_t *lk);
 static void kmt_spin_unlock(spinlock_t *lk);
@@ -36,6 +36,10 @@ static int kmt_create(thread_t *thread, void (*entry)(void *arg),
 
 static void kmt_teardown(thread_t *thread) {
 
+}
+
+static thread_t *schedule() {
+  return NULL;
 }
 
 static void kmt_spin_init(spinlock_t *lk, const char *name) {
