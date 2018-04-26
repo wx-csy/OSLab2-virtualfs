@@ -17,27 +17,32 @@ MOD_DEF(pmm) {
 
 static inline void *align_up(void *ptr) {
   uintptr_t addr = (uintptr_t)ptr;
-  while (addr & CHUNK_SIZE) addr += addr & -addr;
+  while (addr & (CHUNK_SIZE - 1)) addr += addr & -addr;
   return (void*)addr;
 }
 
 static inline void *align_down(void *ptr) {
   uintptr_t addr = (uintptr_t)ptr;
-  while (addr & CHUNK_SIZE) addr -= addr & -addr;
+  while (addr & (CHUNK_SIZE - 1)) addr -= addr & -addr;
   return (void*)addr;
 }
 
 static void *start, *end;
-// static void *mem_table;
+size_t chk_start, chk_end;
+
+uint8_t *mem_table;
 
 static void pmm_init() {
   start = align_up(_heap.start);
   end = align_down(_heap.end);
-  if (start < end) {
+  chk_start = (uintptr_t)start / CHUNK_SIZE;
+  chk_end = (uintptr_t)end / CHUNK_SIZE;
+  mem_table = (uint8_t *)start;
+  chk_start += (chk_end - chk_start) / CHUNK_SIZE;
+  if (chk_start >= chk_end) {
     puts("Lack of memory.");
     _Exit(EXIT_FAILURE);
   }
-  printf("start=%p, end=%p\n", start, end); 
 }
 
 static void *pmm_alloc(size_t size) {
