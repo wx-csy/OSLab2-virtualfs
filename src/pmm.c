@@ -33,7 +33,7 @@ static void *start, *end;
 static void pmm_init() {
   start = align_up(_heap.start);
   end = align_down(_heap.end);
-  if (start >= end) {
+  if (start < end) {
     puts("Lack of memory.");
     _Exit(EXIT_FAILURE);
   }
