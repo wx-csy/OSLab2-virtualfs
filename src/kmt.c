@@ -25,3 +25,36 @@ MOD_DEF(kmt) {
   .sem_signal = kmt_sem_signal,
 };
 
+static void kmt_init() {
+
+}
+
+static int kmt_create(thread_t *thread, void (*entry)(void *arg),
+    void *arg) {
+
+}
+
+static void kmt_teardown(thread_t *thread) {
+
+}
+
+static void kmt_spin_init(spinlock_t *lk, const char *name) {
+
+}
+
+static void kmt_spin_unlock(spinlock_t *lk) {
+
+}
+
+static void kmt_sem_init(sem_t *sem, const char *name, int value) {
+
+}
+
+static void kmt_sem_wait(sem_t *sem) {
+
+}
+
+static void kmt_sem_signal(sem_t *sem) {
+
+}
+
