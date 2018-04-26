@@ -35,7 +35,7 @@ static void pmm_init() {
   end = align_down(_heap.end);
   if (start >= end) {
     puts("Lack of memory.");
-    _Exit(0);
+    _Exit(EXIT_FAILURE);
   }
   printf("start=%p, end=%p\n", start, end); 
 }
