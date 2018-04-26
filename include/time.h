@@ -3,6 +3,10 @@
 
 #include <stdint.h>
 
+#ifndef NULL
+# define NULL 0
+#endif
+
 typedef int64_t clock_t;
 typedef int64_t time_t;
 

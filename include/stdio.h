@@ -3,6 +3,10 @@
 
 #include <stdarg.h>
 
+#ifndef NULL
+# define NULL 0
+#endif
+
 int puts(const char *str);
 
 int printf(const char *restrict format, ...);

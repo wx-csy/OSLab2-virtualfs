@@ -1,6 +1,10 @@
 #ifndef _stdlib_h
 #define _stdlib_h
 
+#ifndef NULL
+# define NULL 0
+#endif
+
 #define EXIT_SUCCESS  0
 #define EXIT_FAILURE  1
 
