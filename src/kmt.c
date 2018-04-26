@@ -38,7 +38,7 @@ static void kmt_teardown(thread_t *thread) {
 
 }
 
-static thread_t *schedule() {
+static thread_t *kmt_schedule() {
   return NULL;
 }
 
