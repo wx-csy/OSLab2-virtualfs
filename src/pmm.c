@@ -14,15 +14,15 @@ MOD_DEF(pmm) {
 #define CHUNK_SIZE    512
 
 static inline void *align_up(void *ptr) {
-  uintptr_t addr = ptr;
+  uintptr_t addr = (uintptr_t)ptr;
   while (addr & CHUNK_SIZE) addr += addr & -addr;
-  return addr;
+  return (void*)addr;
 }
 
 static inline void *align_down(void *ptr) {
-  uintptr_t addr = ptr;
+  uintptr_t addr = (uintptr_t)ptr;
   while (addr & CHUNK_SIZE) addr -= addr & -addr;
-  return addr;
+  return (void*)addr;
 }
 
 static void *start, *end;
