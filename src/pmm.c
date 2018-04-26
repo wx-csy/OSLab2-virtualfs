@@ -38,7 +38,7 @@ static uint8_t *mem_table;
 static void pmm_init() {
   chk_start = (uintptr_t)(align_up(_heap.start)) / CHUNK_SIZE;
   chk_end = (uintptr_t)(align_down(_heap.end)) / CHUNK_SIZE;
-  mem_table = (uint8_t *)start;
+  mem_table = (uint8_t *)(align_up(_heap.start));
   chk_start += chk_end / CHUNK_SIZE + 1;
   printf("chk_start=0x%x, chk_end=0x%x\n", chk_start, chk_end);
   if (chk_start >= chk_end) {
