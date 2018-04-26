@@ -50,8 +50,8 @@ static void pmm_init() {
     mem_table[chk_i] = -1;
   void *test = pmm_alloc(935), *test2 = pmm_alloc(236234);
   printf("addr = %p\n", test);
-  pmm_free(test - 1);
-  pmm_free(test2 - 1);
+  pmm_free(test);
+  pmm_free(test2);
 }
 
 static void *pmm_alloc(size_t size) {
