@@ -30,15 +30,14 @@ static void *mem_table;
 
 static void pmm_init() {
   start = _heap.start;
-  end = _heap.end;
-  
+  end = _heap.end; 
 }
 
 static void *pmm_alloc(size_t size) {
-  
+  return 0;
 }
 
 static void pmm_free(void *ptr) {
-   
+   0;
 }
 
