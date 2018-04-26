@@ -100,9 +100,10 @@ free_err:
   printf("Printing current memory table ...\n");
   for (size_t chk_i = 0; chk_i < chk_end; chk_i++) {
     if ((chk_i & 15) == 0)
-      printf("\n0x%8x ", (unsigned)(chk_i * CHUNK_SIZE)); 
-    printf("%2x ", mem_table[chk_i]);
+      printf("\n0x%08x ", (unsigned)(chk_i * CHUNK_SIZE)); 
+    printf("%02x ", mem_table[chk_i]);
   }
+  putchar('\n');
   _Exit(EXIT_FAILURE);
 }
 
