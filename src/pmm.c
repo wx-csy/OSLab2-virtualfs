@@ -46,6 +46,7 @@ static void pmm_init() {
   start = (void *) (chk_start * CHUNK_SIZE);
   printf("start=%p, end=%p, chk_start=%d, chk_end=%d\n", 
       start, end, chk_start, chk_end);
+  printf("mem_table=%p", mem_table);
   if (chk_start >= chk_end) {
     puts("Lack of memory.");
     _Exit(EXIT_FAILURE);
