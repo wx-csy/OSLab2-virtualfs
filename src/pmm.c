@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdio.h>
 #include <os.h>
 
 static void pmm_init();
@@ -30,7 +31,8 @@ static void *start, *end;
 
 static void pmm_init() {
   start = _heap.start;
-  end = _heap.end; 
+  end = _heap.end;
+  printf("start=%p, end=%p\n", start, end); 
 }
 
 static void *pmm_alloc(size_t size) {
