@@ -15,6 +15,10 @@ MOD_DEF(pmm) {
 
 #define CHUNK_SIZE    512
 
+void *ptr_advance(void *ptr, ptrdiff_t offset) {
+  return (void*)((uint8_t*)ptr + offset);
+}
+
 static inline void *align_up(void *ptr) {
   uintptr_t addr = (uintptr_t)ptr;
   while (addr & (CHUNK_SIZE - 1)) addr += addr & -addr;
@@ -39,6 +43,9 @@ static void pmm_init() {
   chk_end = (uintptr_t)end / CHUNK_SIZE;
   mem_table = (uint8_t *)start;
   chk_start += (chk_end - chk_start) / CHUNK_SIZE;
+  start = (void *) (chk_start * CHUNK_SIZE);
+  printf("start=%p, end=%p, chk_start=%d, chk_end=%d\n", 
+      start, end, chk_start, chk_end);
   if (chk_start >= chk_end) {
     puts("Lack of memory.");
     _Exit(EXIT_FAILURE);
