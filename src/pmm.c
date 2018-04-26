@@ -43,10 +43,9 @@ static void pmm_init() {
   chk_end = (uintptr_t)end / CHUNK_SIZE;
   mem_table = (uint8_t *)start;
   chk_start += (chk_end - chk_start) / CHUNK_SIZE;
-  start = (void *) (chk_start * CHUNK_SIZE);
-  printf("start=%p, end=%p, chk_start=%d, chk_end=%d\n", 
-      start, end, chk_start, chk_end);
-  printf("mem_table=%p", mem_table);
+  start = (void *)(chk_start * CHUNK_SIZE);
+  end = (void *)(chk_end * CHUNK_SIZE);
+  memset(mem_table, 0, chk_end - chk_start);
   if (chk_start >= chk_end) {
     puts("Lack of memory.");
     _Exit(EXIT_FAILURE);
