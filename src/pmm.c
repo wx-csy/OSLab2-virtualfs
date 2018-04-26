@@ -103,7 +103,7 @@ free_err:
       printf("\n0x%08x ", (unsigned)(chk_i * CHUNK_SIZE)); 
     printf("%02x ", mem_table[chk_i]);
   }
-  putchar('\n');
+  printf("\n");
   _Exit(EXIT_FAILURE);
 }
 
