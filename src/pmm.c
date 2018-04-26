@@ -16,7 +16,7 @@ MOD_DEF(pmm) {
 
 #define CHUNK_SIZE    512
 
-void *ptr_advance(void *ptr, ptrdiff_t offset) {
+static void *ptr_advance(void *ptr, ptrdiff_t offset) {
   return (void*)((uint8_t*)ptr + offset);
 }
 
@@ -32,33 +32,49 @@ static inline void *align_down(void *ptr) {
   return (void*)addr;
 }
 
-static void *start, *end;
-size_t chk_start, chk_end;
-
-uint8_t *mem_table;
+static size_t chk_start, chk_end;
+static uint8_t *mem_table;
 
 static void pmm_init() {
-  start = align_up(_heap.start);
-  end = align_down(_heap.end);
-  chk_start = (uintptr_t)start / CHUNK_SIZE;
-  chk_end = (uintptr_t)end / CHUNK_SIZE;
+  chk_start = (uintptr_t)(align_up(_heap.start)) / CHUNK_SIZE;
+  chk_end = (uintptr_t)(align_down(_heap.end)) / CHUNK_SIZE;
   mem_table = (uint8_t *)start;
-  chk_start += (chk_end - chk_start) / CHUNK_SIZE;
-  start = (void *)(chk_start * CHUNK_SIZE);
-  end = (void *)(chk_end * CHUNK_SIZE);
-  memset(mem_table, 0, chk_end - chk_start);
+  chk_start += chk_end / CHUNK_SIZE + 1;
+  printf("chk_start=0x%x, chk_end=0x%x\n", chk_start, chk_end);
   if (chk_start >= chk_end) {
     puts("Lack of memory.");
     _Exit(EXIT_FAILURE);
   }
+  memset(mem_table, 0, chk_end - chk_start);
+  for (size_t chk_i = 0; chk_i < chk_start; chk_i++) 
+    mem_table[chk_i] = -1;
 }
 
 static void *pmm_alloc(size_t size) {
   if (size == 0) return NULL;
   while (size & (size - 1)) size += size & -size;
   if (size < CHUNK_SIZE) size = CHUNK_SIZE;
-
-  return 0;
+  size_t chk_cnt = size / CHUNK_SIZE;
+  uint8_t log_chk = 0;
+  while (chk_cnt) {
+    log_chk++;
+    chk_cnt >>= 1;
+  }
+  chk_cnt = size / CHUNK_SIZE;
+  size_t chk_pos = chk_start;
+  while (chk_pos & (chk_cnt - 1)) chk_pos += chk_pos & -chk_pos;
+  while (chk_pos + chk_cnt <= chk_end) {
+    for (size_t chk_i = chk_pos; chk_i < chk_pos + chk_cnt; chk_i++) {
+      if (mem_table[chk_i]) goto next;
+    }  
+    for (size_t chk_i = chk_pos; chk_i < chk_pos + chk_cnt; chk_i++) {
+      mem_table[chk_i] = log_chk;
+    }
+    return ptr_advance(NULL, chk_pos * CHUNK_SIZE);
+next:;
+    chk_pos += chk_cnt;
+  }
+  return NULL;
 }
 
 static void pmm_free(void *ptr) {
