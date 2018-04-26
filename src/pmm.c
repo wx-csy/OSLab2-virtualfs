@@ -54,6 +54,10 @@ static void pmm_init() {
 }
 
 static void *pmm_alloc(size_t size) {
+  if (size == 0) return NULL;
+  while (size & (size - 1)) size += size & -size;
+  if (size < CHUNK_SIZE) size = CHUNK_SIZE;
+
   return 0;
 }
 
