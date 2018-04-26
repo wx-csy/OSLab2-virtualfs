@@ -48,7 +48,7 @@ static void pmm_init() {
   memset(mem_table, 0, chk_end - chk_start);
   for (size_t chk_i = 0; chk_i < chk_start; chk_i++) 
     mem_table[chk_i] = -1;
-  void *test = pmm_alloc(235264);
+  void *test = pmm_alloc(29935264);
   printf("addr = %p\n", test);
   pmm_free(test - 1);
 }
@@ -100,7 +100,7 @@ free_err:
   printf("Printing current memory table ...\n");
   for (size_t chk_i = 0; chk_i < chk_end; chk_i++) {
     if ((chk_i & 15) == 0)
-      printf("\n0x%08x ", (unsigned)(chk_i * CHUNK_SIZE)); 
+      printf("\n0x%08x  ", (unsigned)(chk_i * CHUNK_SIZE)); 
     printf("%02x ", mem_table[chk_i]);
   }
   printf("\n");
