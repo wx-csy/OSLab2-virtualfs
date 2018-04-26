@@ -48,6 +48,9 @@ static void pmm_init() {
   memset(mem_table, 0, chk_end - chk_start);
   for (size_t chk_i = 0; chk_i < chk_start; chk_i++) 
     mem_table[chk_i] = -1;
+  void *test = pmm_alloc(235264);
+  printf("addr = %p\n", test);
+  pmm_free(test);
 }
 
 static void *pmm_alloc(size_t size) {
@@ -78,6 +81,28 @@ next:;
 }
 
 static void pmm_free(void *ptr) {
+  if (ptr == NULL) return;
+  uintptr_t addr = ptr;
+  size_t chk = addr / CHUNK_SIZE;
+  if (addr & (CHUNK_SIZE - 1)) goto free_err;
+  if (chk < chk_start || chk >= chk_end) goto free_err;
+  uint8_t log_chk = mem_table[chk];
+  size_t chk_cnt = (size_t)1 << (log_chk - 1);
+  if (chk & (chk_cnt - 1)) goto free_err;
+  if (chk + chk_cnt > chk_end) goto free_err;
+  for (size_t chk_i = chk; chk_i < chk + chk_cnt; chk_i++) {
+    if (mem_table[chk_i] != log_chk) goto free_err;
+    mem_table[chk_i] = 0;
+  }
   return;
+free_err:
+  printf("Failure occured when freeing pointer 0x%p!\n", ptr);
+  printf("Printing current memory table ...\n");
+  for (size_t chk_i = 0; chk_i < chk_end; chk_i++) {
+    if (chk_i & 15 == 0)
+      printf("\n0x%8x ", (unsigned)(chk_i * CHUNK_SIZE)); 
+    printf("%2x ", mem_table[chk_i]);
+  }
+  _Exit(EXIT_FAILURE);
 }
 
