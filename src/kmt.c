@@ -31,7 +31,7 @@ static void kmt_init() {
 
 static int kmt_create(thread_t *thread, void (*entry)(void *arg),
     void *arg) {
-
+  return 0;
 }
 
 static void kmt_teardown(thread_t *thread) {
@@ -39,6 +39,10 @@ static void kmt_teardown(thread_t *thread) {
 }
 
 static void kmt_spin_init(spinlock_t *lk, const char *name) {
+
+}
+
+static void kmt_spin_lock(spinlock_t *lk) {
 
 }
 
