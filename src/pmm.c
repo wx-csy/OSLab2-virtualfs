@@ -82,7 +82,7 @@ next:;
 
 static void pmm_free(void *ptr) {
   if (ptr == NULL) return;
-  uintptr_t addr = ptr;
+  uintptr_t addr = (uintptr_t) ptr;
   size_t chk = addr / CHUNK_SIZE;
   if (addr & (CHUNK_SIZE - 1)) goto free_err;
   if (chk < chk_start || chk >= chk_end) goto free_err;
@@ -99,7 +99,7 @@ free_err:
   printf("Failure occured when freeing pointer 0x%p!\n", ptr);
   printf("Printing current memory table ...\n");
   for (size_t chk_i = 0; chk_i < chk_end; chk_i++) {
-    if (chk_i & 15 == 0)
+    if ((chk_i & 15) == 0)
       printf("\n0x%8x ", (unsigned)(chk_i * CHUNK_SIZE)); 
     printf("%2x ", mem_table[chk_i]);
   }
