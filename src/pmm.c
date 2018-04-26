@@ -26,7 +26,7 @@ static inline void *align_down(void *ptr) {
 }
 
 static void *start, *end;
-static void *mem_table;
+// static void *mem_table;
 
 static void pmm_init() {
   start = _heap.start;
@@ -38,6 +38,6 @@ static void *pmm_alloc(size_t size) {
 }
 
 static void pmm_free(void *ptr) {
-   0;
+  return;
 }
 
