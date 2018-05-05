@@ -27,7 +27,7 @@ MOD_DEF(kmt) {
 };
 
 static void kmt_init() {
-  char s1[10], s2[10];
+  char s1[10] = {21,62,3}, s2[10]  ="123";
   strcpy(s2, s1);
   printf("%s", s2);
 }
