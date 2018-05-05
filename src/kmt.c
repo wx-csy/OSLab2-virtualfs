@@ -26,7 +26,9 @@ MOD_DEF(kmt) {
 };
 
 static void kmt_init() {
-
+  char s1[10] = "213", s2[10];
+  strcpy(s2, s1);
+  printf("%s", s2);
 }
 
 static int kmt_create(thread_t *thread, void (*entry)(void *arg),
