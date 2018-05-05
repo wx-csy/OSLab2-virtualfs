@@ -30,7 +30,6 @@ static void kmt_init() {
   const char src[] = "315726735293582";
   char dest[10];
   strncpy(dest, src, sizeof dest);
-  dest[9] = 0;
   printf("%s\n", dest);
 }
 
