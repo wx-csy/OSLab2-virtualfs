@@ -27,7 +27,8 @@ MOD_DEF(kmt) {
 };
 
 static void kmt_init() {
-  char (const src)[] = "315726735293582", dest[10];
+  const char src[] = "315726735293582";
+  char dest[10];
   strncpy(dest, src, sizeof dest);
   dest[9] = 0;
   printf("%s\n", dest);
