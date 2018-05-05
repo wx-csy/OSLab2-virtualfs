@@ -27,9 +27,10 @@ MOD_DEF(kmt) {
 };
 
 static void kmt_init() {
-  char s1[10] = {21,62,3}, s2[10]  ="123";
-  strcpy(s2, s1);
-  printf("%s", s2);
+  const char src[] = "315726735293582", dest[10];
+  strcpy(dest, src, sizeof dest);
+  dest[9] = 0;
+  printf("%s\n", dest);
 }
 
 static int kmt_create(thread_t *thread, void (*entry)(void *arg),
