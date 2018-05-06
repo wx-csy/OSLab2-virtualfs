@@ -31,7 +31,7 @@ static void blockme() {
 
 }
 
-static void wakeup(thread *thread) {
+static void wakeup(thread_t *thread) {
   
 }
 
