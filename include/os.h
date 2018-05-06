@@ -3,13 +3,26 @@
 
 #include <kernel.h>
 
-/* This function has been implemented in libc. So we no longer
- * need it here.
-static inline void puts(const char *p) {
-  for (; *p; p++) {
-    _putc(*p);
-  }
-}
-*/
+#define THRD_STATUS_INVALID     0
+#define THRD_STATUS_READY       1
+#define THRD_STATUS_RUNNING     2
+#define THRD_STATUS_BLOCKED     3
+
+struct thread {
+  int status;
+};
+
+struct spinlock {
+  char name[16];
+  int locked;
+};
+
+struct semaphore {
+  char name[16];
+  int value;
+  thread *next;
+};
+
+extern thread *this_thread;
 
 #endif
