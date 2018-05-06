@@ -20,9 +20,9 @@ struct spinlock {
 struct semaphore {
   char name[16];
   int value;
-  thread *next;
+  thread_t *next;
 };
 
-extern thread *this_thread;
+extern thread_t *this_thread;
 
 #endif
