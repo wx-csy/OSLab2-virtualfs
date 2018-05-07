@@ -90,7 +90,7 @@ static void kmt_teardown(thread_t *thread) {
 
 static thread_t *kmt_schedule() {
   static int ntid = 0;
-  if (this_thread->status == THRD_STATUS_RUNNNING) {
+  if (this_thread->status == THRD_STATUS_RUNNING) {
     this_thread->status = THRD_STATUS_READY;
   }
   do {
@@ -156,7 +156,7 @@ static void kmt_sem_wait(sem_t *sem) {
   _intr_write(0);
   sem->value--;
   if (sem->value < 0) {
-    thread *last = sem->next;
+    thread_t *last = sem->next;
     sem->next = this_thread;
     blockme();
     _intr_write(last_intr);
