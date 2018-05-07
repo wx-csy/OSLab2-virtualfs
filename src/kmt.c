@@ -53,7 +53,7 @@ static int kmt_create(thread_t *thread, void (*entry)(void *arg),
   int succ = 0;
   _intr_write(0);
   _Area stack;
-  for (int i = 0; i < MAX_THREAD_NUM) {
+  for (int i = 0; i < MAX_THREAD_NUM; i++) {
     if (threads[i] == NULL) {
       stack.start = pmm.alloc(8 * 1024 * 1024);
       if (stack.start == NULL) break;
