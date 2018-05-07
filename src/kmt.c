@@ -99,6 +99,7 @@ static thread_t *kmt_schedule() {
   } while (threads[ntid]->status != THRD_STATUS_READY);
   threads[ntid]->status = THRD_STATUS_READY;
   this_thread = threads[ntid];
+  check_stack(this_thread->_Area);
   return this_thread;
 }
 
