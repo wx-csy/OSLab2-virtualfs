@@ -17,7 +17,7 @@ struct thread {
   int tid;
   int status;
   _Area stack;
-  _RegSet regset;
+  _RegSet *regset;
 };
 
 struct spinlock {
