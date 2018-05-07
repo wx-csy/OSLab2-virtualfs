@@ -47,6 +47,7 @@ static void kmt_init() {
   }
 }
 
+#define STACK_SIZE  8 * 1024 * 1024
 static int kmt_create(thread_t *thread, void (*entry)(void *arg),
     void *arg) {
   int last_intr = _intr_read();
@@ -55,9 +56,9 @@ static int kmt_create(thread_t *thread, void (*entry)(void *arg),
   _Area stack;
   for (int i = 0; i < MAX_THREAD_NUM; i++) {
     if (threads[i] == NULL) {
-      stack.start = pmm.alloc(8 * 1024 * 1024);
+      stack.start = pmm.alloc(STACK_SIZE);
       if (stack.start == NULL) break;
-      stack.end = (void*)((uint8_t*)ptr + 8 * 1024 * 1024);
+      stack.end = ptr_advance(stack.start, STACK_SIZE);
       thread.stack = stack;
       *(uint32_t*)stack.start = STACK_PROTECTOR_MAGIC1;
       stack.start = ptr_advance(stack.start, sizeof(uint32_t));
