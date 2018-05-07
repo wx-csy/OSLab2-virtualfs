@@ -1,4 +1,5 @@
 #include <os.h>
+#include <assert.h>
 
 static void os_init();
 static void os_run();
