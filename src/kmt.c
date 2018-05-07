@@ -57,7 +57,7 @@ static int kmt_create(thread_t *thread, void (*entry)(void *arg),
   _Area stack;
   for (int i = 0; i < MAX_THREAD_NUM; i++) {
     if (threads[i] == NULL) {
-      stack.start = pmm.alloc(STACK_SIZE);
+      stack.start = pmm->alloc(STACK_SIZE);
       if (stack.start == NULL) break;
       stack.end = ptr_advance(stack.start, STACK_SIZE);
       thread->stack = stack;
@@ -81,7 +81,7 @@ static void kmt_teardown(thread_t *thread) {
   int last_intr = _intr_read();
   _intr_write(0);
   thread->status = THRD_STATUS_INVALID;
-  pmm.free(thread->stack.start);
+  pmm->free(thread->stack.start);
   threads[thread->tid] = NULL;
   this_thread = kmt_schedule();
   _intr_write(last_intr);
