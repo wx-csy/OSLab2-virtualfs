@@ -1,6 +1,8 @@
 #ifndef __OS_H__
 #define __OS_H__
 
+#error good
+
 #include <stdint.h>
 #include <kernel.h>
 
