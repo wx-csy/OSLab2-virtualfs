@@ -24,7 +24,9 @@ static void os_run() {
   _intr_write(1); // enable interrupt
   thread_t thrd_idle;
   kmt->create(&thrd_idle, idle, NULL);
-  while (1) _putc('1'); // should never return
+  _yield();
+  assert(0);
+  // should never return
 }
 
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
