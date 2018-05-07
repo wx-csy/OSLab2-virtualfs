@@ -59,14 +59,14 @@ static int kmt_create(thread_t *thread, void (*entry)(void *arg),
       stack.start = pmm.alloc(STACK_SIZE);
       if (stack.start == NULL) break;
       stack.end = ptr_advance(stack.start, STACK_SIZE);
-      thread.stack = stack;
+      thread->stack = stack;
       *(uint32_t*)stack.start = STACK_PROTECTOR_MAGIC1;
       stack.start = ptr_advance(stack.start, sizeof(uint32_t));
       stack.end = ptr_advance(stack.end, -sizeof(uint32_t));
       *(uint32_t*)stack.end = STACK_PROTECTOR_MAGIC2;
-      thread.tid = i;
-      thread.regset = _make(stack, entry, arg);
-      thread.status = THRD_STATUS_READY;
+      thread->tid = i;
+      thread->regset = _make(stack, entry, arg);
+      thread->status = THRD_STATUS_READY;
       threads[i] = thread;
       succ = 1;
     }
