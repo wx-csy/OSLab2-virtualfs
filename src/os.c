@@ -17,14 +17,17 @@ static void os_init() {
   }
 }
 
-void idle(void *ignore) {
-  while (1) _putc('0');
+void idle(void *i) {
+  while (1) 
+    printf("%d\n", *(int*)i);
 }
+
+int tmp =  1;
 
 static void os_run() {
   _intr_write(1); // enable interrupt
   thread_t thrd_idle;
-  kmt->create(&thrd_idle, idle, NULL);
+  kmt->create(&thrd_idle, idle, &tmp);
   _yield();
   assert(0);
   // should never return
