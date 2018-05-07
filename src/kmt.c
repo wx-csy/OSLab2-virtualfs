@@ -81,7 +81,7 @@ static void kmt_teardown(thread_t *thread) {
   _intr_write(0);
   thread->status = THRD_STATUS_INVALID;
   pmm.free(thread->stack.start);
-  threads[thread->tid] = 0;
+  threads[thread->tid] = NULL;
   this_thread = kmt_schedule();
   _intr_write(last_intr);
   _yield();
@@ -96,7 +96,7 @@ static thread_t *kmt_schedule() {
     ntid++;
     ntid %= MAX_THREAD_NUM;
   } while (threads[ntid]->status != THRD_STATUS_READY);
-  threads[ntid].status = THRD_STATUS_READY;
+  threads[ntid]->status = THRD_STATUS_READY;
   this_thread = &threads[ntid];
   return this_thread;
 }
@@ -107,7 +107,7 @@ static void kmt_spin_init(spinlock_t *lk, const char *name) {
   if (name == NULL) name = "(anon)";
   strncpy(lk->name, name, sizeof lk->name);
   lk->name[sizeof(lk->name) - 1] = 0;
-  lk->locked = 0;
+  lk->holder = NULL;
   _intr_write(last_intr);
 }
 
