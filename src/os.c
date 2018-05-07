@@ -16,8 +16,14 @@ static void os_init() {
   }
 }
 
+void idle(void *ignore) {
+  while (1) ;
+}
+
 static void os_run() {
   _intr_write(1); // enable interrupt
+  thread_t thrd_idle;
+  kmt.create(&thrd_idle, idle, NULL);
   while (1) ; // should never return
 }
 
@@ -28,5 +34,6 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
     _putc('x');
     _halt(1);
   }
-  return NULL; // this is allowed by AM
+  this_thread = kmt.schedule();  
+  return this_thread.regset; // this is allowed by AM
 }

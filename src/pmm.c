@@ -1,4 +1,3 @@
-#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -15,10 +14,6 @@ MOD_DEF(pmm) {
 };
 
 #define CHUNK_SIZE    512
-
-static void *ptr_advance(void *ptr, ptrdiff_t offset) {
-  return (void*)((uint8_t*)ptr + offset);
-}
 
 static inline void *align_up(void *ptr) {
   uintptr_t addr = (uintptr_t)ptr;

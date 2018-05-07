@@ -1,4 +1,5 @@
 #include <os.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -27,60 +28,112 @@ MOD_DEF(kmt) {
   .sem_signal = kmt_sem_signal,
 };
 
-static void blockme() {
+thread_t *this_thread;
 
+static void blockme() {
+  this_thread->status = THRD_STATUS_BLOCKED;
 }
 
 static void wakeup(thread_t *thread) {
-  
+  thread->status = THRD_STATUS_READY;
 }
 
-static void kmt_init() {
+#define MAX_THREAD_NUM  32
+thread_t *threads[MAX_THREAD_NUM];
 
+static void kmt_init() {
+  for (int i = 0; i < MAX_THREAD_NUM; i++) {
+    threads[i] = NULL;
+  }
 }
 
 static int kmt_create(thread_t *thread, void (*entry)(void *arg),
     void *arg) {
-  return 0;
+  int last_intr = _intr_read();
+  int succ = 0;
+  _intr_write(0);
+  _Area stack;
+  for (int i = 0; i < MAX_THREAD_NUM) {
+    if (threads[i] == NULL) {
+      stack.start = pmm.alloc(8 * 1024 * 1024);
+      if (stack.start == NULL) break;
+      stack.end = (void*)((uint8_t*)ptr + 8 * 1024 * 1024);
+      thread.stack = stack;
+      *(uint32_t*)stack.start = STACK_PROTECTOR_MAGIC1;
+      stack.start = ptr_advance(stack.start, sizeof(uint32_t));
+      stack.end = ptr_advance(stack.end, -sizeof(uint32_t));
+      *(uint32_t*)stack.end = STACK_PROTECTOR_MAGIC2;
+      thread.tid = i;
+      thread.regset = _make(stack, entry, arg);
+      thread.status = THRD_STATUS_READY;
+      threads[i] = thread;
+      succ = 1;
+    }
+  }
+  _intr_write(last_intr);
+  _yield();
+  return succ;
 }
 
 static void kmt_teardown(thread_t *thread) {
-
+  int last_intr = _intr_read();
+  _intr_write(0);
+  thread->status = THRD_STATUS_INVALID;
+  pmm.free(thread->stack.start);
+  threads[thread->tid] = 0;
+  this_thread = kmt_schedule();
+  _intr_write(last_intr);
+  _yield();
 }
 
 static thread_t *kmt_schedule() {
-  return NULL;
+  static int ntid = 0;
+  if (this_thread->status == THRD_STATUS_RUNNNING) {
+    this_thread->status = THRD_STATUS_READY;
+  }
+  do {
+    ntid++;
+    ntid %= MAX_THREAD_NUM;
+  } while (threads[ntid]->status != THRD_STATUS_READY);
+  threads[ntid].status = THRD_STATUS_READY;
+  this_thread = &threads[ntid];
+  return this_thread;
 }
 
 static void kmt_spin_init(spinlock_t *lk, const char *name) {
+  int last_intr = _intr_read();
   _intr_write(0);
   if (name == NULL) name = "(anon)";
   strncpy(lk->name, name, sizeof lk->name);
   lk->name[sizeof(lk->name) - 1] = 0;
   lk->locked = 0;
-  _intr_write(1);
+  _intr_write(last_intr);
 }
 
 static void kmt_spin_lock(spinlock_t *lk) {
+  lk->last_intr = _intr_read();
   _intr_write(0);
-  if (lk->locked) {
+  if (lk->holder != NULL) {
     printf("Fatal error occured.\n");
     printf("Attempting to acquire a locked spinlock [%s].\n", lk->name);
     _Exit(0);
   }
+  lk->holder = this_thread;
 }
 
 static void kmt_spin_unlock(spinlock_t *lk) {
-  if (!lk->locked) {
+  if (lk->holder != this_thread) {
     printf("Fatal error occured.\n");
-    printf("Attempting to release an unlocked spinlock [%s].\n", 
-        lk->name);
+    printf("Attempting to release an unlocked or unacquired "
+        "spinlock [%s].\n", lk->name);
     _Exit(0);
   }
-  _intr_write(1);
+  lk->holder = NULL;
+  _intr_write(lk->last_intr);
 }
 
 static void kmt_sem_init(sem_t *sem, const char *name, int value) {
+  int last_intr = _intr_read();
   _intr_write(0);
   if (name == NULL) name = "(anon)";
   strncpy(sem->name, name, sizeof sem->name);
@@ -93,27 +146,33 @@ static void kmt_sem_init(sem_t *sem, const char *name, int value) {
   }
   sem->value = value;
   sem->next = NULL;
-  _intr_write(1);
+  _intr_write(last_intr);
 }
 
 static void kmt_sem_wait(sem_t *sem) {
+  int last_intr = _intr_read();
   _intr_write(0);
   sem->value--;
   if (sem->value < 0) {
     thread *last = sem->next;
     sem->next = this_thread;
-    
+    blockme();
+    _intr_write(last_intr);
+    _yield();
+    last_intr = _intr_read();
     sem->next = last;
   }
-  _intr_write(1);
+  _intr_write(last_intr);
 }
 
 static void kmt_sem_signal(sem_t *sem) {
+  int last_intr = _intr_read();
   _intr_write(0);
   sem->value++;
   if (sem->value <= 0) {
-    
+    wakeup(sem->next);
   }
-  _intr_write(1);
+  _intr_write(last_intr);
+  _yield();
 }
 
