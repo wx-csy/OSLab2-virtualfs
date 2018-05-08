@@ -64,7 +64,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 //    _putc('x');
     _halt(1);
   }
-  printf("sem: %d, %d\n", sem_free->value, sem_full->value);
+  printf("sem: %d, %d\n", sem_free.value, sem_full.value);
   this_thread = kmt->schedule();  
   return this_thread->regset; // this is allowed by AM
 }
