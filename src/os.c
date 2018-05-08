@@ -19,7 +19,7 @@ static void os_init() {
 }
 
 void idle(void *ignore) {
-  while (1) 
+  while (1) ; 
     printf("Hello, world!\n");
 }
 
