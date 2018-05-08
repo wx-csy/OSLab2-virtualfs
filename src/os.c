@@ -72,8 +72,8 @@ static void os_run() {
   kmt->spin_init(&spinlck, "spinlck");
   kmt->create(&thrd_idle, idle, NULL);
   for (int i=0; i<6; i++) {
-    kmt_create(prod+i, worker1, NULL);
-    kmt_create(cons+i, worker2, NULL);
+    kmt->create(prod+i, worker1, NULL);
+    kmt->create(cons+i, worker2, NULL);
   }
   printf("pid=%d, %d\n", thrd_idle.tid, thrd_worker.tid);
   _intr_write(1);
