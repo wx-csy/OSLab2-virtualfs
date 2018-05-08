@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-#define DEBUG_ME
+// #define DEBUG_ME
 #include <debug.h>
 
 static void os_init();
@@ -93,9 +93,8 @@ _debug("Thread %d yields!\n", this_thread->tid);
 //    _putc('x');
     _halt(1);
   }
-  if (this_thread != NULL)
-    this_thread->regset = regs;
-  this_thread = kmt->schedule();  
+  if (this_thread != NULL) this_thread->regset = regs;
+  this_thread = kmt->schedule(); 
   return this_thread->regset; // this is allowed by AM
 }
 
