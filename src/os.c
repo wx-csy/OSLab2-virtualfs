@@ -21,15 +21,7 @@ static void os_init() {
   }
 }
 
-#pragma GCC optimize(0)
-
-void overflow(int x) {
-  if (x % 10 == 0) _yield();
-  overflow(x+1);
-}
-
 static void idle(void *ignore) {
-  overflow(0);
   while (1) _yield();
 }
 
