@@ -22,7 +22,7 @@ static void os_init() {
 }
 
 static void overflow(int x) {
-  if (x % 10000 == 0) _yield();
+  if (x % 1000000 == 0) _yield();
   overflow(x+1);
 }
 
