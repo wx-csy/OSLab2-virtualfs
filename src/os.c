@@ -30,8 +30,10 @@ void worker(void *j) {
 static void os_run() {
   _intr_write(1); // enable interrupt
   thread_t thrd_idle, thrd_worker;
+  _intr_write(0);
   kmt->create(&thrd_idle, idle, NULL);
   kmt->create(&thrd_worker, worker, NULL);
+  _intr_write(1);
   printf("pid=%d, %d\n", thrd_idle.tid, thrd_worker.tid);
   while (1);
   _yield();
