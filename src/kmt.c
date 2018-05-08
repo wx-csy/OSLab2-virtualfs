@@ -60,10 +60,10 @@ static int kmt_create(thread_t *thread, void (*entry)(void *arg),
   _Area stack;
   for (int i = 0; i < MAX_THREAD_NUM; i++) {
     if (threads[i] == NULL) {
+      thread->stack = stack;
       stack.start = pmm->alloc(STACK_SIZE);
       if (stack.start == NULL) break;
       stack.end = ptr_advance(stack.start, STACK_SIZE);
-      thread->stack = stack;
       *(uint32_t*)stack.start = STACK_PROTECTOR_MAGIC1;
       stack.start = ptr_advance(stack.start, sizeof(uint32_t));
       stack.end = ptr_advance(stack.end, -sizeof(uint32_t));
