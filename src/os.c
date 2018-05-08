@@ -33,6 +33,7 @@ void worker1(void *ignore) {
     kmt->sem_wait(&sem_free);
     printf("(");
     kmt->sem_signal(&sem_full);
+    if (rand() % 2) _yield();
   }
 }
 
@@ -41,6 +42,7 @@ void worker2(void *ignore) {
     kmt->sem_wait(&sem_full);
     printf(")");
     kmt->sem_signal(&sem_free);
+    if (rand() % 2) _yield();
   } 
 }
 
