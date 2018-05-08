@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <kernel.h>
 
 static inline void *ptr_advance(void *ptr, ptrdiff_t offset) {
