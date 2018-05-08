@@ -44,6 +44,7 @@ void worker2(void *ignore) {
 static void os_run() {
   thread_t thrd_idle, thrd_worker, thrd_worker2;
   _intr_write(0);
+  this_thread == NULL;
   kmt->sem_init(&sem_free, "sem_free", 2);
   kmt->sem_init(&sem_full, "sem_full", 0);
   kmt->create(&thrd_idle, idle, NULL);
@@ -60,6 +61,8 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 //  if (ev.event == _EVENT_IRQ_TIMER) _putc('*');
   if (ev.event == _EVENT_IRQ_IODEV) _putc('I');
   if (ev.event == _EVENT_YIELD) {
+    if (this_thread != NULL)
+      this_thread->regset = regs;
     printf("Thread %d yields!\n", this_thread->tid);
   }
   if (ev.event == _EVENT_ERROR) {
