@@ -21,6 +21,8 @@ static void os_init() {
   }
 }
 
+#pragma GCC optimize(0)
+
 static void overflow(int x) {
   if (x % 1000000 == 0) _yield();
   overflow(x+1);
