@@ -40,7 +40,7 @@ extern thread_t *this_thread;
 #define STACK_PROTECTOR_MAGIC2  0xf38da472
 
 static inline void check_stack(thread_t *thread) {
-  _Area stack = thread->stack
+  _Area stack = thread->stack;
   if (*(uint32_t*)(stack.start) != STACK_PROTECTOR_MAGIC1 ||
     *(uint32_t*)ptr_advance(stack.end, -sizeof(uint32_t)) 
     != STACK_PROTECTOR_MAGIC2) {
