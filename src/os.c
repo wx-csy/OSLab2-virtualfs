@@ -44,7 +44,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
       
       break;
     default:
-      
+      break;
   }
   if (this_thread != NULL) this_thread->regset = regs;
   this_thread = kmt->schedule(); 
