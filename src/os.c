@@ -82,12 +82,12 @@ static void os_run() {
 }
 
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
-_debug("Interrupted. tid=%d, ev=%d", this_thread?this_thread->tid:0,
-    ev.event);
+// _debug("Interrupted. tid=%d, ev=%d", this_thread?this_thread->tid:0,
+//    ev.event);
 //  if (ev.event == _EVENT_IRQ_TIMER) _putc('*');
   if (ev.event == _EVENT_IRQ_IODEV) _putc('I');
   if (ev.event == _EVENT_YIELD) {
-_debug("Thread %d yields!\n", this_thread->tid);
+// _debug("Thread %d yields!\n", this_thread->tid);
   }
   if (ev.event == _EVENT_ERROR) {
     printf("Error event received\n");
