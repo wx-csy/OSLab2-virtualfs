@@ -171,6 +171,7 @@ static void kmt_sem_wait(sem_t *sem) {
   sem->value--;
 _debug("P[%s], value=%d, tid=%d", sem->name, sem->value, 
     this_thread->tid);
+  assert(sem->lpos <= MAX_SEM_WAIT && sem->rpos <= MAX_SEM_WAIT);
   if (sem->value < 0) {
     sem->queue[sem->rpos] = this_thread;
     sem->rpos = (sem->rpos + 1) & MAX_SEM_WAIT;
@@ -189,6 +190,7 @@ static void kmt_sem_signal(sem_t *sem) {
   sem->value++;
 _debug("V[%s], value=%d, tid=%d", sem->name, sem->value, 
       this_thread->tid);
+  assert(sem->lpos <= MAX_SEM_WAIT && sem->rpos <= MAX_SEM_WAIT);
   if (sem->value <= 0) {
     wakeup(sem->queue[sem->lpos]);
     sem->lpos = (sem->lpos + 1) & MAX_SEM_WAIT;
