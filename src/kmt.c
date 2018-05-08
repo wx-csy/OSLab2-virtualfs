@@ -69,11 +69,12 @@ static int kmt_create(thread_t *thread, void (*entry)(void *arg),
       thread->regset = _make(stack, entry, arg);
       thread->status = THRD_STATUS_READY;
       threads[i] = thread;
+      printf("create thread: tid=%d\n", thread->tid);
       succ = 1;
     }
   }
   _intr_write(last_intr);
-//  _yield();
+  _yield();
   return succ;
 }
 

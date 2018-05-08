@@ -18,11 +18,13 @@ static void os_init() {
 }
 
 void idle(void *i) {
+  while (1);
   while (1) 
     printf("Hello, world!\n");
 }
 
 void worker(void *j) {
+  while (1);
   while (1)
     printf("Worker!\n");
 }
