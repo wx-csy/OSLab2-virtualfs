@@ -22,7 +22,6 @@ static void os_init() {
 }
 
 void idle(void *ignore) {
-  while (1);
   while (1) _yield(); 
 }
 
@@ -48,7 +47,7 @@ void working(int t) {
 void worker1(void *ignore) {
   while (1) {
     kmt->sem_wait(&sem_free);
-    printf("(");
+    working(1);
     kmt->sem_signal(&sem_full);
     if (rand() % 2) _yield();
   }
@@ -57,7 +56,7 @@ void worker1(void *ignore) {
 void worker2(void *ignore) {
   while (1) {
     kmt->sem_wait(&sem_full);
-    printf(")");
+    working(0);
     kmt->sem_signal(&sem_free);
     if (rand() % 2) _yield();
   } 
