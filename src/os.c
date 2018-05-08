@@ -63,15 +63,18 @@ void worker2(void *ignore) {
 }
 
 static void os_run() {
-  thread_t thrd_idle, thrd_worker, thrd_worker2;
+  thread_t thrd_idle;
+  thread_t prod[6], cons[6]; thrd_worker, thrd_worker2;
   _intr_write(0);
   this_thread = NULL;
   kmt->sem_init(&sem_free, "sem_free", SIZESIZE);
   kmt->sem_init(&sem_full, "sem_full", 0);
   kmt->spin_init(&spinlck, "spinlck");
   kmt->create(&thrd_idle, idle, NULL);
-  kmt->create(&thrd_worker, worker1, NULL);
-  kmt->create(&thrd_worker2, worker2, NULL);
+  for (int i=0; i<6; i++) {
+    kmt_create(prod+i, worker1, NULL);
+    kmt_create(cons+i, worker2, NULL);
+  }
   printf("pid=%d, %d\n", thrd_idle.tid, thrd_worker.tid);
   _intr_write(1);
   _yield();
