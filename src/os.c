@@ -57,13 +57,14 @@ static void os_run() {
 }
 
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
-  if (ev.event == _EVENT_IRQ_TIMER) _putc('*');
+//  if (ev.event == _EVENT_IRQ_TIMER) _putc('*');
 //  if (ev.event == _EVENT_IRQ_IODEV) _putc('I');
   if (ev.event == _EVENT_ERROR) {
     printf("Error event received\n");
 //    _putc('x');
     _halt(1);
   }
+  printf("sem: %d, %d\n", sem_free->value, sem_full->value);
   this_thread = kmt->schedule();  
   return this_thread->regset; // this is allowed by AM
 }
