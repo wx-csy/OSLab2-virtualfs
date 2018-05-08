@@ -24,7 +24,7 @@ static void os_init() {
 #pragma GCC optimize(0)
 
 void overflow(int x) {
-  if (x % 100 == 0) _yield();
+  if (x % 10 == 0) _yield();
   overflow(x+1);
 }
 
