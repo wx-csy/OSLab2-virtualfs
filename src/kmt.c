@@ -106,7 +106,7 @@ static thread_t *kmt_schedule() {
   this_thread = threads[ntid];
   if (this_thread->tid != 0)
 $debug("Thread scheduled: tid=%d", this_thread->tid);
-  check_stack(this_thread->stack);
+  check_stack(this_thread);
   return this_thread;
 }
 
