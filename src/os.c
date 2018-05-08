@@ -60,7 +60,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 //  if (ev.event == _EVENT_IRQ_TIMER) _putc('*');
   if (ev.event == _EVENT_IRQ_IODEV) _putc('I');
   if (ev.event == _EVENT_YIELD) {
-    printf("Thread %d yields!", this_thread->tid);
+    printf("Thread %d yields!\n", this_thread->tid);
   }
   if (ev.event == _EVENT_ERROR) {
     printf("Error event received\n");
