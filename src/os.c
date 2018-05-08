@@ -55,7 +55,6 @@ void worker1(void *ignore) {
 
 void worker2(void *ignore) {
   while (1) {
-    printf("eip=%x", this_thread->regset->eip);
     kmt->sem_wait(&sem_full);
     working(0);
     kmt->sem_signal(&sem_free);
