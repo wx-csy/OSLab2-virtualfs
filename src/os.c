@@ -25,6 +25,7 @@ static void idle(void *ignore) {
   while (1) idle(NULL); 
 }
 
+static thread_t thrd_idle;
 static void os_run() {
   kmt->create(&thrd_idle, idle, NULL);
   _yield();
