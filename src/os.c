@@ -44,7 +44,7 @@ void worker2(void *ignore) {
 static void os_run() {
   thread_t thrd_idle, thrd_worker, thrd_worker2;
   _intr_write(0);
-  kmt->sem_init(&sem_free, "sem_free", 2);
+  kmt->sem_init(&sem_free, "sem_free", 100);
   kmt->sem_init(&sem_full, "sem_full", 0);
   kmt->create(&thrd_idle, idle, NULL);
   kmt->create(&thrd_worker, worker1, NULL);
