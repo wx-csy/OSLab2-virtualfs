@@ -39,13 +39,15 @@ extern thread_t *this_thread;
 #define STACK_PROTECTOR_MAGIC1  0x723a3ba8
 #define STACK_PROTECTOR_MAGIC2  0xf38da472
 
-static inline void check_stack(_Area stack) {
+static inline void check_stack(thread_t *thread) {
+  _Area stack = thread->stack
   if (*(uint32_t*)(stack.start) != STACK_PROTECTOR_MAGIC1 ||
     *(uint32_t*)ptr_advance(stack.end, -sizeof(uint32_t)) 
     != STACK_PROTECTOR_MAGIC2) {
     printf("Fatal error ocured.\n");
     printf("Stack corruption detected!\n");
-    printf("stack area=[%p, %p)\n", stack.start, stack.end);
+    printf("tid=%d, stack area=[%p, %p)\n", thread->tid,
+        stack.start, stack.end);
     _Exit(EXIT_FAILURE);
   }
 }
