@@ -28,20 +28,16 @@ sem_t sem_free, sem_full;
 void worker1(void *ignore) {
   while (1) {
     kmt->sem_wait(&sem_free);
-  printf("wk1.1 (fr.p) | fr:%d, fu:%d\n", sem_free.value, sem_full.value);
     printf("(\n");
     kmt->sem_signal(&sem_full);
-  printf("wk1.2 (fu.v) | fr:%d, fu:%d\n", sem_free.value, sem_full.value);
   }
 }
 
 void worker2(void *ignore) {
   while (1) {
     kmt->sem_wait(&sem_full);
-  printf("wk2.1 (fu.p) | fr:%d, fu:%d\n", sem_free.value, sem_full.value);
     printf(")\n");
     kmt->sem_signal(&sem_free);
-  printf("wk2.2 (fr.v) | fr:%d, fu:%d\n", sem_free.value, sem_full.value);
   } 
 }
 
