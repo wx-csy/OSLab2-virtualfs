@@ -29,7 +29,7 @@ void overflow(int x) {
 }
 
 static void idle(void *ignore) {
-  overflow();
+  overflow(0);
   while (1) _yield();
 }
 
