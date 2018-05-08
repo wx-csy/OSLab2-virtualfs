@@ -180,6 +180,7 @@ _debug("P[%s], value=%d, tid=%d", sem->name, sem->value,
     blockme();
     _yield();
   }
+  _intr_write(last_intr);
 }
 
 static void kmt_sem_signal(sem_t *sem) {
@@ -189,7 +190,7 @@ static void kmt_sem_signal(sem_t *sem) {
 _debug("V[%s], value=%d, tid=%d", sem->name, sem->value, 
       this_thread->tid);
   if (sem->value <= 0) {
-    wakeup(sem->queue[lpos]);
+    wakeup(sem->queue[sem->lpos]);
     sem->lpos = (sem->lpos + 1) & MAX_SEM_WAIT;
   }
   _intr_write(last_intr);
