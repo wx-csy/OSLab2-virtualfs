@@ -32,6 +32,8 @@ static void os_run() {
   thread_t thrd_idle, thrd_worker;
   kmt->create(&thrd_idle, idle, NULL);
   kmt->create(&thrd_worker, worker, NULL);
+  printf("pid=%d, %d\n", thrd_idle.tid, thrd_worker.tid);
+  while (1);
   _yield();
   assert(0);
   // should never return
