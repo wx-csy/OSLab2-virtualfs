@@ -159,8 +159,8 @@ static void kmt_sem_init(sem_t *sem, const char *name, int value) {
            "with negative value.\n", sem->name);
     _Exit(0);
   }
+  sem->lpos = sem->rpos = 0;
   sem->value = value;
-  sem->next = NULL;
   _intr_write(last_intr);
 }
 
