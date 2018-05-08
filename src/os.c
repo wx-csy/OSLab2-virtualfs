@@ -25,8 +25,8 @@ void idle(void *ignore) {
   while (1) _yield(); 
 }
 
-spinlock_t spinlck;
 sem_t sem_free, sem_full;
+spinlock_t spinlck;
 
 #define SIZESIZE 4
 
