@@ -125,6 +125,7 @@ static void kmt_spin_init(spinlock_t *lk, const char *name) {
 static void kmt_spin_lock(spinlock_t *lk) {
   lk->last_intr = _intr_read();
   _intr_write(0);
+_debug("[%s], tid=%d", lk->name, this_thread->tid);
   if (lk->holder != NULL) {
     printf("Fatal error occured.\n");
     printf("Attempting to acquire a locked spinlock [%s].\n", lk->name);
@@ -134,6 +135,7 @@ static void kmt_spin_lock(spinlock_t *lk) {
 }
 
 static void kmt_spin_unlock(spinlock_t *lk) {
+_debug("[%s], tid=%d", lk->name, this_thread->tid);
   if (lk->holder != NULL) {
     printf("Fatal error occured.\n");
     printf("Attempting to release an unlocked spinlock [%s].\n", 
