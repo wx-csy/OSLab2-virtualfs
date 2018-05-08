@@ -161,9 +161,8 @@ static void kmt_sem_wait(sem_t *sem) {
     thread_t *last = sem->next;
     sem->next = this_thread;
     blockme();
-    _intr_write(last_intr);
+    _intr_write(1);
     _yield();
-    last_intr = _intr_read();
     sem->next = last;
   }
   _intr_write(last_intr);
