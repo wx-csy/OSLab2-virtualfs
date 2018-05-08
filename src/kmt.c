@@ -166,6 +166,7 @@ static void kmt_sem_wait(sem_t *sem) {
     printf("current thread (tid=%d) blocked\n", this_thread->tid);
     _intr_write(1);
     _yield();
+    _intr_write(0);
     sem->next = last;
   }
   _intr_write(last_intr);
