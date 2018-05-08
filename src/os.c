@@ -64,7 +64,7 @@ void worker2(void *ignore) {
 
 static void os_run() {
   thread_t thrd_idle;
-  thread_t prod[6], cons[6]; thrd_worker, thrd_worker2;
+  thread_t prod[6], cons[6]; 
   _intr_write(0);
   this_thread = NULL;
   kmt->sem_init(&sem_free, "sem_free", SIZESIZE);
