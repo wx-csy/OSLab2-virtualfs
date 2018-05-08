@@ -71,6 +71,7 @@ static int kmt_create(thread_t *thread, void (*entry)(void *arg),
       threads[i] = thread;
       printf("create thread: tid=%d\n", thread->tid);
       succ = 1;
+      break;
     }
   }
   _intr_write(last_intr);
