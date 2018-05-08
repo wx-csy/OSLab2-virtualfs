@@ -164,7 +164,7 @@ static void kmt_sem_wait(sem_t *sem) {
   int last_intr = _intr_read();
   _intr_write(0);
   sem->value--;
-_debug("P [%s], value=%d, tid=%d", sem->name, sem->value, 
+_debug("P[%s], value=%d, tid=%d", sem->name, sem->value, 
     this_thread->tid);
   if (sem->value < 0) {
     thread_t *last = sem->next;
@@ -183,7 +183,7 @@ static void kmt_sem_signal(sem_t *sem) {
   int last_intr = _intr_read();
   _intr_write(0);
   sem->value++;
-_debug("P [%s], value=%d, tid=%d", sem->name, sem->value, 
+_debug("V[%s], value=%d, tid=%d", sem->name, sem->value, 
       this_thread->tid);
 
   if (sem->value <= 0) {
