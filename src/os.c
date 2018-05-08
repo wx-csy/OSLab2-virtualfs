@@ -49,7 +49,7 @@ void worker1(void *ignore) {
     kmt->sem_wait(&sem_free);
     working(1);
     kmt->sem_signal(&sem_full);
-    if (rand() % 2) _yield();
+    if (rand() % 3 == 0) _yield();
   }
 }
 
@@ -58,7 +58,7 @@ void worker2(void *ignore) {
     kmt->sem_wait(&sem_full);
     working(0);
     kmt->sem_signal(&sem_free);
-    if (rand() % 2) _yield();
+    if (rand() % 3 == 0) _yield();
   } 
 }
 
@@ -96,6 +96,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
   }
   if (this_thread != NULL) this_thread->regset = regs;
   this_thread = kmt->schedule(); 
+  assert(this_thread->status == THRD_STATUS_RUNNING);
   return this_thread->regset; // this is allowed by AM
 }
 
