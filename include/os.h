@@ -45,7 +45,7 @@ static inline void check_stack(_Area stack) {
     printf("Fatal error ocured.\n");
     printf("Stack corruption detected!\n");
     printf("stack area=[%p, %p)\n", stack.start, stack.end);
-    _Exit(0);
+    _Exit(EXIT_FAILURE);
   }
 }
 
