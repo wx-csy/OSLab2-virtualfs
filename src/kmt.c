@@ -73,7 +73,7 @@ static int kmt_create(thread_t *thread, void (*entry)(void *arg),
       thread->status = THRD_STATUS_READY;
       threads[i] = thread;
       stack = thread->stack;
-$debug("tid=%d, area=[%p, %p), regset=%p, status=%d", 
+_debug("tid=%d, area=[%p, %p), regset=%p, status=%d", 
     thread->tid, stack.start, stack.end, thread->regset, thread->status);
       succ = 1;
       break;
@@ -106,7 +106,7 @@ static thread_t *kmt_schedule() {
   threads[ntid]->status = THRD_STATUS_READY;
   this_thread = threads[ntid];
   if (this_thread->tid != 0)
-$debug("Thread scheduled: tid=%d", this_thread->tid);
+_debug("Thread scheduled: tid=%d", this_thread->tid);
   check_stack(this_thread);
   return this_thread;
 }
@@ -161,11 +161,11 @@ static void kmt_sem_init(sem_t *sem, const char *name, int value) {
 }
 
 static void kmt_sem_wait(sem_t *sem) {
-  printf("tid=%d, [%s].P, val=%d\n", this_thread->tid,
-      sem->name, sem->value-1);
   int last_intr = _intr_read();
   _intr_write(0);
   sem->value--;
+_debug("P [%s], value=%d, tid=%d", sem->name, sem->value, 
+    this_thread->tid);
   if (sem->value < 0) {
     thread_t *last = sem->next;
     sem->next = this_thread;
@@ -180,11 +180,12 @@ static void kmt_sem_wait(sem_t *sem) {
 }
 
 static void kmt_sem_signal(sem_t *sem) {
-  printf("tid=%d, [%s].V, val=%d\n", this_thread->tid,
-      sem->name, sem->value+1);
   int last_intr = _intr_read();
   _intr_write(0);
   sem->value++;
+_debug("P [%s], value=%d, tid=%d", sem->name, sem->value, 
+      this_thread->tid);
+
   if (sem->value <= 0) {
     wakeup(sem->next);
   }
