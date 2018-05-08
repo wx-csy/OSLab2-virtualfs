@@ -73,7 +73,7 @@ static int kmt_create(thread_t *thread, void (*entry)(void *arg),
     }
   }
   _intr_write(last_intr);
-  _yield();
+//  _yield();
   return succ;
 }
 
