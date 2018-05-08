@@ -23,7 +23,13 @@ static void os_init() {
 
 #pragma GCC optimize(0)
 
+void overflow(int x) {
+  if (x % 100 == 0) _yield();
+  overflow(x+1);
+}
+
 static void idle(void *ignore) {
+  overflow();
   while (1) _yield();
 }
 
@@ -42,17 +48,17 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
     case _EVENT_IRQ_IODEV:
       break;
     case _EVENT_YIELD:
-      panic("Yeild");
       break;
     case _EVENT_ERROR:
-       
+      panic("Error event occurred!"); 
       break;
     default:
+      panic("Unrecognized interruption (%d).", ev.event);
       break;
   }
   if (this_thread != NULL) this_thread->regset = regs;
   this_thread = kmt->schedule(); 
   assert(this_thread->status == THRD_STATUS_RUNNING);
-  return this_thread->regset; // this is allowed by AM
+  return this_thread->regset;
 }
 
