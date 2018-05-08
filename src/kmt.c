@@ -171,7 +171,6 @@ static void kmt_sem_wait(sem_t *sem) {
 _debug("P[%s], value=%d, tid=%d", sem->name, sem->value, 
     this_thread->tid);
   if (sem->value < 0) {
-    thread_t *last = sem->next;
     sem->queue[sem->rpos] = this_thread;
     sem->rpos = (sem->rpos + 1) & MAX_SEM_WAIT;
     if (sem->lpos == sem->rpos) {
@@ -179,7 +178,6 @@ _debug("P[%s], value=%d, tid=%d", sem->name, sem->value,
     }
     blockme();
     _yield();
-    sem->next = last;
   }
 }
 
