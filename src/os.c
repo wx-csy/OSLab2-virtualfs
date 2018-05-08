@@ -86,8 +86,6 @@ _debug("Interrupted. tid=%d, ev=%d", this_thread?this_thread->tid:0,
 //  if (ev.event == _EVENT_IRQ_TIMER) _putc('*');
   if (ev.event == _EVENT_IRQ_IODEV) _putc('I');
   if (ev.event == _EVENT_YIELD) {
-    if (this_thread != NULL)
-      this_thread->regset = regs;
 _debug("Thread %d yields!\n", this_thread->tid);
   }
   if (ev.event == _EVENT_ERROR) {
@@ -95,6 +93,8 @@ _debug("Thread %d yields!\n", this_thread->tid);
 //    _putc('x');
     _halt(1);
   }
+  if (this_thread != NULL)
+    this_thread->regset = regs;
   this_thread = kmt->schedule();  
   return this_thread->regset; // this is allowed by AM
 }
