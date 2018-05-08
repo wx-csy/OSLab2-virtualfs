@@ -1,6 +1,7 @@
 #include <os.h>
 #include <assert.h>
 #include <stdio.h>
+
 static void os_init();
 static void os_run();
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs);
@@ -46,7 +47,7 @@ static void os_run() {
   kmt->sem_init(&sem_free, "sem_free", 2);
   kmt->sem_init(&sem_full, "sem_full", 0);
   kmt->create(&thrd_idle, idle, NULL);
-  kmt->create(&thrd_worker, worker, NULL);
+  kmt->create(&thrd_worker, worker1, NULL);
   kmt->create(&thrd_worker2, worke2, NULL);
   printf("pid=%d, %d\n", thrd_idle.tid, thrd_worker.tid);
   _intr_write(1);
