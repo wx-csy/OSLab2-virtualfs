@@ -4,7 +4,7 @@
 #include <string.h>
 #include <os.h>
 
-#define DEBUG_ME
+// #define DEBUG_ME
 #include <debug.h>
 
 static void kmt_init();
@@ -36,6 +36,7 @@ thread_t *this_thread;
 
 static void blockme() {
   this_thread->status = THRD_STATUS_BLOCKED;
+_debug("current thread (tid=%d) blocked\n", this_thread->tid);
 }
 
 static void wakeup(thread_t *thread) {
@@ -170,7 +171,6 @@ _debug("P[%s], value=%d, tid=%d", sem->name, sem->value,
     thread_t *last = sem->next;
     sem->next = this_thread;
     blockme();
-    printf("current thread (tid=%d) blocked\n", this_thread->tid);
     _intr_write(1);
     _yield();
     _intr_write(0);
@@ -185,7 +185,6 @@ static void kmt_sem_signal(sem_t *sem) {
   sem->value++;
 _debug("V[%s], value=%d, tid=%d", sem->name, sem->value, 
       this_thread->tid);
-
   if (sem->value <= 0) {
     wakeup(sem->next);
   }

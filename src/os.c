@@ -2,6 +2,9 @@
 #include <assert.h>
 #include <stdio.h>
 
+// #define DEBUG_ME
+#include <debug.h>
+
 static void os_init();
 static void os_run();
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs);
@@ -28,7 +31,7 @@ sem_t sem_free, sem_full;
 void worker1(void *ignore) {
   while (1) {
     kmt->sem_wait(&sem_free);
-    printf("(\n");
+    printf("(");
     kmt->sem_signal(&sem_full);
   }
 }
@@ -36,7 +39,7 @@ void worker1(void *ignore) {
 void worker2(void *ignore) {
   while (1) {
     kmt->sem_wait(&sem_full);
-    printf(")\n");
+    printf(")");
     kmt->sem_signal(&sem_free);
   } 
 }
@@ -63,7 +66,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
   if (ev.event == _EVENT_YIELD) {
     if (this_thread != NULL)
       this_thread->regset = regs;
-    printf("Thread %d yields!\n", this_thread->tid);
+_debug("Thread %d yields!\n", this_thread->tid);
   }
   if (ev.event == _EVENT_ERROR) {
     printf("Error event received\n");
