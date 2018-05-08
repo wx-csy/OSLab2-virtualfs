@@ -125,10 +125,10 @@ static void kmt_spin_lock(spinlock_t *lk) {
 }
 
 static void kmt_spin_unlock(spinlock_t *lk) {
-  if (lk->holder != this_thread) {
+  if (lk->holder != NULL) {
     printf("Fatal error occured.\n");
-    printf("Attempting to release an unlocked or unacquired "
-        "spinlock [%s].\n", lk->name);
+    printf("Attempting to release an unlocked spinlock [%s].\n", 
+        lk->name);
     _Exit(0);
   }
   lk->holder = NULL;
