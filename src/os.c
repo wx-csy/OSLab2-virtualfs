@@ -57,6 +57,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
   }
   if (this_thread != NULL) this_thread->regset = regs;
   this_thread = kmt->schedule(); 
+_debug("scheduling... tid=%d", this_thread->tid);
   assert(this_thread->status == THRD_STATUS_RUNNING);
   return this_thread->regset; // this is allowed by AM
 }
