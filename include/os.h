@@ -43,7 +43,7 @@ static inline int check_stack(_Area stack) {
     *(uint32_t*)ptr_advance(stack.end, -sizeof(uint32_t)) 
     != STACK_PROTECTOR_MAGIC2) {
     printf("Fatal error ocured.\n");
-    printf("Stack corruption detected!\n")
+    printf("Stack corruption detected!\n");
     printf("stack area=[%p, %p)\n", stack.start, stack.end);
   }
 }
