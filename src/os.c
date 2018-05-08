@@ -75,7 +75,6 @@ static void os_run() {
     kmt->create(prod+i, worker1, NULL);
     kmt->create(cons+i, worker2, NULL);
   }
-  printf("pid=%d, %d\n", thrd_idle.tid, thrd_worker.tid);
   _intr_write(1);
   _yield();
   assert(0);
