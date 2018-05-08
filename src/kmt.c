@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <os.h>
 
-#define DEBUG_ME
+// #define DEBUG_ME
 #include <debug.h>
 
 static void kmt_init();
