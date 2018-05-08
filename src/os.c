@@ -17,22 +17,37 @@ static void os_init() {
   }
 }
 
-void idle(void *i) {
+void idle(void *ignore) {
   while (1) 
     printf("Hello, world!\n");
 }
 
-void worker(void *j) {
-  while (1)
-    printf("Worker!\n");
+sem_t sem_free, sem_full;
+
+void worker1(void *ignore) {
+  while (1) {
+    kmt->sem_wait(&sem_free);
+    putchar('(');
+    kmt->sem_signal(&sem_full);
+  }
+}
+
+void worker2(void *ignore) {
+  while (1) {
+    kmt->sem_wait(&sem_full);
+    putchar(')');
+    kmt->sem_signal(&sem_free);
+  } 
 }
 
 static void os_run() {
-  _intr_write(1); // enable interrupt
-  thread_t thrd_idle, thrd_worker;
+  thread_t thrd_idle, thrd_worker, thrd_worker2;
   _intr_write(0);
+  kmt->sem_init(&sem_free, "sem_free", 2);
+  kmt->sem_init(&sem_full, "sem_full", 0);
   kmt->create(&thrd_idle, idle, NULL);
   kmt->create(&thrd_worker, worker, NULL);
+  kmt->create(&thrd_worker2, worke2, NULL);
   printf("pid=%d, %d\n", thrd_idle.tid, thrd_worker.tid);
   _intr_write(1);
   _yield();
