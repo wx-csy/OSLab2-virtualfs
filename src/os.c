@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-// #define DEBUG_ME
+#define DEBUG_ME
 #include <debug.h>
 
 static void os_init();
@@ -71,7 +71,7 @@ static void os_run() {
   kmt->sem_init(&sem_full, "sem_full", 0);
   kmt->spin_init(&spinlck, "spinlck");
   kmt->create(&thrd_idle, idle, NULL);
-  for (int i=0; i<1; i++) {
+  for (int i=0; i<2; i++) {
     kmt->create(prod+i, worker1, NULL);
     kmt->create(cons+i, worker2, NULL);
   }
