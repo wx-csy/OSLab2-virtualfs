@@ -22,11 +22,27 @@ static void os_init() {
 }
 
 void idle(void *ignore) {
-  while (1) ; 
-    printf("Hello, world!\n");
+  while (1) _yield(); 
 }
 
 sem_t sem_free, sem_full;
+spinlock_t spinlck;
+
+#define SIZESIZE 4
+
+void working(int t) {
+  static int count = 0;
+  kmt->spin_lock(&spinlck);
+  if (t) {
+    printf("(");
+    count++;
+  } else {
+    printf(")");
+    count--;
+  }
+  assert(count >= 0 && count <= SIZESIZE);
+  kmt->spin_unlock(&spinlck);
+}
 
 void worker1(void *ignore) {
   while (1) {
@@ -50,8 +66,9 @@ static void os_run() {
   thread_t thrd_idle, thrd_worker, thrd_worker2;
   _intr_write(0);
   this_thread = NULL;
-  kmt->sem_init(&sem_free, "sem_free", 2);
+  kmt->sem_init(&sem_free, "sem_free", SIZESIZE);
   kmt->sem_init(&sem_full, "sem_full", 0);
+  kmt_spin_init(&spinlck, "spinlck");
   kmt->create(&thrd_idle, idle, NULL);
   kmt->create(&thrd_worker, worker1, NULL);
   kmt->create(&thrd_worker2, worker2, NULL);
