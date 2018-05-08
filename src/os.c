@@ -40,7 +40,7 @@ void working(int t) {
     printf(")");
     count--;
   }
-  assert(count >= 0 && count <= SIZESIZE);
+  assert(count >= 0 && count < SIZESIZE);
   kmt->spin_unlock(&spinlck);
 }
 
