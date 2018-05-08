@@ -23,7 +23,6 @@ static void os_init() {
 
 #pragma GCC optimize(0)
 
-
 static void idle(void *ignore) {
   while (1) _yield();
 }

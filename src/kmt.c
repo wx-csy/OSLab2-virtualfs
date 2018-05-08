@@ -130,8 +130,7 @@ static void kmt_spin_lock(spinlock_t *lk) {
   _intr_write(0);
 _debug("[%s], tid=%d", lk->name, this_thread->tid);
   if (lk->holder != NULL) {
-    printf("Fatal error occured.\n");
-    printf("Attempting to acquire a locked spinlock [%s].\n", lk->name);
+    panic("Attempting to acquire a locked spinlock [%s].\n", lk->name);
     _Exit(0);
   }
   lk->holder = this_thread;
@@ -140,10 +139,8 @@ _debug("[%s], tid=%d", lk->name, this_thread->tid);
 static void kmt_spin_unlock(spinlock_t *lk) {
 _debug("[%s], tid=%d", lk->name, this_thread->tid);
   if (lk->holder == NULL) {
-    printf("Fatal error occured.\n");
-    printf("Attempting to release an unlocked spinlock [%s].\n", 
+    panic("Attempting to release an unlocked spinlock [%s].\n", 
         lk->name);
-    _Exit(0);
   }
   lk->holder = NULL;
   _intr_write(lk->last_intr);
@@ -156,10 +153,8 @@ static void kmt_sem_init(sem_t *sem, const char *name, int value) {
   strncpy(sem->name, name, sizeof sem->name);
   sem->name[sizeof(sem->name) - 1] = 0;
   if (value < 0) {
-    printf("Fatal error occured!\n");
-    printf("Attempting to initialize semaphore [%s]" 
+    panic("Attempting to initialize semaphore [%s]" 
            "with negative value.\n", sem->name);
-    _Exit(0);
   }
   sem->lpos = sem->rpos = 0;
   sem->value = value;

@@ -36,8 +36,7 @@ static void pmm_init() {
   mem_table = (uint8_t *)(align_up(_heap.start));
   chk_start += (chk_end + CHUNK_SIZE - 1) / CHUNK_SIZE;
   if (chk_start >= chk_end) {
-    puts("Lack of memory.");
-    _Exit(EXIT_FAILURE);
+    panic("Lack of memory.");
   }
   memset(mem_table, 0, chk_end - chk_start);
   for (size_t chk_i = 0; chk_i < chk_start; chk_i++) 
