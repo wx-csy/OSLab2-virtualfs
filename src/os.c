@@ -22,10 +22,16 @@ void idle(void *i) {
     printf("Hello, world!\n");
 }
 
+void worker(void *j) {
+  while (1)
+    printf("Worker!\n");
+}
+
 static void os_run() {
   _intr_write(1); // enable interrupt
-  thread_t thrd_idle;
+  thread_t thrd_idle, thrd_worker;
   kmt->create(&thrd_idle, idle, NULL);
+  kmt->create(&thrd_worker, worker, NULL);
   _yield();
   assert(0);
   // should never return
