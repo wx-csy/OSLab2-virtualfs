@@ -1,7 +1,7 @@
 #include <os.h>
 #include <assert.h>
 #include <stdio.h>
-
+#include <common.h>
 #define DEBUG_ME
 #include <debug.h>
 
@@ -23,14 +23,9 @@ static void os_init() {
 
 #pragma GCC optimize(0)
 
-static void overflow(int x) {
-  if (x % 10 == 0) _yield();
-  overflow(x+1);
-}
 
 static void idle(void *ignore) {
-  overflow(0);
-  while (1) idle(NULL); 
+  while (1) _yield();
 }
 
 static thread_t thrd_idle;
@@ -48,17 +43,16 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
     case _EVENT_IRQ_IODEV:
       break;
     case _EVENT_YIELD:
+      panic("Yeild");
       break;
     case _EVENT_ERROR:
-      
+       
       break;
     default:
       break;
   }
   if (this_thread != NULL) this_thread->regset = regs;
   this_thread = kmt->schedule(); 
-_debug("scheduling... tid=%d", this_thread->tid);
-_debug("esp=%x", regs->esp0);
   assert(this_thread->status == THRD_STATUS_RUNNING);
   return this_thread->regset; // this is allowed by AM
 }
