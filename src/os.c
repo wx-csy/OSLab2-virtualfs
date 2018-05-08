@@ -28,7 +28,7 @@ sem_t sem_free, sem_full;
 void worker1(void *ignore) {
   while (1) {
     kmt->sem_wait(&sem_free);
-    putchar('(');
+    putc('(');
     kmt->sem_signal(&sem_full);
   }
 }
@@ -36,7 +36,7 @@ void worker1(void *ignore) {
 void worker2(void *ignore) {
   while (1) {
     kmt->sem_wait(&sem_full);
-    putchar(')');
+    putc(')');
     kmt->sem_signal(&sem_free);
   } 
 }
