@@ -154,7 +154,7 @@ static void kmt_sem_init(sem_t *sem, const char *name, int value) {
 }
 
 static void kmt_sem_wait(sem_t *sem) {
-  printf("[%s].P, val=%d\n", sem->name, sem->value+1);
+  printf("[%s].P, val=%d\n", sem->name, sem->value-1);
   int last_intr = _intr_read();
   _intr_write(0);
   sem->value--;
