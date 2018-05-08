@@ -46,7 +46,7 @@ static inline void check_stack(thread_t *thread) {
   if (*(uint32_t*)(stack.start) != STACK_PROTECTOR_MAGIC1 ||
     *(uint32_t*)ptr_advance(stack.end, -sizeof(uint32_t)) 
     != STACK_PROTECTOR_MAGIC2) {
-    panic("Fatal error occured.\n"
+    panic("Stack corruption detected.\n"
         "tid=%d, stack area=[%p, %p)\n", thread->tid,
         stack.start, stack.end);
   }
