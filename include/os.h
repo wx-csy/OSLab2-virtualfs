@@ -2,6 +2,7 @@
 #define __OS_H__
 
 #include <stdint.h>
+#include <stdio.h>
 #include <kernel.h>
 
 static inline void *ptr_advance(void *ptr, ptrdiff_t offset) {
