@@ -28,16 +28,20 @@ sem_t sem_free, sem_full;
 void worker1(void *ignore) {
   while (1) {
     kmt->sem_wait(&sem_free);
+  printf("sem: %d, %d\n", sem_free.value, sem_full.value);
     printf("(");
     kmt->sem_signal(&sem_full);
+  printf("sem: %d, %d\n", sem_free.value, sem_full.value);
   }
 }
 
 void worker2(void *ignore) {
   while (1) {
     kmt->sem_wait(&sem_full);
+  printf("sem: %d, %d\n", sem_free.value, sem_full.value);
     printf(")");
     kmt->sem_signal(&sem_free);
+  printf("sem: %d, %d\n", sem_free.value, sem_full.value);
   } 
 }
 
@@ -64,7 +68,6 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 //    _putc('x');
     _halt(1);
   }
-  printf("sem: %d, %d\n", sem_free.value, sem_full.value);
   this_thread = kmt->schedule();  
   return this_thread->regset; // this is allowed by AM
 }
