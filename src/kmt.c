@@ -51,6 +51,7 @@ static void kmt_init() {
   for (int i = 0; i < MAX_THREAD_NUM; i++) {
     threads[i] = NULL;
   }
+  this_thread = NULL;
 }
 
 #define STACK_SIZE  8 * 1024 * 1024
