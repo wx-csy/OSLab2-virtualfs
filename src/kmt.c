@@ -170,7 +170,7 @@ static void kmt_sem_wait(sem_t *sem) {
 }
 
 static void kmt_sem_signal(sem_t *sem) {
-  printf("[%s].V, val=%d\n", sem->name, sem->value-1);
+  printf("[%s].V, val=%d\n", sem->name, sem->value+1);
   int last_intr = _intr_read();
   _intr_write(0);
   sem->value++;
