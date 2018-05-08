@@ -68,7 +68,7 @@ static void os_run() {
   this_thread = NULL;
   kmt->sem_init(&sem_free, "sem_free", SIZESIZE);
   kmt->sem_init(&sem_full, "sem_full", 0);
-  kmt_spin_init(&spinlck, "spinlck");
+  kmt->spin_init(&spinlck, "spinlck");
   kmt->create(&thrd_idle, idle, NULL);
   kmt->create(&thrd_worker, worker1, NULL);
   kmt->create(&thrd_worker2, worker2, NULL);
