@@ -80,6 +80,8 @@ static void os_run() {
 }
 
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
+_debug("Interrupted. tid=%d, ev=%d", this_thread?this_thread->tid:0,
+    ev.event);
 //  if (ev.event == _EVENT_IRQ_TIMER) _putc('*');
   if (ev.event == _EVENT_IRQ_IODEV) _putc('I');
   if (ev.event == _EVENT_YIELD) {
