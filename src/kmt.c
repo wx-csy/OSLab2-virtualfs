@@ -108,6 +108,7 @@ static thread_t *kmt_schedule() {
   this_thread = threads[ntid];
   if (this_thread->tid != 0)
 _debug("Thread scheduled: tid=%d", this_thread->tid);
+  this_thread->status = THRD_STATUS_RUNNING;
   check_stack(this_thread);
   return this_thread;
 }
@@ -171,14 +172,15 @@ _debug("P[%s], value=%d, tid=%d", sem->name, sem->value,
     this_thread->tid);
   if (sem->value < 0) {
     thread_t *last = sem->next;
-    sem->next = this_thread;
+    sem->queue[sem->rpos] = this_thread;
+    sem->rpos = (sem->rpos + 1) & MAX_SEM_WAIT;
+    if (sem->lpos == sem->rpos) {
+      assert(0);
+    }
     blockme();
-    _intr_write(1);
     _yield();
-    _intr_write(0);
     sem->next = last;
   }
-  _intr_write(last_intr);
 }
 
 static void kmt_sem_signal(sem_t *sem) {
@@ -188,7 +190,8 @@ static void kmt_sem_signal(sem_t *sem) {
 _debug("V[%s], value=%d, tid=%d", sem->name, sem->value, 
       this_thread->tid);
   if (sem->value <= 0) {
-    wakeup(sem->next);
+    wakeup(sem->queue[lpos]);
+    sem->lpos = (sem->lpos + 1) & MAX_SEM_WAIT;
   }
   _intr_write(last_intr);
 }

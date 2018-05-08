@@ -28,10 +28,12 @@ struct spinlock {
   int last_intr;
 };
 
+#define MAX_SEM_WAIT  31
 struct semaphore {
   char name[16];
+  thread *queue[MAX_SEM_WAIT + 1];
+  int lpos, rpos;
   int value;
-  thread_t *next;
 };
 
 extern thread_t *this_thread;
