@@ -136,7 +136,7 @@ _debug("[%s], tid=%d", lk->name, this_thread->tid);
 
 static void kmt_spin_unlock(spinlock_t *lk) {
 _debug("[%s], tid=%d", lk->name, this_thread->tid);
-  if (lk->holder != NULL) {
+  if (lk->holder == NULL) {
     printf("Fatal error occured.\n");
     printf("Attempting to release an unlocked spinlock [%s].\n", 
         lk->name);
