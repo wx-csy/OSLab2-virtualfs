@@ -48,7 +48,7 @@ static void os_run() {
   kmt->sem_init(&sem_full, "sem_full", 0);
   kmt->create(&thrd_idle, idle, NULL);
   kmt->create(&thrd_worker, worker1, NULL);
-  kmt->create(&thrd_worker2, worke2, NULL);
+  kmt->create(&thrd_worker2, worker2, NULL);
   printf("pid=%d, %d\n", thrd_idle.tid, thrd_worker.tid);
   _intr_write(1);
   _yield();
