@@ -177,6 +177,5 @@ static void kmt_sem_signal(sem_t *sem) {
     wakeup(sem->next);
   }
   _intr_write(last_intr);
-  _yield();
 }
 
