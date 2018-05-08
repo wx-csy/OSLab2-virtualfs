@@ -1,6 +1,6 @@
 #include <os.h>
 #include <assert.h>
-
+#include <stdio.h>
 static void os_init();
 static void os_run();
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs);
