@@ -11,7 +11,11 @@ static void printch(char ch, int id) {
   static int cnt = 0;
   printf("%c", ch);
   if (id) cnt++; else cnt--;
-  assert(cnt >= 0 && cnt <= SEM_SZ);
+  if (!(cnt >= 0 && cnt <= SEM_SZ)) {
+    puts("Semaphore assertion failed!");
+    printf("full.value=%d, empty.value=%d\n", full.value, empty.value);
+    printf("cnt=%d, tid=%d\n", this_thread->tid);
+  }
   if (rand()%100 > 70) _yield();
 }
 
