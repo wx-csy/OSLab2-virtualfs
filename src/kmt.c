@@ -54,7 +54,7 @@ static void kmt_init() {
   this_thread = NULL;
 }
 
-#define STACK_SIZE  8 * 1024 * 1024
+#define STACK_SIZE  4 * 1024 * 1024
 static int kmt_create(thread_t *thread, void (*entry)(void *arg),
     void *arg) {
   int last_intr = _intr_read();
