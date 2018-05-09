@@ -12,12 +12,6 @@ static void printch(char ch, int id) {
   static int cnt = 0;
   printf("%c", ch);
   if (id) cnt++; else cnt--;
-  if (full.value + empty.value != SEM_SZ - 1) {
-    puts("Semaphore assertion failed!");
-    printf("full.value=%d, empty.value=%d\n", full.value, empty.value);
-    printf("cnt=%d, tid=%d\n", this_thread->tid);
-    _Exit(0);
-  }
   if (!(cnt >= 0 && cnt <= SEM_SZ)) {
     puts("Semaphore assertion failed!");
     printf("full.value=%d, empty.value=%d\n", full.value, empty.value);
