@@ -24,6 +24,7 @@ static void printch(char ch, int id) {
 static void producer(const char* ch) {
   while (1) {
     kmt->sem_wait(&empty);
+  printf("[%s]\n", empty.name);
     printch(*ch, 1);
     kmt->sem_signal(&full);
   }
@@ -32,6 +33,7 @@ static void producer(const char* ch) {
 static void consumer(const char* ch) {
   while (1) {
     kmt->sem_wait(&full);
+  printf("[%s]\n", empty.name);
     printch(*ch, 0);
     kmt->sem_signal(&empty);
   }
@@ -47,5 +49,6 @@ void test() {
     kmt->create(cons_th + i, (void (*)(void*))consumer, ")"); 
     kmt->create(prod_th + i, (void (*)(void*))producer, "(");
   }
+  printf("[%s]\n", empty.name);
 }
 
