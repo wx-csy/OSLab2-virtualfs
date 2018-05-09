@@ -115,10 +115,12 @@ _debug("Thread scheduled: tid=%d", this_thread->tid);
   return this_thread;
 }
 
+#define SPIN_MAGIC  0x8732f8a1
 static void kmt_spin_init(spinlock_t *lk, const char *name) {
   int last_intr = _intr_read();
   _intr_write(0);
   if (name == NULL) name = "(anon)";
+  lk->magic = SPIN_MAGIC;
   strncpy(lk->name, name, sizeof lk->name);
   lk->name[sizeof(lk->name) - 1] = 0;
   lk->holder = NULL;
@@ -128,7 +130,8 @@ static void kmt_spin_init(spinlock_t *lk, const char *name) {
 static void kmt_spin_lock(spinlock_t *lk) {
   lk->last_intr = _intr_read();
   _intr_write(0);
-_debug("[%s], tid=%d", lk->name, this_thread->tid);
+_debug("lock[%s], tid=%d", lk->name, this_thread->tid);
+  assert(lk->magic == SPIN_MAGIC);
   if (lk->holder != NULL) {
     panic("Attempting to acquire a locked spinlock [%s].\n", lk->name);
     _Exit(0);
@@ -137,7 +140,8 @@ _debug("[%s], tid=%d", lk->name, this_thread->tid);
 }
 
 static void kmt_spin_unlock(spinlock_t *lk) {
-_debug("[%s], tid=%d", lk->name, this_thread->tid);
+_debug("unlock[%s], tid=%d", lk->name, this_thread->tid);
+  assert(lk->magic == SPIN_MAGIC);
   if (lk->holder == NULL) {
     panic("Attempting to release an unlocked spinlock [%s].\n", 
         lk->name);
@@ -146,11 +150,13 @@ _debug("[%s], tid=%d", lk->name, this_thread->tid);
   _intr_write(lk->last_intr);
 }
 
+#define SEM_MAGIC   0xb128c183
 static void kmt_sem_init(sem_t *sem, const char *name, int value) {
   int last_intr = _intr_read();
   _intr_write(0);
   if (name == NULL) name = "(anon)";
   strncpy(sem->name, name, sizeof sem->name);
+  sem->magic = SEM_MAGIC;
   sem->name[sizeof(sem->name) - 1] = 0;
   if (value < 0) {
     panic("Attempting to initialize semaphore [%s]" 
@@ -164,9 +170,10 @@ static void kmt_sem_init(sem_t *sem, const char *name, int value) {
 static void kmt_sem_wait(sem_t *sem) {
   int last_intr = _intr_read();
   _intr_write(0);
-  sem->value--;
 _debug("P[%s], value=%d, tid=%d", sem->name, sem->value, 
     this_thread->tid);
+  assert(sem->magic == SEM_MAGIC);
+  sem->value--;
   assert(sem->lpos <= MAX_SEM_WAIT && sem->rpos <= MAX_SEM_WAIT);
   if (sem->value < 0) {
     sem->queue[sem->rpos] = this_thread;
@@ -183,9 +190,10 @@ _debug("P[%s], value=%d, tid=%d", sem->name, sem->value,
 static void kmt_sem_signal(sem_t *sem) {
   int last_intr = _intr_read();
   _intr_write(0);
-  sem->value++;
+  assert(sem->magic == SEM_MAGIC);
 _debug("V[%s], value=%d, tid=%d", sem->name, sem->value, 
       this_thread->tid);
+  sem->value++;
   assert(sem->lpos <= MAX_SEM_WAIT && sem->rpos <= MAX_SEM_WAIT);
   if (sem->value <= 0) {
     wakeup(sem->queue[sem->lpos]);

@@ -23,6 +23,7 @@ struct thread {
 };
 
 struct spinlock {
+  int magic;
   char name[16];
   thread_t *holder;
   int last_intr;
@@ -30,6 +31,7 @@ struct spinlock {
 
 #define MAX_SEM_WAIT  31
 struct semaphore {
+  int magic;
   char name[16];
   thread_t *queue[MAX_SEM_WAIT + 1];
   int lpos, rpos;
