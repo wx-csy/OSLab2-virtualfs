@@ -5,7 +5,8 @@
 #include <time.h>
 #define SEM_SZ 6
 
-sem_t full, empty;
+static sem_t full, empty;
+sem_t *emp;
 
 static void printch(char ch, int id) {
   static int cnt = 0;
