@@ -46,7 +46,9 @@ void test() {
   kmt->sem_init(&empty, "sem_empty", SEM_SZ);
   printf("1 [%s]\n", empty.name);
   for (int i=0; i<12; i++) {
+  printf("a cons [%s]\n", empty.name);
     kmt->create(cons_th + i, (void (*)(void*))consumer, ")"); 
+  printf("b cons [%s]\n", empty.name);
     kmt->create(prod_th + i, (void (*)(void*))producer, "(");
   }
   printf("2 [%s]\n", empty.name);
