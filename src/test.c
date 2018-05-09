@@ -29,10 +29,10 @@ static void consumer(const char* ch) {
   }
 }
 
-thread_t prod_th[6], cons_th[6];
+static thread_t prod_th[6], cons_th[6];
 void test() {
-  kmt->sem_init(full, "sem_full", 0);
-  kmt->sem_init(empty, "sem_empty", 12);
+  kmt->sem_init(&full, "sem_full", 0);
+  kmt->sem_init(&empty, "sem_empty", 12);
   for (int i=0; i<12; i++) {
     kmt->create(prod_th + i, (void (*)(void*))producer, "(");
     kmt->create(cons_th + i, (void (*)(void*))consumer, ")"); 
