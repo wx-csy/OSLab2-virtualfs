@@ -1,6 +1,7 @@
 #include <os.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #define SEM_SZ 6
 
 static sem_t full, empty;
