@@ -17,7 +17,6 @@ static void printch(char ch, int id) {
     printf("cnt=%d, tid=%d\n", this_thread->tid);
     _Exit(0);
   }
-  if (rand()%100 > 20) _yield();
 }
 
 static void producer(const char* ch) {
@@ -25,6 +24,7 @@ static void producer(const char* ch) {
     kmt->sem_wait(&empty);
     printch(*ch, 1);
     kmt->sem_signal(&full);
+  if (rand()%100 > 20) _yield();
   }
 }
 
@@ -33,6 +33,7 @@ static void consumer(const char* ch) {
     kmt->sem_wait(&full);
     printch(*ch, 0);
     kmt->sem_signal(&empty);
+  if (rand()%100 > 20) _yield();
   }
 }
 
