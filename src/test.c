@@ -6,7 +6,6 @@
 #define SEM_SZ 6
 
 static sem_t full, empty;
-sem_t *emp = &empty;
 
 static void printch(char ch, int id) {
   static int cnt = 0;
@@ -24,7 +23,6 @@ static void printch(char ch, int id) {
 static void producer(const char* ch) {
   while (1) {
     kmt->sem_wait(&empty);
-  printf("prod [%s]\n", empty.name);
     printch(*ch, 1);
     kmt->sem_signal(&full);
   }
@@ -33,7 +31,6 @@ static void producer(const char* ch) {
 static void consumer(const char* ch) {
   while (1) {
     kmt->sem_wait(&full);
-  printf("cons [%s]\n", empty.name);
     printch(*ch, 0);
     kmt->sem_signal(&empty);
   }
@@ -44,14 +41,9 @@ void test() {
   srand(time(NULL));
   kmt->sem_init(&full, "sem_full", 0);
   kmt->sem_init(&empty, "sem_empty", SEM_SZ);
-  printf("addr of empty is {%p}\n", &empty);
-  printf("1 [%s]\n", empty.name);
   for (int i=0; i<12; i++) {
-  printf("a cons [%s]\n", empty.name);
     kmt->create(cons_th + i, (void (*)(void*))consumer, ")"); 
-  printf("b cons [%s]\n", empty.name);
     kmt->create(prod_th + i, (void (*)(void*))producer, "(");
   }
-  printf("2 [%s]\n", empty.name);
 }
 

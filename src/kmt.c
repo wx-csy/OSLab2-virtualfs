@@ -170,13 +170,11 @@ static void kmt_sem_init(sem_t *sem, const char *name, int value) {
   sem->value = value;
   _intr_write(last_intr);
 }
-extern sem_t *emp;
 static void kmt_sem_wait(sem_t *sem) {
   int last_intr = _intr_read();
   _intr_write(0);
 _debug("P[%s], value=%d, tid=%d", sem->name, sem->value, 
     this_thread->tid);
-  if (sem == emp) _debug("empty!");
   assert(sem->magic == SEM_MAGIC);
   sem->value--;
   assert(sem->lpos <= MAX_SEM_WAIT && sem->rpos <= MAX_SEM_WAIT);
