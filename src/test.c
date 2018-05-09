@@ -39,11 +39,12 @@ static void consumer(const char* ch) {
   }
 }
 
-static thread_t prod_th[6], cons_th[6];
+static thread_t prod_th[12], cons_th[12];
 void test() {
   srand(time(NULL));
   kmt->sem_init(&full, "sem_full", 0);
   kmt->sem_init(&empty, "sem_empty", SEM_SZ);
+  printf("addr of empty is {%p}\n", &empty);
   printf("1 [%s]\n", empty.name);
   for (int i=0; i<12; i++) {
   printf("a cons [%s]\n", empty.name);
