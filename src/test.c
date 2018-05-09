@@ -17,7 +17,7 @@ static void printch(char ch, int id) {
     printf("cnt=%d, tid=%d\n", this_thread->tid);
     _Exit(0);
   }
-  if (rand()%100 > 70) _yield();
+  if (rand()%100 > 20) _yield();
 }
 
 static void producer(const char* ch) {
