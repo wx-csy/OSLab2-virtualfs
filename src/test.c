@@ -6,7 +6,7 @@
 #define SEM_SZ 6
 
 static sem_t full, empty;
-sem_t *emp;
+sem_t *emp = &empty;
 
 static void printch(char ch, int id) {
   static int cnt = 0;
