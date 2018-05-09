@@ -85,7 +85,7 @@ _debug("tid=%d, area=[%p, %p), regset=%p, status=%d",
   _intr_write(last_intr);
   if (!succ) {
     panic("Creating new thread failed!\n"
-        "Probably due to lack of memory")
+        "Probably due to lack of memory");
   }
   return succ;
 }
