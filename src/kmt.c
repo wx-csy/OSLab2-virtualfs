@@ -166,7 +166,7 @@ static void kmt_sem_init(sem_t *sem, const char *name, int value) {
   sem->value = value;
   _intr_write(last_intr);
 }
-exterm sem_t empty;
+extern sem_t empty;
 static void kmt_sem_wait(sem_t *sem) {
   int last_intr = _intr_read();
   _intr_write(0);
