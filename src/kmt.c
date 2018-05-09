@@ -172,7 +172,7 @@ _debug("P[%s], value=%d, tid=%d", sem->name, sem->value,
     sem->queue[sem->rpos] = this_thread;
     sem->rpos = (sem->rpos + 1) & MAX_SEM_WAIT;
     if (sem->lpos == sem->rpos) {
-      assert(0);
+      panic("Sempahore [%s] waiting queue overflowed!", sem->name); 
     }
     blockme();
     _yield();

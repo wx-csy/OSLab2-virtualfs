@@ -16,9 +16,9 @@ MOD_DEF(os) {
 };
 
 static void os_init() {
-  for (const char *p = "Hello, OS World!\n"; *p; p++) {
-    _putc(*p);
-  }
+//  for (const char *p = "Hello, OS World!\n"; *p; p++) {
+//    _putc(*p);
+//  }
 }
 
 static void idle(void *ignore) {
@@ -28,6 +28,8 @@ static void idle(void *ignore) {
 static thread_t thrd_idle;
 static void os_run() {
   kmt->create(&thrd_idle, idle, NULL);
+  void test();
+  test();
   _yield();
   assert(0);
   // should never return
