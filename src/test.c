@@ -39,9 +39,9 @@ static void producer(const char* ch) {
       kmt->spin_lock(&spnlck);
       int id = rand() % 4;
       if (trash_stat[id]) {
-        kmt->teardown(trash_stat + id);
+        kmt->teardown(trash_th + id);
       } else {
-        kmt->create(trash_stat + id, trash, NULL);
+        kmt->create(trash_th + id, trash, NULL);
       }
       trash_stat[id] ^= 1;
       kmt->spin_unlock(&spnlck);
