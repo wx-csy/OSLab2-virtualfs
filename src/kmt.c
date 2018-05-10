@@ -101,7 +101,8 @@ static void kmt_teardown(thread_t *thread) {
 }
 
 static thread_t *kmt_schedule() {
-  static int ntid = 0;
+//  static int ntid = 0;
+  int ntid = rand () % MAX_THREAD_NUM;
   if (this_thread->status == THRD_STATUS_RUNNING) {
     this_thread->status = THRD_STATUS_READY;
   }
