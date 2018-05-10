@@ -13,9 +13,11 @@ static void printch_2(char ch) {
   if (cnt & 1) {
     if (ch != last) {
       puts("Atomicity assertion failed!");
+      printf("char=%c\n", ch);
       printf("last=%c, cnt=%d, tid=%d", last, cnt, this_thread->tid);
       _Exit(0);
     }
+  }
   cnt++;
   printf("%c", ch);
   last = ch;
