@@ -101,8 +101,10 @@ void test() {
   }
   char ch = '0';
   for (int i=9; i<12; i++) {
-    kmt->create(cons_th + i, (void (*)(void*))atom_test, (void*)(ch++)); 
-    kmt->create(prod_th + i, (void (*)(void*))atom_test, (void*)(ch++));
+    kmt->create(cons_th + i, (void (*)(void*))atom_test, 
+        (void*)(uintptr_t)(ch++)); 
+    kmt->create(prod_th + i, (void (*)(void*))atom_test, i
+        (void*)(uintptr_t)(ch++));
   }
 }
 
