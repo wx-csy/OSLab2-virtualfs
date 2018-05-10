@@ -78,12 +78,12 @@ static void consumer(const char* ch) {
   }
 }
 
-static void atom_test(const char* str) {
+static void atom_test(char str) {
   while (1) {
     if (rand() % 100000 < 99999) continue;
     kmt->spin_lock(&atom_lock);
-    printch_2(str[0]);
-    printch_2(str[0]);
+    printch_2(str);
+    printch_2(str);
     kmt->spin_unlock(&atom_lock);
   }
 }
@@ -99,9 +99,10 @@ void test() {
     kmt->create(cons_th + i, (void (*)(void*))consumer, ")"); 
     kmt->create(prod_th + i, (void (*)(void*))producer, "(");
   }
+  char ch = '0';
   for (int i=9; i<12; i++) {
-    kmt->create(cons_th + i, (void (*)(void*))atom_test, "+"); 
-    kmt->create(prod_th + i, (void (*)(void*))atom_test, "-");
+    kmt->create(cons_th + i, (void (*)(void*))atom_test, (void*)(ch++)); 
+    kmt->create(prod_th + i, (void (*)(void*))atom_test, (void*)(ch++));
   }
 }
 
