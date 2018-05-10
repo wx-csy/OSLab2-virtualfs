@@ -7,6 +7,15 @@
 
 static sem_t full, empty;
 
+static void printch_2(char ch) {
+  static int cnt = 0;
+  char last = 0;
+  cnt++;
+  if (cnt & 1) assert(ch == last);
+  printf("%c", ch);
+  last = ch;
+}
+
 static void printch(char ch, int id) {
   static int cnt = 0;
   printf("%c", ch);
@@ -25,6 +34,9 @@ static void trash(void *ignore) {
     printf("t");
   }
 }
+
+
+spinlock_t atom_lock;
 
 static spinlock_t spnlck;
 static int trash_stat[4];
@@ -59,13 +71,22 @@ static void consumer(const char* ch) {
   }
 }
 
+static void atom_test(const char* str) {
+  while (1) {
+    kmt->spin_lock(&atom_lock);
+    printch_2(str[0]);
+    kmt->spin_unlock(&atom_lock);
+  }
+}
+
 static thread_t prod_th[12], cons_th[12];
 void test() {
   srand(time(NULL));
   kmt->sem_init(&full, "sem_full", 0);
   kmt->sem_init(&empty, "sem_empty", SEM_SZ);
   kmt->spin_init(&spnlck, "trash_spin");
-  for (int i=0; i<12; i++) {
+  kmt->spin_init(&atom_lock, "atom");
+  for (int i=0; i<8; i++) {
     kmt->create(cons_th + i, (void (*)(void*))consumer, ")"); 
     kmt->create(prod_th + i, (void (*)(void*))producer, "(");
   }
