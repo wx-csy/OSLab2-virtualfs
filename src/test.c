@@ -21,7 +21,7 @@ static void printch(char ch, int id) {
 
 static void trash(void *ignore) {
   while (1) {
-    if (rand() % 100 > 99)
+    if (rand() % 100 > 98)
     printf("t");
   }
 }
