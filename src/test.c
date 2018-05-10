@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <time.h>
-#define SEM_SZ 6
+#define SEM_SZ 4
 
 static sem_t full, empty;
 
