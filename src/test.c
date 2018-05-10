@@ -10,8 +10,8 @@ static sem_t full, empty;
 static void printch_2(char ch) {
   static int cnt = 0;
   char last = 0;
-  cnt++;
   if (cnt & 1) assert(ch == last);
+  cnt++;
   printf("%c", ch);
   last = ch;
 }
@@ -74,6 +74,7 @@ static void consumer(const char* ch) {
 static void atom_test(const char* str) {
   while (1) {
     kmt->spin_lock(&atom_lock);
+    printch_2(str[0]);
     printch_2(str[0]);
     kmt->spin_unlock(&atom_lock);
   }
