@@ -25,7 +25,7 @@ static void trash(void *ignore) {
   }
 }
 
-static spin_t spnlck;
+static spinlock_t spnlck;
 static int trash_stat[4];
 static thread_t trash_th[4];
 
@@ -36,6 +36,7 @@ static void producer(const char* ch) {
     kmt->sem_signal(&full);
   if (rand()%100 > 20) _yield();
     if (rand()%10 > 7) {
+      kmt->spin_lock(&spnlck);
       int id = rand() % 4;
       if (trash_stat[id]) {
         kmt->teardown(trash_stat + id);
@@ -43,6 +44,7 @@ static void producer(const char* ch) {
         kmt->create(trash_stat + id, trash, NULL);
       }
       trash_stat[id] ^= 1;
+      kmt->spin_unlock(&spnlck);
     }
   }
 }
