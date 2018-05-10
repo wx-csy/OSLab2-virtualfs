@@ -96,9 +96,8 @@ static void kmt_teardown(thread_t *thread) {
   thread->status = THRD_STATUS_INVALID;
   pmm->free(thread->stack.start);
   threads[thread->tid] = NULL;
-  this_thread = kmt_schedule();
+  if (thread == this_thread) _yield();
   _intr_write(last_intr);
-  _yield();
 }
 
 static thread_t *kmt_schedule() {
@@ -182,7 +181,7 @@ _debug("P[%s], value=%d, tid=%d", sem->name, sem->value,
     sem->queue[sem->rpos] = this_thread;
     sem->rpos = (sem->rpos + 1) & MAX_SEM_WAIT;
     if (sem->lpos == sem->rpos) {
-      panic("Sempahore [%s] waiting queue overflowed!", sem->name); 
+      panic("Semaphore [%s] waiting queue overflowed!", sem->name); 
     }
     blockme();
     _yield();

@@ -19,12 +19,31 @@ static void printch(char ch, int id) {
   }
 }
 
+static void trash(void *ignore) {
+  while (1) {
+    printf("t");
+  }
+}
+
+static spin_t spnlck;
+static int trash_stat[4];
+static thread_t trash_th[4];
+
 static void producer(const char* ch) {
   while (1) {
     kmt->sem_wait(&empty);
     printch(*ch, 1);
     kmt->sem_signal(&full);
   if (rand()%100 > 20) _yield();
+    if (rand()%10 > 7) {
+      int id = rand() % 4;
+      if (trash_stat[id]) {
+        kmt->teardown(trash_stat + id);
+      } else {
+        kmt->create(trash_stat + id, trash, NULL);
+      }
+      trash_stat[id] ^= 1;
+    }
   }
 }
 
@@ -42,6 +61,7 @@ void test() {
   srand(time(NULL));
   kmt->sem_init(&full, "sem_full", 0);
   kmt->sem_init(&empty, "sem_empty", SEM_SZ);
+  kmt->spin_init(&spinlck, "trash_spin");
   for (int i=0; i<12; i++) {
     kmt->create(cons_th + i, (void (*)(void*))consumer, ")"); 
     kmt->create(prod_th + i, (void (*)(void*))producer, "(");
