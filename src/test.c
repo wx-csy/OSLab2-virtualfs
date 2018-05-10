@@ -63,7 +63,7 @@ void test() {
   srand(time(NULL));
   kmt->sem_init(&full, "sem_full", 0);
   kmt->sem_init(&empty, "sem_empty", SEM_SZ);
-  kmt->spin_init(&spinlck, "trash_spin");
+  kmt->spin_init(&spnlck, "trash_spin");
   for (int i=0; i<12; i++) {
     kmt->create(cons_th + i, (void (*)(void*))consumer, ")"); 
     kmt->create(prod_th + i, (void (*)(void*))producer, "(");
