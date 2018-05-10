@@ -59,6 +59,7 @@ static void producer(const char* ch) {
       kmt->spin_lock(&spnlck);
       int id = rand() % 4;
       if (trash_stat[id]) {
+        printf("\nteardown: id=%d\n", id);
         kmt->teardown(trash_th + id);
       } else {
         kmt->create(trash_th + id, trash, NULL);
