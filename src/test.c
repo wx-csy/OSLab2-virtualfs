@@ -9,7 +9,7 @@ static sem_t full, empty;
 
 static void printch_2(char ch) {
   static int cnt = 0;
-  char last = 0;
+  static char last = 0;
   if (cnt & 1) {
     if (ch != last) {
       puts("Atomicity assertion failed!");
