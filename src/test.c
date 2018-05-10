@@ -90,5 +90,9 @@ void test() {
     kmt->create(cons_th + i, (void (*)(void*))consumer, ")"); 
     kmt->create(prod_th + i, (void (*)(void*))producer, "(");
   }
+  for (int i=9; i<12; i++) {
+    kmt->create(cons_th + i, (void (*)(void*))atom_test, "+"); 
+    kmt->create(prod_th + i, (void (*)(void*))atom_test, "-");
+  }
 }
 
