@@ -10,7 +10,12 @@ static sem_t full, empty;
 static void printch_2(char ch) {
   static int cnt = 0;
   char last = 0;
-  if (cnt & 1) assert(ch == last);
+  if (cnt & 1) {
+    if (ch != last) {
+      puts("Atomicity assertion failed!");
+      printf("last=%c, cnt=%d, tid=%d", last, cnt, this_thread->pid);
+      _Exit(0);
+    }
   cnt++;
   printf("%c", ch);
   last = ch;
