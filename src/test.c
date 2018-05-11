@@ -87,8 +87,8 @@ static void atom_test(char str) {
     kmt->spin_lock(&atom_lock2);
     printch_2(str);
     printch_2(str);
-    kmt->spin_unlock(&atom_lock2);
     kmt->spin_unlock(&atom_lock);
+    kmt->spin_unlock(&atom_lock2);
   }
 }
 
