@@ -43,7 +43,7 @@ static void trash(void *ignore) {
 }
 
 
-spinlock_t atom_lock;
+spinlock_t atom_lock, atom_lock2;
 
 static spinlock_t spnlck;
 static int trash_stat[4];
@@ -84,9 +84,11 @@ static void atom_test(char str) {
   while (1) {
     if (rand() % 100000 < 99999) continue;
     kmt->spin_lock(&atom_lock);
+    kmt->spin_lock(&atom_lock2);
     printch_2(str);
     printch_2(str);
     kmt->spin_unlock(&atom_lock);
+    kmt->spin_unlock(&atom_lock2);
   }
 }
 
@@ -97,6 +99,7 @@ void test() {
   kmt->sem_init(&empty, "sem_empty", SEM_SZ);
   kmt->spin_init(&spnlck, "trash_spin");
   kmt->spin_init(&atom_lock, "atom");
+  kmt->spin_init(&atom_lock2, "atom2");
   for (int i=0; i<8; i++) {
     kmt->create(cons_th + i, (void (*)(void*))consumer, ")"); 
     kmt->create(prod_th + i, (void (*)(void*))producer, "(");
