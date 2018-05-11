@@ -20,16 +20,16 @@ static void os_init() {
 //    _putc(*p);
 //  }
 }
-/*
+
 static void idle(void *ignore) {
   while (1) _yield();
 }
-*/
-// static thread_t thrd_idle;
+
+static thread_t thrd_idle;
 static void os_run() {
-//  kmt->create(&thrd_idle, idle, NULL);
-//  void test();
-//  test();
+  void test();
+  test();
+  kmt->create(&thrd_idle, idle, NULL);
   _yield();
   assert(0);
   // should never return
