@@ -6,7 +6,7 @@
 #define SEM_SZ 4
 
 static sem_t full, empty;
-
+/*
 static void printch_2(char ch) {
   static int cnt = 0;
   static char last = 0;
@@ -22,7 +22,7 @@ static void printch_2(char ch) {
   printf("%c", ch);
   last = ch;
 }
-
+*/
 static void printch(char ch, int id) {
   static int cnt = 0;
   printf("%c", ch);
