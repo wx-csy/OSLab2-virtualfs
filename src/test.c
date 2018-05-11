@@ -104,6 +104,7 @@ void test() {
     kmt->create(cons_th + i, (void (*)(void*))consumer, ")"); 
     kmt->create(prod_th + i, (void (*)(void*))producer, "(");
   }
+/*
   char ch = '0';
   for (int i=9; i<12; i++) {
     kmt->create(cons_th + i, (void (*)(void*))atom_test, 
@@ -111,5 +112,6 @@ void test() {
     kmt->create(prod_th + i, (void (*)(void*))atom_test, 
         (void*)((uintptr_t)(ch++)));
   }
+  */
 }
 
