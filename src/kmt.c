@@ -108,7 +108,7 @@ static thread_t *kmt_schedule() {
   if (this_thread->status == THRD_STATUS_RUNNING) {
     this_thread->status = THRD_STATUS_READY;
   }
-  while (threads[ntid]->status != THRD_STATUS_READY);
+  while (threads[ntid]->status != THRD_STATUS_READY) {
     ntid++;
     ntid %= MAX_THREAD_NUM;
     if (ntid == inittid) {
