@@ -18,6 +18,7 @@ static inline void *ptr_advance(void *ptr, ptrdiff_t offset) {
 struct thread {
   int tid;
   int status;
+  int intr_cnt;
   _Area stack;
   _RegSet *regset;
 };
@@ -26,7 +27,6 @@ struct spinlock {
   int magic;
   char name[16];
   thread_t *holder;
-  int last_intr;
 };
 
 #define MAX_SEM_WAIT  31
@@ -52,6 +52,17 @@ static inline void check_stack(thread_t *thread) {
         "tid=%d, stack area=[%p, %p)\n", thread->tid,
         stack.start, stack.end);
   }
+}
+
+static inline void inc_intr(thread_t *thread) {
+  intr_write(0);
+  thread->intr_cnt++;
+}
+
+static inline void dec_intr(thread_t *thread) {
+  if (--(thread->intr_cnt) == 0) {
+    intr_write(1);
+  } 
 }
 
 #endif

@@ -72,6 +72,7 @@ static int kmt_create(thread_t *thread, void (*entry)(void *arg),
       stack.end = ptr_advance(stack.end, -sizeof(uint32_t));
       *(uint32_t*)stack.end = STACK_PROTECTOR_MAGIC2;
       thread->tid = i;
+      thread->intr_cnt = 0;
       thread->regset = _make(stack, entry, arg);
       thread->status = THRD_STATUS_READY;
       threads[i] = thread;
@@ -132,8 +133,7 @@ static void kmt_spin_init(spinlock_t *lk, const char *name) {
 }
 
 static void kmt_spin_lock(spinlock_t *lk) {
-  lk->last_intr = _intr_read();
-  _intr_write(0);
+  inc_intr(this_thread);
 _debug("lock[%s], tid=%d", lk->name, this_thread->tid);
   assert(lk->magic == SPIN_MAGIC);
   if (lk->holder != NULL) {
@@ -151,7 +151,7 @@ _debug("unlock[%s], tid=%d", lk->name, this_thread->tid);
         lk->name);
   }
   lk->holder = NULL;
-  _intr_write(lk->last_intr);
+  dec_intr(this_thread);
 }
 
 #define SEM_MAGIC   0xb128c183
