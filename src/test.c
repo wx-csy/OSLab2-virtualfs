@@ -79,7 +79,7 @@ static void consumer(const char* ch) {
   if (rand()%100 > 20) _yield();
   }
 }
-
+/*
 static void atom_test(char str) {
   while (1) {
     if (rand() % 100000 < 99999) continue;
@@ -91,7 +91,7 @@ static void atom_test(char str) {
 //    kmt->spin_unlock(&atom_lock);
   }
 }
-
+*/
 static thread_t prod_th[12], cons_th[12];
 void test() {
   srand(time(NULL));
