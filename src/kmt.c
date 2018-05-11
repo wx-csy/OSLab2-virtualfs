@@ -103,14 +103,18 @@ static void kmt_teardown(thread_t *thread) {
 
 static thread_t *kmt_schedule() {
 //  static int ntid = 0;
-  int ntid = rand () % MAX_THREAD_NUM;
+  int inittid = rand () % MAX_THREAD_NUM;
+  int ntid = inittid;
   if (this_thread->status == THRD_STATUS_RUNNING) {
     this_thread->status = THRD_STATUS_READY;
   }
-  do {
+  while (threads[ntid]->status != THRD_STATUS_READY);
     ntid++;
     ntid %= MAX_THREAD_NUM;
-  } while (threads[ntid]->status != THRD_STATUS_READY);
+    if (ntid == inittid) {
+      _panic("Kernel scheduler can not find a ready thread!");
+    }
+  }
   threads[ntid]->status = THRD_STATUS_READY;
   this_thread = threads[ntid];
   if (this_thread->tid != 0)
