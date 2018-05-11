@@ -82,7 +82,7 @@ static void consumer(const char* ch) {
 
 static void atom_test(char str) {
   while (1) {
-    if (rand() % 100000 < 99999) continue;
+//    if (rand() % 100000 < 99999) continue;
 //    kmt->spin_lock(&atom_lock);
 //    kmt->spin_lock(&atom_lock2);
     printch_2(str);
