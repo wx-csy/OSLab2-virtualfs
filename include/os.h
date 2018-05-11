@@ -55,13 +55,13 @@ static inline void check_stack(thread_t *thread) {
 }
 
 static inline void inc_intr(thread_t *thread) {
-  intr_write(0);
+  _intr_write(0);
   thread->intr_cnt++;
 }
 
 static inline void dec_intr(thread_t *thread) {
   if (--(thread->intr_cnt) == 0) {
-    intr_write(1);
+    _intr_write(1);
   } 
 }
 
