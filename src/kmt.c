@@ -112,7 +112,7 @@ static thread_t *kmt_schedule() {
     ntid++;
     ntid %= MAX_THREAD_NUM;
     if (ntid == inittid) {
-      _panic("Kernel scheduler can not find a ready thread!");
+      panic("Kernel scheduler can not find a ready thread!");
     }
   }
   threads[ntid]->status = THRD_STATUS_READY;
