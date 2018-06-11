@@ -8,19 +8,17 @@
 // #define DEBUG_ME
 #include <debug.h>
 
-static void kmt_init();
-static int kmt_create(thread_t *thread, void (*entry)(void *arg), 
-    void *arg);
-static void kmt_teardown(thread_t *thread);
-static thread_t *kmt_schedule();
-static void kmt_spin_init(spinlock_t *lk, const char *name);
-static void kmt_spin_lock(spinlock_t *lk);
-static void kmt_spin_unlock(spinlock_t *lk);
-static void kmt_sem_init(sem_t *sem, const char *name, int value);
-static void kmt_sem_wait(sem_t *sem);
-static void kmt_sem_signal(sem_t *sem);
+static void init();
+static int access(const char *path, int mode);
+static int mount(const char *path, filesystem_t *fs);
+static int unmount(const char *path);
+static int open(const char *path, int flags);
+static ssize_t read(int fd, void *buf, size_t nbyte);
+static ssize_t write(int fd, void *buf, size_t nbyte);
+static off_t lseek(int fd, off_t offset, int whence);
+static int close(int fd);
 
-MOD_DEF(kmt) {
+MOD_DEF(vfs) {
   .init = kmt_init,
   .create = kmt_create,
   .teardown = kmt_teardown,
@@ -34,6 +32,15 @@ MOD_DEF(kmt) {
 };
 
 thread_t *this_thread;
+
+static void blockme() {
+  this_thread->status = THRD_STATUS_BLOCKED;
+_debug("current thread (tid=%d) blocked\n", this_thread->tid);
+}
+
+static void wakeup(thread_t *thread) {
+  thread->status = THRD_STATUS_READY;
+}
 
 #define MAX_THREAD_NUM  32
 thread_t *threads[MAX_THREAD_NUM];
@@ -151,8 +158,6 @@ _debug("unlock[%s], tid=%d", lk->name, this_thread->tid);
 
 #define SEM_MAGIC   0xb128c183
 static void kmt_sem_init(sem_t *sem, const char *name, int value) {
-  kmt->spin_init(&(sem->lock), name);
-  
   int last_intr = _intr_read();
   _intr_write(0);
   if (name == NULL) name = "(anon)";
@@ -163,32 +168,42 @@ static void kmt_sem_init(sem_t *sem, const char *name, int value) {
     panic("Attempting to initialize semaphore [%s]" 
            "with negative value.\n", sem->name);
   }
+  sem->lpos = sem->rpos = 0;
   sem->value = value;
   _intr_write(last_intr);
 }
-
 static void kmt_sem_wait(sem_t *sem) {
-  kmt->spin_lock(&(sem->lock));
-  
+  int last_intr = _intr_read();
+  _intr_write(0);
+_debug("P[%s], value=%d, tid=%d", sem->name, sem->value, 
+    this_thread->tid);
   assert(sem->magic == SEM_MAGIC);
-  
-  while (sem->value <= 0) {
-    kmt->spin_unlock(&(sem->lock));
-    _yield();
-    kmt->spin_lock(&(sem->lock));
-  }
   sem->value--;
-  
-  kmt->spin_unlock(&(sem->lock));
+  assert(sem->lpos <= MAX_SEM_WAIT && sem->rpos <= MAX_SEM_WAIT);
+  if (sem->value < 0) {
+    sem->queue[sem->rpos] = this_thread;
+    sem->rpos = (sem->rpos + 1) & MAX_SEM_WAIT;
+    if (sem->lpos == sem->rpos) {
+      panic("Semaphore [%s] waiting queue overflowed!", sem->name); 
+    }
+    blockme();
+    _yield();
+  }
+  _intr_write(last_intr);
 }
 
 static void kmt_sem_signal(sem_t *sem) {
-  kmt->spin_lock(&(sem->lock));
-
+  int last_intr = _intr_read();
+  _intr_write(0);
   assert(sem->magic == SEM_MAGIC);
-  
+_debug("V[%s], value=%d, tid=%d", sem->name, sem->value, 
+      this_thread->tid);
   sem->value++;
-
-  kmt->spin_unlock(&(sem->lock));
+  assert(sem->lpos <= MAX_SEM_WAIT && sem->rpos <= MAX_SEM_WAIT);
+  if (sem->value <= 0) {
+    wakeup(sem->queue[sem->lpos]);
+    sem->lpos = (sem->lpos + 1) & MAX_SEM_WAIT;
+  }
+  _intr_write(last_intr);
 }
 
