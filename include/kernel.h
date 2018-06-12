@@ -33,9 +33,6 @@ MODULE {
   void (*sem_signal)(sem_t *sem);
 } MOD_NAME(kmt);
 
-typedef struct filesystem filesystem_t;
-typedef int inode_t;
-typedef struct file file_t;
 
 MODULE {
   void (*init)();
@@ -48,6 +45,8 @@ MODULE {
   off_t (*lseek)(int fd, off_t offset, int whence);
   int (*close)(int fd);
 } MOD_NAME(vfs);
+
+typedef int inode_t;
 
 // filesystem
 
