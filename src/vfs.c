@@ -81,7 +81,7 @@ UNLOCK
   }
   for (int i = 0; i < NR_MOUNTPOINTS; i++) {
     if (mounts[i].valid) continue;
-    mounts[i].valid = true;
+    mounts[i].valid = 1;
     strcpy(mounts[i].path, path);
     mounts[i].fs = fs;
 UNLOCK
@@ -104,7 +104,7 @@ _debug("There is no filesystem mounted to the path.");
 UNLOCK
     return -1;
   }
-  mounts[id].valid = false;
+  mounts[id].valid = 0;
 UNLOCK
   return 0;
 }
