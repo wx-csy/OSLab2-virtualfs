@@ -39,8 +39,6 @@ static struct {
   filesystem_t *fs;
 } mounts[NR_MOUNTPOINTS];
 
-static struct spinlock vfs_lock;
-
 static int find_fs(const char *path) {
   for (int i = 0; i < NR_MOUNTPOINTS; i++) {
     if (!mounts[i].valid) continue;
@@ -58,6 +56,7 @@ static void init() {
 
 }
 
+static struct spinlock vfs_lock;
 #define LOCK    kmt->spin_lock(&vfs_lock);
 #define UNLOCK  kmt->spin_unlock(&vfs_lock);
 
@@ -121,9 +120,16 @@ UNLOCK
     }
     const char *relpath = path + strlen(mounts[fsid].path);
     filesystem_t *fs = mounts[fsid].fs;
-    file_t *file = PInvoke(fs, open, relpath);
-    if (file == NULL) {
+    inode_t inode = PInvoke(fs, lookup, relpath);
+    if (inode < 0) 
+      inode = PInvoke(fs, create, relpath);
+    if (inode < 0) {
 _debug("File not found!");
+UNLOCK
+      return -1;
+    }
+    file_t *file = PInvoke(fs, open, inode);
+    if (file == NULL) {
 UNLOCK
       return -1;
     }

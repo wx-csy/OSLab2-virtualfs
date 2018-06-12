@@ -54,9 +54,10 @@ MODULE {
 typedef struct filesystem {
   
   Interface(filesystem)
-    void (*init)(struct filesystem *fs, const char *name);
+    void (*_ctor)(struct filesystem *fs, const char *name);
     inode_t (*lookup)(struct filesystem *fs, const char *path);
     inode_t (*create)(struct filesystem *fs, const char *path);
+    file_t *(*open)(struct filesystem *fs, inode_t inode);
   End_Interface 
   
   char name[16];
@@ -69,7 +70,7 @@ typedef struct filesystem {
 typedef struct file {
 
   Interface(file)
-    int (*open)(file_t *file, inode_t inode, int flags);
+    int (*_ctor)(file_t *file, inode_t inode, int flags);
     int (*read)(file_t *file, char *buf, size_t size);
     off_t (*lseek)(file_t *file, off_t offset, int whence);
   End_Interface
