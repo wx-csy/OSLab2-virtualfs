@@ -46,11 +46,13 @@ MODULE {
   int (*close)(int fd);
 } MOD_NAME(vfs);
 
+typedef struct filesystem filesystem_t;
+typedef struct file file_t;
 typedef int inode_t;
 
 // filesystem
 
-typedef struct filesystem {
+struct filesystem {
   
   Interface(filesystem)
     void (*_ctor)(struct filesystem *fs, const char *name);
@@ -61,12 +63,12 @@ typedef struct filesystem {
   
   char name[16];
 
-} filesystem_t;
+};
 
 
 // file
 
-typedef struct file {
+struct file {
 
   Interface(file)
     int (*_ctor)(file_t *file, inode_t inode, int flags);
@@ -79,7 +81,7 @@ typedef struct file {
   int refcnt;
   int offset;
   int flags;
-} file_t;
+};
 
 
 #endif 
