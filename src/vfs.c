@@ -14,7 +14,7 @@ static int mount(const char *path, filesystem_t *fs);
 static int unmount(const char *path);
 static int open(const char *path, int flags);
 static ssize_t read(int fd, void *buf, size_t nbyte);
-static ssize_t write(int fd, void *buf, size_t nbyte);
+static ssize_t write(int fd, const void *buf, size_t nbyte);
 static off_t lseek(int fd, off_t offset, int whence);
 static int close(int fd);
 
@@ -147,6 +147,13 @@ LOCK
   int ret = PInvoke(this_thread->fd[fd], read, buf, nbyte);
 UNLOCK
   return ret;
+}
+
+static ssize_t write(int fd, const void *buf, size_t nbyte) {
+LOCK
+  int ret = PInvoke(this_thread->fd[fd], write, buf, nbyte);
+UNLOCK
+
 }
 
 static off_t lseek(int fd, off_t offset, int whence) {

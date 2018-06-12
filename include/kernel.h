@@ -72,6 +72,7 @@ struct file {
   Interface(file)
     int (*_ctor)(file_t *file, inode_t inode, int flags);
     int (*read)(file_t *file, char *buf, size_t size);
+    int (*write)(file_t *file, const char *buf, size_t size);
     off_t (*lseek)(file_t *file, off_t offset, int whence);
   End_Interface
 
