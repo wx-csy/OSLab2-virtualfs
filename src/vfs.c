@@ -153,7 +153,7 @@ static ssize_t write(int fd, const void *buf, size_t nbyte) {
 LOCK
   int ret = PInvoke(this_thread->fd[fd], write, buf, nbyte);
 UNLOCK
-
+  return ret;
 }
 
 static off_t lseek(int fd, off_t offset, int whence) {
