@@ -19,16 +19,15 @@ static off_t lseek(int fd, off_t offset, int whence);
 static int close(int fd);
 
 MOD_DEF(vfs) {
-  .init = kmt_init,
-  .create = kmt_create,
-  .teardown = kmt_teardown,
-  .schedule = kmt_schedule,
-  .spin_init = kmt_spin_init,
-  .spin_lock = kmt_spin_lock,
-  .spin_unlock = kmt_spin_unlock,
-  .sem_init = kmt_sem_init,
-  .sem_wait = kmt_sem_wait,
-  .sem_signal = kmt_sem_signal,
+  .init = init,
+  .access = access,
+  .mount = mount,
+  .unmount = unmount,
+  .open = open,
+  .read = read,
+  .write = write,
+  .lseek = lseek,
+  .close = close,
 };
 
 #define NR_MOUNTPOINTS 16
