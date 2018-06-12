@@ -144,7 +144,7 @@ UNLOCK
 
 static ssize_t read(int fd, void *buf, size_t nbyte) {
 LOCK
-  int ret = PInvoke(this_thread->fd[fd], buf, nbyte);
+  int ret = PInvoke(this_thread->fd[fd], read, buf, nbyte);
 UNLOCK
   return ret;
 }
