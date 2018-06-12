@@ -15,12 +15,15 @@ static inline void *ptr_advance(void *ptr, ptrdiff_t offset) {
 #define THRD_STATUS_RUNNING     2
 #define THRD_STATUS_BLOCKED     3
 
+#define MAX_FD  16;
+
 struct thread {
   int tid;
   int status;
   int intr_cnt;
   _Area stack;
   _RegSet *regset;
+  file_t *fd[MAX_FD];
 };
 
 struct spinlock {

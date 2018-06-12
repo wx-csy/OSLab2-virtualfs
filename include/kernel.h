@@ -33,8 +33,9 @@ MODULE {
 } MOD_NAME(kmt);
 
 typedef struct filesystem filesystem_t;
-typedef struct inode inode_t;
+typedef int inode_t;
 typedef struct file file_t;
+
 MODULE {
   void (*init)();
   int (*access)(const char *path, int mode);
@@ -47,4 +48,32 @@ MODULE {
   int (*close)(int fd);
 } MOD_NAME(vfs);
 
-#endif
+// filesystem
+
+typedef struct filesystem {
+  char name[16];
+} filesystem_t;
+
+Interface(filesystem) {
+  void (*init)(struct filesystem *fs, const char *name);
+  inode_t (*lookup)(struct filesystem *fs, const char *path);
+  inode_t (*create)(struct filesystem *fs, const char *path);
+};
+
+// file
+
+typedef struct file {
+  filesystem_t *fs;
+  inode_t inode;
+  int refcnt;
+  int offset;
+  int flags;
+} file_t;
+
+Interface(file) {
+  int (*open)(file_t *file, inode_t inode, int flags);
+  int (*read)(file_t *file, char *buf, size_t size);
+  off_t (*lseek)(file_t *file, off_t offset, int whence);
+};
+
+#endifi 
