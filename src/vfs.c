@@ -39,6 +39,10 @@ static struct {
   filesystem_t *fs;
 } mounts[NR_MOUNTPOINTS];
 
+static spinlock_t vfs_lock;
+#define LOCK    kmt->spin_lock(&vfs_lock);
+#define UNLOCK  kmt->spin_unlock(&vfs_lock);
+
 static int find_fs(const char *path) {
   for (int i = 0; i < NR_MOUNTPOINTS; i++) {
     if (!mounts[i].valid) continue;
@@ -55,10 +59,6 @@ static void init() {
   kmt->spin_init(&vfs_lock, "vfs_lock");
 
 }
-
-static spinlock_t vfs_lock;
-#define LOCK    kmt->spin_lock(&vfs_lock);
-#define UNLOCK  kmt->spin_unlock(&vfs_lock);
 
 static int access(const char *path, int mode) {
 LOCK
