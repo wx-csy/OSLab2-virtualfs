@@ -8,7 +8,8 @@
 #define __GET_VTABLE_NAME(cname) _##cname##_vtable
 
 #define Interface(pname) \
-  struct __GET_VTABLE_TYPE(pname)
+  struct __GET_VTABLE_TYPE(pname) *_vtable; \
+  struct __GET_VTABLE_TYPE(pname) 
 
 #define Inherits(pname) \
   struct pname base; \
