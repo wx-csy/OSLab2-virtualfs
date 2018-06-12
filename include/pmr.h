@@ -24,7 +24,7 @@
   ((object)._vtable->method(&(object), ##__VA_ARGS__))
 
 #define PInvoke(object, method, ...) \
-  ((object)->_vtable->method(&(object), ##__VA_ARGS__))
+  ((object)->_vtable->method((object), ##__VA_ARGS__))
 
 #define PMR_Init(object, cname) ((object)._vtable = __GET_VTABLE_NAME(cname))
 
