@@ -3,6 +3,7 @@
 
 #include <am.h>
 #include <nanos.h>
+#include <pmr.h>
 
 MODULE {
   void (*init)();
