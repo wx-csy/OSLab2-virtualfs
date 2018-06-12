@@ -56,7 +56,7 @@ static void init() {
 
 }
 
-static struct spinlock vfs_lock;
+static spinlock_t vfs_lock;
 #define LOCK    kmt->spin_lock(&vfs_lock);
 #define UNLOCK  kmt->spin_unlock(&vfs_lock);
 
