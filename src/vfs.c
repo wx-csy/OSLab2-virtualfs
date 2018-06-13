@@ -28,7 +28,7 @@ MOD_DEF(vfs) {
   .write = write,
   .lseek = lseek,
   .close = close,
-}
+};
 
 #define NR_MOUNTPOINTS 16
 #define MAX_PATH  128
@@ -57,7 +57,7 @@ static int find_fs(const char *path) {
     }
 next:;
   }
-  return i;
+  return ret;
 }
 
 static void init() {
