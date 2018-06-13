@@ -29,6 +29,7 @@ static int _ctor(file_t *file, filesystem_t *fs, inode_t inode, int flags) {
 
 static ssize_t read(file_t *file, char *buf, size_t size) {
   ssize_t cnt = 0;
+  struct kvfs_kvp *kvp = &(((kvfs_t)(file->fs)).kvp[file->inode]);
   while (size > 0) {
     if (file->offset == file->length) return 0;
     *buf = file->data[file->offset];
