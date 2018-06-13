@@ -1,4 +1,5 @@
 #include <fs/devfs.h>
+#include <string.h>
 
 // #define DEBUG_ME
 #include <debug.h>
@@ -46,12 +47,12 @@ static int access(struct filesystem *_fs, inode_t inode, int mode) {
 }
 
 static file_t *open(struct filesystem *_fs, inode_t inode, int flags) {
-  devfs_t *fs = (devfs_t *)_fs;
-   
+//  devfs_t *fs = (devfs_t *)_fs;
+  return NULL; 
 }
 
 static int _dtor(struct filesystem *_fs) {
-  devfs_t *fs = (devfs_t *)_fs;
-  
+//  devfs_t *fs = (devfs_t *)_fs;
+  return 0;
 }
 
