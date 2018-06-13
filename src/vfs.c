@@ -28,7 +28,7 @@ MOD_DEF(vfs) {
   .write = write,
   .lseek = lseek,
   .close = close,
-};
+}
 
 #define NR_MOUNTPOINTS 16
 #define MAX_PATH  128
@@ -44,27 +44,25 @@ static spinlock_t vfs_lock;
 #define UNLOCK  kmt->spin_unlock(&vfs_lock);
 
 static int find_fs(const char *path) {
+  int ret = -1, maxlen = 0;
   for (int i = 0; i < NR_MOUNTPOINTS; i++) {
     if (!mounts[i].valid) continue;
-    for (int pos = 0; mounts[i].path[pos]; pos++) {
+    int pos = 0;
+    for (pos = 0; mounts[i].path[pos]; pos++) {
       if (path[pos] != mounts[i].path[pos]) goto next;
     }
-    return i;
+    if (pos > maxlen) {
+      maxlen = pos;
+      ret = i;
+    }
 next:;
   }
-  return -1;
+  return i;
 }
 
 static void init() {
   kmt->spin_init(&vfs_lock, "vfs_lock");
 
-}
-
-static int access(const char *path, int mode) {
-LOCK
-  
-UNLOCK
-  return 0;
 }
 
 static int mount(const char *path, filesystem_t *fs) {
@@ -103,9 +101,40 @@ _debug("There is no filesystem mounted to the path.");
 UNLOCK
     return -1;
   }
+  if (mounts[id].fs->refcnt) {
+_debug("The filesystem is still buzy!");
+UNLOCK
+    return -1;
+  }
+  pmm->free(mounts[id].fs);
   mounts[id].valid = 0;
 UNLOCK
   return 0;
+}
+
+static int access(const char *path, int mode) {
+  if (strlen(path) >= MAX_PATH) {
+_debug("The length of path exceeds the limit (max %d).", MAX_PATH);
+    return -1;
+  }
+LOCK
+  int fsid = find_fs(path);
+  if (fsid < 0) {
+_debug("Filesystem not found!");
+UNLOCK
+    return -1;
+  }
+  const char *relpath = path + strlen(mounts[fsid].path);
+  filesystem_t *fs = mounts[fsid].fs;
+  inode_t inode = Invoke(fs, lookup, relpath);
+  if (inode_t < 0) {
+_debug("File not found!");
+UNLOCK
+    return -1;
+  }
+  int ret = Invoke(fs, access, inode, mode);
+UNLOCK
+  return ret;
 }
 
 static int open(const char *path, int flags) {
@@ -120,15 +149,15 @@ UNLOCK
     }
     const char *relpath = path + strlen(mounts[fsid].path);
     filesystem_t *fs = mounts[fsid].fs;
-    inode_t inode = PInvoke(fs, lookup, relpath);
+    inode_t inode = Invoke(fs, lookup, relpath);
     if (inode < 0) 
-      inode = PInvoke(fs, create, relpath);
+      inode = Invoke(fs, create, relpath);
     if (inode < 0) {
 _debug("File not found!");
 UNLOCK
       return -1;
     }
-    file_t *file = PInvoke(fs, open, inode);
+    file_t *file = Invoke(fs, open, inode, flags);
     if (file == NULL) {
 UNLOCK
       return -1;
@@ -144,21 +173,21 @@ UNLOCK
 
 static ssize_t read(int fd, void *buf, size_t nbyte) {
 LOCK
-  int ret = PInvoke(this_thread->fd[fd], read, buf, nbyte);
+  int ret = Invoke(this_thread->fd[fd], read, buf, nbyte);
 UNLOCK
   return ret;
 }
 
 static ssize_t write(int fd, const void *buf, size_t nbyte) {
 LOCK
-  int ret = PInvoke(this_thread->fd[fd], write, buf, nbyte);
+  int ret = Invoke(this_thread->fd[fd], write, buf, nbyte);
 UNLOCK
   return ret;
 }
 
 static off_t lseek(int fd, off_t offset, int whence) {
 LOCK
-  off_t ret = PInvoke(this_thread->fd[fd], lseek, offset, whence);
+  off_t ret = Invoke(this_thread->fd[fd], lseek, offset, whence);
 UNLOCK
   return ret;
 }
@@ -167,6 +196,7 @@ static int close(int fd) {
 LOCK
   this_thread->fd[fd]->refcnt--;
   if (this_thread->fd[fd]->refcnt == 0) {
+    Invoke(this_thread->fd[fd], _dtor);
     pmm->free(this_thread->fd[fd]);
     this_thread->fd[fd] = NULL;
   }

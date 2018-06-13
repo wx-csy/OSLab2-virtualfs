@@ -54,13 +54,16 @@ MODULE {
 struct filesystem {
   
   Interface(filesystem)
-    void (*_ctor)(struct filesystem *fs, const char *name);
+    int (*_ctor)(struct filesystem *fs, const char *name);
     inode_t (*lookup)(struct filesystem *fs, const char *path);
     inode_t (*create)(struct filesystem *fs, const char *path);
-    file_t *(*open)(struct filesystem *fs, inode_t inode);
+    int (*access)(struct filesystem *fs, inode_t inode, int mode);
+    file_t *(*open)(struct filesystem *fs, inode_t inode, int flags);
+    int (*_dtor)(struct filesystem *fs);
   End_Interface 
   
   char name[16];
+  int refcnt;
 
 };
 
@@ -74,6 +77,7 @@ struct file {
     int (*read)(file_t *file, char *buf, size_t size);
     int (*write)(file_t *file, const char *buf, size_t size);
     off_t (*lseek)(file_t *file, off_t offset, int whence);
+    void (*_dtor)(file_t *file);
   End_Interface
 
   filesystem_t *fs;
