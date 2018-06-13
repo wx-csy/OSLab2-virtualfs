@@ -9,12 +9,12 @@
 typedef struct devfs {
   struct filesystem base;
 
-  struct {
+  struct device {
     int valid;
     char name[32];
     int mode;
-    char (*getch)();
-    void (*putch)(char ch);
+    int (*getch)();
+    int (*putch)(int ch);
   } devices[MAX_DEV];
 
 } devfs_t;

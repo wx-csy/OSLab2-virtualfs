@@ -21,8 +21,27 @@ Implementation(filesystem, devfs) = {
   ._dtor = _dtor
 };
 
+static void load_device(struct device *dev, const char *name, int (*getch)(), 
+    int (*putch)(int ch)) {
+  dev->valid = 1;
+  strcpy(dev->name, name);
+  dev->mode = 0;
+  if (getch != NULL) dev->mode |= R_OK;
+  if (putch != NULL) dev->mode |= W_OK;
+  dev->getch = getch;
+  dev->putch = putch;
+}
+
 static int _ctor(filesystem_t *_fs, const char *name) {
-//  devfs_t *fs = (devfs_t *)_fs;
+  strncpy(_fs->name, name, sizeof _fs->name);
+  _fs->name[(sizeof _fs->name) - 1] = 0;
+  devfs_t *fs = (devfs_t *)_fs;
+  for (int i = 0; i < MAX_DEV; i++) {
+    fs->devices[i].valid = 0;
+  }
+  load_device(&(fs->devices[0]), "null", dev_null_getch, dev_null_putch);
+  load_device(&(fs->devices[1]), "zero", dev_zero_getch, dev_null_putch);
+  load_device(&(fs->devices[2]), "random", dev_random_getch, NULL);
   return 0;  
 }
 
@@ -59,6 +78,7 @@ _debug("Memory allocation failed!");
     pmm->free(file);
     return NULL; 
   }
+  file->refcnt++;
   return file;
 }
 
