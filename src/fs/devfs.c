@@ -65,6 +65,6 @@ _debug("Memory allocation failed!");
 static void _dtor(filesystem_t *_fs) {
   assert(_fs->refcnt == 0);
 //  devfs_t *fs = (devfs_t *)_fs;
-  return 0;
+  return ;
 }
 
