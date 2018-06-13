@@ -69,10 +69,10 @@ static int lseek(file_t *file, off_t offset, int whence) {
     case SEEK_SET:
       break;
     case SEEK_CUR:
-      offset += kvp->offset; 
+      offset += file->offset; 
       break;
     case SEEK_END:
-      offset += file->length;
+      offset += kvp->length;
       break;
     default:
 _debug("Invalid whence paramenter (%d)", whence);
