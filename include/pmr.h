@@ -8,7 +8,7 @@
 #define __GET_VTABLE_NAME(cname) _##cname##_vtable
 
 #define Interface(pname) \
-  struct __GET_VTABLE_TYPE(pname) { 
+  const struct __GET_VTABLE_TYPE(pname) { 
 
 #define End_Interface \
   } *_vtable;
@@ -20,7 +20,7 @@
   ((p_object)->_vtable->method((p_object), ##__VA_ARGS__))
 
 #define PMR_Init(p_object, cname) \
-  ((p_object)->_vtable = __GET_VTABLE_NAME(cname))
+  ((p_object)->_vtable = &__GET_VTABLE_NAME(cname))
 
 #endif
 
