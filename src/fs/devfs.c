@@ -1,4 +1,5 @@
 #include <fs/devfs.h>
+#include <fs/devices.h>
 #include <string.h>
 #include <assert.h>
 
