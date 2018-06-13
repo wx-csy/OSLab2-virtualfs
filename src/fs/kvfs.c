@@ -1,6 +1,7 @@
 #include <kernel.h>
 #include <fs/kvfs.h>
 #include <string.h>
+#include <assert.h>
 
 // #define DEBUG_ME
 #include <debug.h>
@@ -23,7 +24,7 @@ Implementation(filesystem, kvfs) = {
 
 static int _ctor(struct filesystem *_fs, const char *name) {
   strncpy(_fs->name, name, sizeof _fs->name);
-  _fs->name[31] = 0; 
+  _fs->name[(sizeof _fs->name) - 1] = 0; 
   _fs->refcnt = 0;
   kvfs_t *fs = (kvfs_t *)_fs;
   for (int i = 0; i < MAX_KVP; i++) {
