@@ -70,19 +70,18 @@ static int access(struct filesystem *_fs, inode_t inode, int mode) {
 }
 
 static file_t *open(struct filesystem *_fs, inode_t inode, int flags) {
-  kvfs_t *fs = (kvfs_t *)_fs;
+//  kvfs_t *fs = (kvfs_t *)_fs;
   
   return NULL; 
 }
 
-static int _dtor(struct filesystem *_fs) {
-  if (_fs.refcnt) return -1;
+static void _dtor(struct filesystem *_fs) {
+  assert(_fs.refcnt == 0);
   devfs_t *fs = (devfs_t *)_fs;
   for (int i = 0; i < MAX_KVP; i++) {
     if (!fs->kvp[i].valid) continue;
     pmm->free(fs->kvp[i].data);
     fs->kvp[i].valid = 0;
   }
-  return 0;
 }
 
