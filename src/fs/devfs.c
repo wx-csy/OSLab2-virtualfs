@@ -25,7 +25,13 @@ static int _ctor(struct filesystem *_fs, const char *name) {
 }
 
 static inode_t lookup(struct filesystem *_fs, const char *path) {
-//  devfs_t *fs = (devfs_t *)_fs;
+  devfs_t *fs = (devfs_t *)_fs;
+  for (int i = 0; i < MAX_DEV; i++) {
+    if (!fs->devices[i].valid) continue;
+    if (strcmp(path, fs->devices[i].name)) continue;
+    return i;
+  }
+_debug("Device not found!");
   return -1;
 }
 
