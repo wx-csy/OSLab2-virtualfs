@@ -4,12 +4,12 @@
 // #define DEBUG_ME
 #include <debug.h>
 
-static int _ctor(struct filesystem *fs, const char *name);
-static inode_t lookup(struct filesystem *fs, const char *path);
-static inode_t create(struct filesystem *fs, const char *path);
-static int access(struct filesystem *fs, inode_t inode, int mode);
-static file_t *open(struct filesystem *fs, inode_t inode, int flags);
-static int _dtor(struct filesystem *fs);
+static int _ctor(filesystem_t *fs, const char *name);
+static inode_t lookup(filesystem_t *fs, const char *path);
+static inode_t create(filesystem_t *fs, const char *path);
+static int access(filesystem_t *fs, inode_t inode, int mode);
+static file_t *open(filesystem_t *fs, inode_t inode, int flags);
+static void _dtor(filesystem_t *fs);
 
 Implementation(filesystem, devfs) = {
   ._ctor = _ctor, 
@@ -20,12 +20,12 @@ Implementation(filesystem, devfs) = {
   ._dtor = _dtor
 };
 
-static int _ctor(struct filesystem *_fs, const char *name) {
+static int _ctor(filesystem_t *_fs, const char *name) {
 //  devfs_t *fs = (devfs_t *)_fs;
   return 0;  
 }
 
-static inode_t lookup(struct filesystem *_fs, const char *path) {
+static inode_t lookup(filesystem_t *_fs, const char *path) {
   devfs_t *fs = (devfs_t *)_fs;
   for (int i = 0; i < MAX_DEV; i++) {
     if (!fs->devices[i].valid) continue;
@@ -36,22 +36,33 @@ _debug("Device not found!");
   return -1;
 }
 
-static inode_t create(struct filesystem *_fs, const char *path) {
+static inode_t create(filesystem_t *_fs, const char *path) {
   // this file system does not support creating new files
   return -1;
 }
 
-static int access(struct filesystem *_fs, inode_t inode, int mode) {
+static int access(filesystem_t *_fs, inode_t inode, int mode) {
   devfs_t *fs = (devfs_t *)_fs;
   return mode == (fs->devices[inode].mode & mode) ? 0 : -1;
 }
 
-static file_t *open(struct filesystem *_fs, inode_t inode, int flags) {
-//  devfs_t *fs = (devfs_t *)_fs;
-  return NULL; 
+static file_t *open(filesystem_t *_fs, inode_t inode, int flags) {
+  devfs_t *fs = (devfs_t *)_fs;
+  file_t *file = pmm->alloc(sizeof file_t);
+  if (file == NULL) {
+_debug("Memory allocation failed!");
+    return NULL;
+  }
+  PMR_Init(file, devfile);
+  if (Invoke(file, _ctor) == NULL) {
+    pmm->free(file);
+    return NULL; 
+  }
+  return file;
 }
 
-static int _dtor(struct filesystem *_fs) {
+static void _dtor(filesystem_t *_fs) {
+  assert(_fs->refcnt == 0);
 //  devfs_t *fs = (devfs_t *)_fs;
   return 0;
 }

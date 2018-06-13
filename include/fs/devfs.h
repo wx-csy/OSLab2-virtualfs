@@ -13,11 +13,14 @@ typedef struct devfs {
     int valid;
     char name[32];
     int mode;
-    file_t *(*open)(int flags);
+    char (*getch)();
+    void (*putch)(char ch);
   } devices[MAX_DEV];
 
 } devfs_t;
 
 extern Implementation(filesystem, devfs);
+
+extern Implementation(file, devfile);
 
 #endif 
