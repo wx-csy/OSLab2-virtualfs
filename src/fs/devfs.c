@@ -1,5 +1,6 @@
 #include <fs/devfs.h>
 #include <string.h>
+#include <assert.h>
 
 // #define DEBUG_ME
 #include <debug.h>
