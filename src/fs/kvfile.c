@@ -28,21 +28,38 @@ static int _ctor(file_t *file, filesystem_t *fs, inode_t inode, int flags) {
 }
 
 static ssize_t read(file_t *file, char *buf, size_t size) {
-  ssize_t cnt = 0;
   struct kvfs_kvp *kvp = &(((kvfs_t *)(file->fs))->kvp[file->inode]);
-  while (size > 0) {
-    if (file->offset == kvp->length) return 0;
-    *buf = kvp->data[file->offset];
-    file->offset++;
-    buf++;
-    cnt++;
-    size--;
+  if (file->offset + size > kvp->length) {
+    size = kvp->length - file->offset;
+    memcpy(buf, kvp->data, size);
+    kvp->offset = kvp->length;
+    return 0;
+  } else {
+    memcpy(buf, kvp->data, size);
+    kvp->offset += size;
+    return size;
   }
-  return cnt;
 }
 
-static int write(file_t *file, const char *buf, size_t size) {
-   
+static ssize_t write(file_t *file, const char *buf, size_t size) {
+  struct kvfs_kvp *kvp = &(((kvfs_t *)(file->fs))->kvp[file->inode]);
+  if (file->offset + size > kvp->capacity) {
+    int newcap = ((file->offset + size) * 2);
+    char *newdata = pmm->alloc(newcap);
+    if (newdata == NULL) {
+_debug("Failed to allocate memory!");
+      return -1;
+    }
+    memcpy(newdata, kvp->data, kvp->length);
+    pmm->free(kvp->data);
+    kvp->data = newdata;
+    kvp->capacity = newcap;
+  }
+  memcpy(kvp->data + file->offset, buf, size);
+  file->offset += size;
+  if (file->offset > kvp->length)
+    kvp->length = file->offset;
+  return size;  
 }
 
 static int lseek(file_t *file, off_t offset, int whence) {
