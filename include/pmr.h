@@ -20,7 +20,7 @@
   ((p_object)->_vtable->method((p_object), ##__VA_ARGS__))
 
 #define PMR_Init(p_object, cname) \
-  ((p_object)->base._vtable = __GET_VTABLE_NAME(cname))
+  ((p_object)->_vtable = __GET_VTABLE_NAME(cname))
 
 #endif
 
