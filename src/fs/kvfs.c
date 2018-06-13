@@ -70,8 +70,8 @@ static int access(struct filesystem *_fs, inode_t inode, int mode) {
 }
 
 static file_t *open(struct filesystem *_fs, inode_t inode, int flags) {
-  devfs_t *fs = (devfs_t *)_fs;
-     
+  kvfs_t *fs = (devfs_t *)_fs;
+  // 
 }
 
 static int _dtor(struct filesystem *_fs) {
