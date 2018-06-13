@@ -33,7 +33,7 @@ static ssize_t read(file_t *file, char *buf, size_t size) {
   if (file->offset + size > kvp->length) {
     size = kvp->length - file->offset;
     memcpy(buf, kvp->data, size);
-    kvp->offset = kvp->length;
+    file->offset = kvp->length;
     return 0;
   } else {
     memcpy(buf, kvp->data, size);
