@@ -70,7 +70,7 @@ static int access(struct filesystem *_fs, inode_t inode, int mode) {
 }
 
 static file_t *open(struct filesystem *_fs, inode_t inode, int flags) {
-  kvfs_t *fs = (devfs_t *)_fs;
+  kvfs_t *fs = (kvfs_t *)_fs;
   
   return NULL; 
 }
