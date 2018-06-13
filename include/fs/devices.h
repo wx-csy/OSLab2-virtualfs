@@ -5,7 +5,7 @@
 
 int dev_null_getch(); 
 
-int dev_null_putch()l
+int dev_null_putch();
 
 // zero device
 
