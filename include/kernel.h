@@ -59,7 +59,7 @@ struct filesystem {
     inode_t (*create)(struct filesystem *fs, const char *path);
     int (*access)(struct filesystem *fs, inode_t inode, int mode);
     file_t *(*open)(struct filesystem *fs, inode_t inode, int flags);
-    int (*_dtor)(struct filesystem *fs);
+    void (*_dtor)(struct filesystem *fs);
   End_Interface 
   
   char name[16];
