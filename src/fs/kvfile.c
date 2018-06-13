@@ -31,8 +31,8 @@ static ssize_t read(file_t *file, char *buf, size_t size) {
   ssize_t cnt = 0;
   struct kvfs_kvp *kvp = &(((kvfs_t *)(file->fs))->kvp[file->inode]);
   while (size > 0) {
-    if (file->offset == file->length) return 0;
-    *buf = file->data[file->offset];
+    if (file->offset == kvp->length) return 0;
+    *buf = kvp->data[file->offset];
     file->offset++;
     buf++;
     cnt++;
