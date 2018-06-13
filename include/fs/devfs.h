@@ -15,6 +15,6 @@ typedef struct devfs {
 
 } devfs_t;
 
-Implementation(filesystem, devfs);
+extern Implementation(filesystem, devfs);
 
 #endif 

@@ -14,7 +14,7 @@
   } *_vtable;
 
 #define Implementation(pname, cname) \
-  extern const struct __GET_VTABLE_TYPE(pname) __GET_VTABLE_NAME(cname)
+  const struct __GET_VTABLE_TYPE(pname) __GET_VTABLE_NAME(cname)
 
 #define Invoke(p_object, method, ...) \
   ((p_object)->_vtable->method((object), ##__VA_ARGS__))
