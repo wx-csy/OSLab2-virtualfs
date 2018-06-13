@@ -4,7 +4,7 @@
 // #define DEBUG_ME
 #include <debug.h>
 
-static int _ctor(file_t *file, inode_t inode, int flags);
+static int _ctor(file_t *file, filesystem_t *fs, inode_t inode, int flags);
 static ssize_t read(file_t *file, char *buf, size_t size);
 static ssize_t write(file_t *file, const char *buf, size_t size);
 static off_t lseek(file_t *file, off_t offset, int whence);
