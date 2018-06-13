@@ -8,7 +8,7 @@ static inode_t lookup(struct filesystem *fs, const char *path);
 static inode_t create(struct filesystem *fs, const char *path);
 static int access(struct filesystem *fs, inode_t inode, int mode);
 static file_t *open(struct filesystem *fs, inode_t inode, int flags);
-static void _dtor(struct filesystem *fs);
+static int _dtor(struct filesystem *fs);
 
 Implementation(filesystem, devfs) = {
   ._ctor = _ctor, 
@@ -44,7 +44,7 @@ static file_t *open(struct filesystem *_fs, inode_t inode, int flags) {
    
 }
 
-static void _dtor(struct filesystem *_fs) {
+static int _dtor(struct filesystem *_fs) {
   devfs_t *fs = (devfs_t *)_fs;
   
 }
