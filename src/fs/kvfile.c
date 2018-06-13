@@ -1,5 +1,6 @@
 #include <kernel.h>
 #include <fs/kvfs.h>
+#include <string.h>
 
 // #define DEBUG_ME
 #include <debug.h>
