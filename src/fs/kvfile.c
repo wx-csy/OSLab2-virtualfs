@@ -1,6 +1,7 @@
 #include <kernel.h>
 #include <fs/kvfs.h>
 #include <string.h>
+#include <assert.h>
 
 // #define DEBUG_ME
 #include <debug.h>
@@ -87,6 +88,7 @@ _debug("Offset out of range!");
 }
 
 static void _dtor(file_t *file) {
+  assert(file->refcnt == 0);
   return;
 } 
 
