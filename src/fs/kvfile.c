@@ -64,11 +64,12 @@ _debug("Failed to allocate memory!");
 }
 
 static int lseek(file_t *file, off_t offset, int whence) {
+  struct kvfs_kvp *kvp = &(((kvfs_t *)(file->fs))->kvp[file->inode]);
   switch (whence) {
     case SEEK_SET:
       break;
     case SEEK_CUR:
-      offset += file->offset; 
+      offset += kvp->offset; 
       break;
     case SEEK_END:
       offset += file->length;
@@ -77,7 +78,7 @@ static int lseek(file_t *file, off_t offset, int whence) {
 _debug("Invalid whence paramenter (%d)", whence);
       return -1;
   }
-  if (offset < 0 || offset >= file->length) {
+  if (offset < 0 || offset >= kvp->length) {
 _debug("Offset out of range!");
     return -1;
   }
