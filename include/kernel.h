@@ -74,10 +74,6 @@ struct filesystem {
 #define O_WRONLY    2
 #define O_RDWR      ((O_RDONLY)|(O_WRONLY))
 
-#define SEEK_SET    1
-#define SEEK_CUR    2
-#define SEEK_END    3
-
 struct file {
 
   Interface(file)
