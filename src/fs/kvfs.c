@@ -76,8 +76,8 @@ static file_t *open(struct filesystem *_fs, inode_t inode, int flags) {
 }
 
 static void _dtor(struct filesystem *_fs) {
-  assert(_fs.refcnt == 0);
-  devfs_t *fs = (devfs_t *)_fs;
+  assert(_fs->refcnt == 0);
+  kvfs_t *fs = (kvfs_t *)_fs;
   for (int i = 0; i < MAX_KVP; i++) {
     if (!fs->kvp[i].valid) continue;
     pmm->free(fs->kvp[i].data);
