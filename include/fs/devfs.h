@@ -4,7 +4,7 @@
 #include <kernel.h>
 #include <pmr.h>
 
-typedef devfs {
+typedef struct devfs {
   struct filesystem base;
 
   struct {
