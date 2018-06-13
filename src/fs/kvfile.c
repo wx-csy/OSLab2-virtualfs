@@ -37,7 +37,7 @@ static ssize_t read(file_t *file, char *buf, size_t size) {
     return 0;
   } else {
     memcpy(buf, kvp->data, size);
-    kvp->offset += size;
+    file->offset += size;
     return size;
   }
 }
@@ -68,20 +68,20 @@ static int lseek(file_t *file, off_t offset, int whence) {
     case SEEK_SET:
       break;
     case SEEK_CUR:
-      offset += file.offset; 
+      offset += file->offset; 
       break;
     case SEEK_END:
-      offset += file.length;
+      offset += file->length;
       break;
     default:
 _debug("Invalid whence paramenter (%d)", whence);
       return -1;
   }
-  if (offset < 0 || offset >= file.length) {
+  if (offset < 0 || offset >= file->length) {
 _debug("Offset out of range!");
     return -1;
   }
-  file.offset = offset;
+  file->offset = offset;
   return offset;
 }
 
