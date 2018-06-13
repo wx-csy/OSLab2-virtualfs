@@ -54,7 +54,7 @@ _debug("Memory allocation failed!");
     return NULL;
   }
   PMR_Init(file, devfile);
-  if (Invoke(file, _ctor) == NULL) {
+  if (Invoke(file, _ctor, _fs, inode, flags) == NULL) {
     pmm->free(file);
     return NULL; 
   }
