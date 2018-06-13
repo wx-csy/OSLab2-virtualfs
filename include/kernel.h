@@ -59,7 +59,7 @@ struct filesystem {
     inode_t (*create)(struct filesystem *fs, const char *path);
     int (*access)(struct filesystem *fs, inode_t inode, int mode);
     file_t *(*open)(struct filesystem *fs, inode_t inode, int flags);
-    void (*_dtor)(struct filesystem *fs);
+    int (*_dtor)(struct filesystem *fs);
   End_Interface 
   
   char name[16];
@@ -70,12 +70,20 @@ struct filesystem {
 
 // file
 
+#define O_RDONLY    1
+#define O_WRONLY    2
+#define O_RDWR      ((O_RDONLY)|(O_WRONLY))
+
+#define SEEK_SET    1
+#define SEEK_CUR    2
+#define SEEK_END    3
+
 struct file {
 
   Interface(file)
     int (*_ctor)(file_t *file, inode_t inode, int flags);
-    int (*read)(file_t *file, char *buf, size_t size);
-    int (*write)(file_t *file, const char *buf, size_t size);
+    ssize_t (*read)(file_t *file, char *buf, size_t size);
+    ssize_t (*write)(file_t *file, const char *buf, size_t size);
     off_t (*lseek)(file_t *file, off_t offset, int whence);
     void (*_dtor)(file_t *file);
   End_Interface
@@ -85,6 +93,7 @@ struct file {
   int refcnt;
   int offset;
   int flags;
+
 };
 
 
