@@ -70,13 +70,6 @@ struct filesystem {
 
 // file
 
-#define O_RDONLY    1
-#define O_WRONLY    2
-#define O_RDWR      ((O_RDONLY) | (O_WRONLY))
-
-#define R_OK        1
-#define W_OK        2
-
 struct file {
 
   Interface(file)

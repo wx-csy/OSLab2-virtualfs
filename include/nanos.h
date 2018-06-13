@@ -2,16 +2,23 @@
 #define __NANOS_H__
 
 // Constants
-#define SEEK_SET 0
-#define SEEK_CUR 1
-#define SEEK_END 2
-#define F_OK 0
-#define R_OK 4
-#define W_OK 2
-#define X_OK 1
-#define STDIN_FILENO 0
-#define STDOUT_FILENO 1
-#define STDERR_FILENO 2
+#define SEEK_SET  0
+#define SEEK_CUR  1
+#define SEEK_END  2
+
+#define F_OK    0
+#define R_OK    4
+#define W_OK    2
+#define X_OK    1
+
+#define O_RDONLY  4
+#define O_WRONLY  2
+#define O_RDWR    (O_RDONLY | O_WRONLY)
+
+#define STDIN_FILENO    0
+#define STDOUT_FILENO   1
+#define STDERR_FILENO   2
+
 #define MAXPATHLEN 128
 
 // Kernel Panic
