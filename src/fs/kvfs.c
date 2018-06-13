@@ -21,12 +21,12 @@ Implementation(filesystem, kvfs) = {
 };
 
 static int _ctor(struct filesystem *_fs, const char *name) {
-  strcpyn(_fs.name, name, 32);
-  _fs.name[31] = 0; 
-  _fs.refcnt = 0;
+  strncpy(_fs->name, name, sizeof _fs->name);
+  _fs->name[31] = 0; 
+  _fs->refcnt = 0;
   kvfs_t *fs = (kvfs_t *)_fs;
   for (int i = 0; i < MAX_KVP; i++) {
-    fs.kvp[i].valid = 0;
+    fs->kvp[i].valid = 0;
   }
   return 0;
 }
