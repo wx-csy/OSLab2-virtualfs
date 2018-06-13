@@ -17,7 +17,7 @@
   const struct __GET_VTABLE_TYPE(pname) __GET_VTABLE_NAME(cname)
 
 #define Invoke(p_object, method, ...) \
-  ((p_object)->_vtable->method((object), ##__VA_ARGS__))
+  ((p_object)->_vtable->method((p_object), ##__VA_ARGS__))
 
 #define PMR_Init(p_object, cname) \
   ((p_object)->base._vtable = __GET_VTABLE_NAME(cname))
