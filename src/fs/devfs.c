@@ -47,7 +47,7 @@ static int access(filesystem_t *_fs, inode_t inode, int mode) {
 }
 
 static file_t *open(filesystem_t *_fs, inode_t inode, int flags) {
-  devfs_t *fs = (devfs_t *)_fs;
+//  devfs_t *fs = (devfs_t *)_fs;
   file_t *file = pmm->alloc(sizeof(file_t));
   if (file == NULL) {
 _debug("Memory allocation failed!");
