@@ -21,12 +21,12 @@ Implementation(filesystem, devfs) = {
 
 static int _ctor(struct filesystem *_fs, const char *name) {
 //  devfs_t *fs = (devfs_t *)_fs;
-   
+  return 0;  
 }
 
 static inode_t lookup(struct filesystem *_fs, const char *path) {
 //  devfs_t *fs = (devfs_t *)_fs;
-  
+  return -1;
 }
 
 static inode_t create(struct filesystem *_fs, const char *path) {
