@@ -53,7 +53,7 @@ static int lseek Member (off_t offset, int whence) {
 static void _dtor Member () {
   MemberOf(devfile);
     
-  assert(file->refcnt == 0);
+  assert(base.refcnt == 0);
   return;
 } 
 
