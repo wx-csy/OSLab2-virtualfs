@@ -49,7 +49,8 @@ struct cmd {
   void (*func)();
 } cmds[] = {
   {"exit", cmd_exit},
-  {"fd", cmd_fd}
+  {"fd", cmd_fd},
+  {"token", cmd_token}
 };
 
 #define NR_CMD  (sizeof(cmds) / sizeof(struct cmd))
