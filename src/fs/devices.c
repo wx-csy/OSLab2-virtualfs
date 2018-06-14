@@ -41,35 +41,35 @@ int dev_random_getch() {
 static _Device *dev_input;
 
 static const char keymap_lower[256] = {
-  [_KEYS_1] = '1', [_KEYS_2] = '2', [_KEYS_3] = '3', [_KEYS_4] = '4', 
-  [_KEYS_5] = '5', [_KEYS_6] = '6', [_KEYS_7] = '7', [_KEYS_8] = '8',
-  [_KEYS_9] = '9', [_KEYS_0] = '0', [_KEYS_MINUS] = '-', [_KEYS_EQUALS] = '=',
-  [_KEYS_TAB] = '\t', [_KEYS_Q] = 'q', [_KEYS_W] = 'w', [_KEYS_E] = 'e',
-  [_KEYS_R] = 'r', [_KEYS_T] = 't', [_KEYS_Y] = 'y', [_KEYS_U] = 'u',
-  [_KEYS_I] = 'i', [_KEYS_O] = 'o', [_KEYS_P] = 'p', [_KEYS_LEFTBRACKET] = '[',
-  [_KEYS_RIGHTBRACKET] = ']', [_KEYS_BACKSLASH] = '\\', [_KEYS_A] = 'a',
-  [_KEYS_S] = 's', [_KEYS_D] = 'd', [_KEYS_F] = 'f', [_KEYS_G] = 'g',
-  [_KEYS_H] = 'h', [_KEYS_J] = 'j', [_KEYS_K] = 'k', [_KEYS_L] = 'l',
-  [_KEYS_SEMICOLON] = ';', [_KEYS_APOSTROPHE] = '\'',
-  [_KEYS_Z] = 'z', [_KEYS_X] = 'x', [_KEYS_C] = 'c', [_KEYS_V] = 'v',
-  [_KEYS_B] = 'b', [_KEYS_N] = 'n', [_KEYS_M] = 'm', [_KEYS_COMMA] = ',',
-  [_KEYS_PERIOD] = '.', [_KEYS_SLASH] = '/', [_KEYS_SPACE] = ' '
+  [_KEY_1] = '1', [_KEY_2] = '2', [_KEY_3] = '3', [_KEY_4] = '4', 
+  [_KEY_5] = '5', [_KEY_6] = '6', [_KEY_7] = '7', [_KEY_8] = '8',
+  [_KEY_9] = '9', [_KEY_0] = '0', [_KEY_MINUS] = '-', [_KEY_EQUALS] = '=',
+  [_KEY_TAB] = '\t', [_KEY_Q] = 'q', [_KEY_W] = 'w', [_KEY_E] = 'e',
+  [_KEY_R] = 'r', [_KEY_T] = 't', [_KEY_Y] = 'y', [_KEY_U] = 'u',
+  [_KEY_I] = 'i', [_KEY_O] = 'o', [_KEY_P] = 'p', [_KEY_LEFTBRACKET] = '[',
+  [_KEY_RIGHTBRACKET] = ']', [_KEY_BACKSLASH] = '\\', [_KEY_A] = 'a',
+  [_KEY_S] = 's', [_KEY_D] = 'd', [_KEY_F] = 'f', [_KEY_G] = 'g',
+  [_KEY_H] = 'h', [_KEY_J] = 'j', [_KEY_K] = 'k', [_KEY_L] = 'l',
+  [_KEY_SEMICOLON] = ';', [_KEY_APOSTROPHE] = '\'',
+  [_KEY_Z] = 'z', [_KEY_X] = 'x', [_KEY_C] = 'c', [_KEY_V] = 'v',
+  [_KEY_B] = 'b', [_KEY_N] = 'n', [_KEY_M] = 'm', [_KEY_COMMA] = ',',
+  [_KEY_PERIOD] = '.', [_KEY_SLASH] = '/', [_KEY_SPACE] = ' '
 };
 
 static const char keymap_upper[256] = {
-  [_KEYS_1] = '!', [_KEYS_2] = '@', [_KEYS_3] = '#', [_KEYS_4] = '$', 
-  [_KEYS_5] = '%', [_KEYS_6] = '^', [_KEYS_7] = '&', [_KEYS_8] = '*',
-  [_KEYS_9] = '(', [_KEYS_0] = ')', [_KEYS_MINUS] = '_', [_KEYS_EQUALS] = '+',
-  [_KEYS_TAB] = '\t', [_KEYS_Q] = 'Q', [_KEYS_W] = 'W', [_KEYS_E] = 'E',
-  [_KEYS_R] = 'R', [_KEYS_T] = 'T', [_KEYS_Y] = 'Y', [_KEYS_U] = 'U',
-  [_KEYS_I] = 'I', [_KEYS_O] = 'O', [_KEYS_P] = 'P', [_KEYS_LEFTBRACKET] = '{',
-  [_KEYS_RIGHTBRACKET] = '}', [_KEYS_BACKSLASH] = '|', [_KEYS_A] = 'A',
-  [_KEYS_S] = 'S', [_KEYS_D] = 'D', [_KEYS_F] = 'F', [_KEYS_G] = 'G',
-  [_KEYS_H] = 'H', [_KEYS_J] = 'J', [_KEYS_K] = 'K', [_KEYS_L] = 'L',
-  [_KEYS_SEMICOLON] = ':', [_KEYS_APOSTROPHE] = '\"',
-  [_KEYS_Z] = 'Z', [_KEYS_X] = 'X', [_KEYS_C] = 'C', [_KEYS_V] = 'V',
-  [_KEYS_B] = 'B', [_KEYS_N] = 'N', [_KEYS_M] = 'M', [_KEYS_COMMA] = '<',
-  [_KEYS_PERIOD] = '>', [_KEYS_SLASH] = '?', [_KEYS_SPACE] = ' '
+  [_KEY_1] = '!', [_KEY_2] = '@', [_KEY_3] = '#', [_KEY_4] = '$', 
+  [_KEY_5] = '%', [_KEY_6] = '^', [_KEY_7] = '&', [_KEY_8] = '*',
+  [_KEY_9] = '(', [_KEY_0] = ')', [_KEY_MINUS] = '_', [_KEY_EQUALS] = '+',
+  [_KEY_TAB] = '\t', [_KEY_Q] = 'Q', [_KEY_W] = 'W', [_KEY_E] = 'E',
+  [_KEY_R] = 'R', [_KEY_T] = 'T', [_KEY_Y] = 'Y', [_KEY_U] = 'U',
+  [_KEY_I] = 'I', [_KEY_O] = 'O', [_KEY_P] = 'P', [_KEY_LEFTBRACKET] = '{',
+  [_KEY_RIGHTBRACKET] = '}', [_KEY_BACKSLASH] = '|', [_KEY_A] = 'A',
+  [_KEY_S] = 'S', [_KEY_D] = 'D', [_KEY_F] = 'F', [_KEY_G] = 'G',
+  [_KEY_H] = 'H', [_KEY_J] = 'J', [_KEY_K] = 'K', [_KEY_L] = 'L',
+  [_KEY_SEMICOLON] = ':', [_KEY_APOSTROPHE] = '\"',
+  [_KEY_Z] = 'Z', [_KEY_X] = 'X', [_KEY_C] = 'C', [_KEY_V] = 'V',
+  [_KEY_B] = 'B', [_KEY_N] = 'N', [_KEY_M] = 'M', [_KEY_COMMA] = '<',
+  [_KEY_PERIOD] = '>', [_KEY_SLASH] = '?', [_KEY_SPACE] = ' '
 };
 
 static const char (*keymap)[256] = {keymap_lower, keymap_upper};
@@ -91,10 +91,10 @@ int dev_stdin_getch() {
       else shiftcnt--;
     } else if (reg.keydown) {
       switch (reg.keycode) {
-        case _KEYS_CAPSLOCK: 
+        case _KEY_CAPSLOCK: 
           capslock ^= 1;
           break;
-        case _KEYS_RETURN:
+        case _KEY_RETURN:
           ret = 1;
           return '\n'
         default:
