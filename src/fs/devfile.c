@@ -34,7 +34,21 @@ static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
 static ssize_t read Member (char *buf, size_t size) {
   MemberOf(devfile);
   
-  return size;
+  struct device *dev = &(this.fs->devices[base.inode]);
+  if (dev->getch == NULL) return -1;
+  size_t cnt = 0;
+  while (size) {
+    int tmp = dev->getch();
+    if (tmp == -1) return 0;
+    else if (tmp < 0 || tmp > 0xff) return -1;
+    else {
+      *buf = tmp;
+      buf++;
+      cnt++;
+      size--;
+    }
+  }
+  return cnt;
 }
 
 static ssize_t write Member (const char *buf, size_t size) {
