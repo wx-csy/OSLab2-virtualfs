@@ -11,7 +11,7 @@
 
 #define __GET_VTABLE_NAME(cname) _##cname##_vtable
 
-#define Member(...) (void *_this, ##__VA_ARGS__)
+#define Member(...) ((void *_this), ##__VA_ARGS__)
 
 #define MemberOf(cname) \
   struct cname *__this = _this; \
@@ -27,7 +27,7 @@
   const struct __GET_VTABLE_TYPE(pname) { 
 
 #define End_Interface \
-    void (*dtor)(void *ptr); \
+    void (*dtor)(void *_this); \
   } *_vtable;
 
 #define Inherits(pname) \
@@ -44,7 +44,10 @@
   if (ptr != NULL) { \
     ptr->base._vtable = &__GET_VTABLE_NAME(cname); \
     if (ptr->base._vtable->_ctor) \
-      ptr->base._vtable->_ctor((void *)ptr, ##__VA_ARGS__); \
+      if (ptr->base._vtable->_ctor((void *)ptr, ##__VA_ARGS__) != 0) { \
+        __Deallocate(ptr); \
+        ptr = NULL; \
+      } \
   } \
   (void *)ptr; \
 })
