@@ -51,7 +51,6 @@ void devfs_test(void *igonre) {
     printf("$ ");
     char buf[256];
     term_getline(buf);
-    printf("%s\n", buf);
     for (int i = 0; i < NR_CMD; i++) {
       if (strcmp(buf, cmds[i].cmd) == 0) {
         cmds[i].func();
