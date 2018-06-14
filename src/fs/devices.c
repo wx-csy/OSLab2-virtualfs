@@ -47,7 +47,7 @@ int dev_stdin_getch() {
     if (reg.keycode == _KEY_NONE) return 0;
     if (reg.keydown) {
       _putc(reg.keycode);
-      return reg.keycode;
+      return reg.keycode - _KEY_A + 'A';
     }
   }
 }
