@@ -27,7 +27,7 @@
   ((p_object)->_vtable = &__GET_VTABLE_NAME(cname))
 
 #define New(cname, ...) ({ \
-  struct cname *ptr = __Allocator(sizeof(struct cname)); \
+  struct cname *ptr = __Allocate(sizeof(struct cname)); \
   if (ptr != NULL) { \
     ptr->base._vtable = &__GET_VTABLE_NAME(cname); \
     if (ptr->base._vtable->_ctor) \
