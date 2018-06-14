@@ -95,7 +95,7 @@ _debug("Offset out of range!");
   return offset;
 }
 
-static void _dtor() {
+static void _dtor Member () {
   MemberOf(kvfile);
 
   assert(base.refcnt == 0);
