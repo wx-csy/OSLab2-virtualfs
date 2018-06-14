@@ -14,12 +14,12 @@ static file_t*  open    Member (inode_t inode, int flags);
 static void     _dtor   Member ();
 
 Implementation(filesystem, devfs) = {
-  ._ctor = _ctor, 
+  ._ctor  = _ctor, 
   .lookup = lookup,
   .create = create,
   .access = access,
-  .open = open,
-  ._dtor = _dtor
+  .open   = open,
+  ._dtor  = _dtor
 };
 
 static void load_device(struct device *dev, const char *name, int (*getch)(), 
