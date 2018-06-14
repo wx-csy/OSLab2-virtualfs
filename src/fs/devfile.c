@@ -6,11 +6,11 @@
 // #define DEBUG_ME
 #include <debug.h>
 
-static int _ctor(file_t *file, filesystem_t *fs, inode_t inode, int flags);
-static ssize_t read(file_t *file, char *buf, size_t size);
-static ssize_t write(file_t *file, const char *buf, size_t size);
-static off_t lseek(file_t *file, off_t offset, int whence);
-static void _dtor(file_t *file);
+static int      _ctor Member (filesystem_t *fs, inode_t inode, int flags);
+static ssize_t  read  Member (char *buf, size_t size);
+static ssize_t  write Member (const char *buf, size_t size);
+static off_t    lseek Member (off_t offset, int whence);
+static void     _dtor Member ();
 
 Implementation(file, devfile) = {
   ._ctor = _ctor, 
@@ -20,28 +20,39 @@ Implementation(file, devfile) = {
   ._dtor = _dtor
 };
 
-static int _ctor(file_t *file, filesystem_t *fs, inode_t inode, int flags) {
-  file->fs = fs;
-  file->inode = inode;
-  file->refcnt = 0;
-  file->offset = 0;
-  file->flags = flags;
+static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
+  MemberOf(devfile);
+  
+  base.fs = fs;
+  base.inode = inode;
+  base.refcnt = 0;
+  base.offset = 0;
+  base.flags = flags;
   return 0;
 }
 
-static ssize_t read(file_t *file, char *buf, size_t size) {
+static ssize_t read Member (char *buf, size_t size) {
+  MemberOf(devfile);
+
   return size;
 }
 
-static ssize_t write(file_t *file, const char *buf, size_t size) {
+static ssize_t write Member (const char *buf, size_t size) {
+  MemberOf(devfile);
+
   return size;  
 }
 
-static int lseek(file_t *file, off_t offset, int whence) {
+static int lseek Member (off_t offset, int whence) {
+  MemberOf(devfile);
+
+  // devices do not support lseek
   return -1;
 }
 
-static void _dtor(file_t *file) {
+static void _dtor Member () {
+  MemberOf(devfile);
+    
   assert(file->refcnt == 0);
   return;
 } 
