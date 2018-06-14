@@ -1,5 +1,5 @@
 #include <kernel.h>
-#include <fs/kvfs.h>
+#include <fs/devfs.h>
 #include <string.h>
 #include <assert.h>
 
