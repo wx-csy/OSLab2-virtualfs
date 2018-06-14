@@ -95,7 +95,7 @@ _debug("Offset out of range!");
   return offset;
 }
 
-static void Member _dtor() {
+static void _dtor Member () {
   MemberOf(devfile);
 
   assert(base.refcnt == 0);
