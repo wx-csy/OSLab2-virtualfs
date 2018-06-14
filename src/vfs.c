@@ -85,8 +85,9 @@ UNLOCK
     mounts[i].valid = 1;
     strcpy(mounts[i].path, path);
     mounts[i].fs = fs;
+_debug("!");
 UNLOCK
-_debug("mounting `%s' to %s", fs->name, path);
+_debug("@");
     return i;
   }
 _debug("The mount list is full.");
