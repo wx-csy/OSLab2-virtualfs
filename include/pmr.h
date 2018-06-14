@@ -42,9 +42,9 @@
 #define New(cname, ...) ({ \
   struct cname *ptr = __Allocate(sizeof(struct cname)); \
   if (ptr != NULL) { \
-    ptr->base._vtable = &__GET_VTABLE_NAME(cname); \
-    if (ptr->base._vtable->_ctor) \
-      if (ptr->base._vtable->_ctor((void *)ptr, ##__VA_ARGS__) != 0) { \
+    ptr->_base._vtable = &__GET_VTABLE_NAME(cname); \
+    if (ptr->_base._vtable->_ctor) \
+      if (ptr->_base._vtable->_ctor((void *)ptr, ##__VA_ARGS__) != 0) { \
         __Deallocate(ptr); \
         ptr = NULL; \
       } \
