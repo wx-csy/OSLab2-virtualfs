@@ -85,7 +85,7 @@ UNLOCK
     mounts[i].valid = 1;
     strcpy(mounts[i].path, path);
     mounts[i].fs = fs;
-_debug("!");
+_debug("! holder=%p", vfs_lock.holder);
 UNLOCK
 _debug("@");
     return i;
