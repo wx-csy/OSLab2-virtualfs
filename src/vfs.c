@@ -8,7 +8,7 @@
 #include <os.h>
 #include <kernel.h>
 
-// #define DEBUG_ME
+#define DEBUG_ME
 #include <debug.h>
 
 static void init();

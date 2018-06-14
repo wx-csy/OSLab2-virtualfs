@@ -26,7 +26,6 @@
   do { \
     printf("Kernel panic: " msg); \
     printf("\n"); \
-    printf("in function `%s', %s:%d", __func__, __FILE__, __LINE__); \
     _halt(1); \
   } while(0)
 
