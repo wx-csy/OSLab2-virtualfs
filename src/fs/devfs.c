@@ -52,6 +52,8 @@ static int _ctor Member (const char *name) {
   load_device(&(this.devices[0]), "null", dev_null_getch, dev_null_putch);
   load_device(&(this.devices[1]), "zero", dev_zero_getch, dev_null_putch);
   load_device(&(this.devices[2]), "random", dev_random_getch, NULL);
+  load_device(&(this.devices[3]), "stdin", dev_stdin_getch, NULL);
+  load_device(&(this.devices[4]), "stdout", NULL, dev_stdout_putch);
   return 0;  
 }
 

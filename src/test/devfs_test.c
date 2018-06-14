@@ -5,9 +5,12 @@
 #include <time.h>
 
 void devfs_test(void *igonre) {
-  int fd = vfs->open("/dev/random", O_RDONLY);
-  int data;
-  vfs->read(fd, &data, sizeof data);
+  int fd = vfs->open("/dev/stdin", O_RDONLY);
+  int data = 0;
+  while (1) {
+    vfs->read(fd, &data, 1);
+    _putc(data);
+  }
   printf("random: %d\n", data);
 }
 
