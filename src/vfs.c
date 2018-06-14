@@ -144,6 +144,7 @@ UNLOCK
 }
 
 static int open(const char *path, int flags) {
+_debug("Opening `%s' with flags=%d", path, flags);
 LOCK
   for (int i = 0; i < MAX_FD; i++) {
     if (this_thread->fd[i] != NULL) continue;
