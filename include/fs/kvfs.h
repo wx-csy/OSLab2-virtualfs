@@ -21,7 +21,8 @@ typedef struct kvfs {
 extern Implementation(filesystem, kvfs);
 
 typedef struct kvfile {
-  struct file base;
+  Inherits(file);
+
 } kvfile_t;
 
 extern Implementation(file, kvfile_t);
