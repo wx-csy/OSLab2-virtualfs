@@ -96,7 +96,7 @@ int dev_stdin_getch() {
           break;
         case _KEY_RETURN:
           ret = 1;
-          return '\n'
+          return '\n';
         default:
           ch = keymap[!shiftcnt ^ !capslock][reg.keycode];
           if (ch) {
