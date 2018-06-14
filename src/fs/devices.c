@@ -72,7 +72,7 @@ static const char keymap_upper[256] = {
   [_KEY_PERIOD] = '>', [_KEY_SLASH] = '?', [_KEY_SPACE] = ' '
 };
 
-static const char keymap[2][256] = {keymap_lower, keymap_upper};
+static const char[256] keymap[2] = {keymap_lower, keymap_upper};
 
 int dev_stdin_getch() {
   _KbdReg reg;
