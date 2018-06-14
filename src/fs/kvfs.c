@@ -63,7 +63,7 @@ _debug("The key is too long!");
 _debug("Fail to allocate memory!");
       return -1;
     }
-    this.vp[i].valid = 1;
+    this.kvp[i].valid = 1;
     this.kvp[i].capacity = 512;
     this.kvp[i].length = 0;
     return i;
