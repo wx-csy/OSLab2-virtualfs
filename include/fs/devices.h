@@ -1,6 +1,8 @@
 #ifndef __FS__DEVICES_H__
 #define __FS__DEVICES_H__
 
+int dev_init();
+
 // null device
 
 int dev_null_getch();

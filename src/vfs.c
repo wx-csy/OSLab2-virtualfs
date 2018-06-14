@@ -1,4 +1,5 @@
 #include <fs/devfs.h>
+#include <devices.h>
 #include <pmr.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -65,6 +66,7 @@ next:;
 
 static void init() {
   kmt->spin_init(&vfs_lock, "vfs_lock");
+  dev_init();
 }
 
 static int mount(const char *path, filesystem_t *fs) {

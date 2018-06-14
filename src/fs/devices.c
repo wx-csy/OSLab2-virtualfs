@@ -9,7 +9,18 @@
 // #define DEBUG_ME
 #include <debug.h>
 
-// null device
+static _Device *dev_input = NULL
+
+void dev_init() {
+  for (int n = 1; ; n++) {
+    _Device *dev = _device(n);
+    if (!dev) break;
+    if (dev->id == _DEV_INPUT) {
+      dev_input = dev;
+    }
+  }
+  assert(dev_input != NULL);
+}
 
 int dev_null_getch() {
   return -1; 
@@ -26,6 +37,8 @@ int dev_zero_getch() {
 int dev_random_getch() {
   return rand() & 0xff;
 }
+
+static _Device *dev_input;
 
 int dev_stdin_getch() {
   _KbdReg reg;
