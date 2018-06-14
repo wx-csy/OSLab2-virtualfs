@@ -31,7 +31,7 @@
   if (ptr != NULL) { \
     ptr->base._vtable = &__GET_VTABLE_NAME(cname); \
     if (ptr->base._vtable->_ctor) \
-      ptr->base._vtable->_ctor(ptr, __VA_ARGS__); \
+      ptr->base._vtable->_ctor((void *)ptr, __VA_ARGS__); \
   } \
   ptr; \
 })
