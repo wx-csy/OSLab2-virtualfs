@@ -4,7 +4,7 @@
 #include <string.h>
 #include <assert.h>
 
-// #define DEBUG_ME
+#define DEBUG_ME
 #include <debug.h>
 
 static int      _ctor   Member (const char *name);
@@ -52,6 +52,7 @@ static int _ctor Member (const char *name) {
 }
 
 static inode_t lookup Member (const char *path) {
+_debug("devfs.lookup path=%s", inode, flags);
   MemberOf(devfs);
 
   for (int i = 0; i < MAX_DEV; i++) {
@@ -77,6 +78,7 @@ static int access Member (inode_t inode, int mode) {
 }
 
 static file_t *open Member (inode_t inode, int flags) {
+_debug("devfs.open inode=%d, flags=%d", inode, flags);
   MemberOf(devfs);
   
   file_t *file = New(devfile, (void *)&this, inode, flags);
