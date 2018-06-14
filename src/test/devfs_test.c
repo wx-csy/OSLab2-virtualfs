@@ -40,7 +40,7 @@ static void cmd_token() {
   char *token = strtok(buf, " :|");
   while (token) {
     puts(token);
-    strtok(NULL, " :|");
+    token = strtok(NULL, " :|");
   }
 }
 
