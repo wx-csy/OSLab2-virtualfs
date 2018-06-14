@@ -157,8 +157,10 @@ UNLOCK
     const char *relpath = path + strlen(mounts[fsid].path);
     filesystem_t *fs = mounts[fsid].fs;
     inode_t inode = Invoke(fs, lookup, relpath);
-    if (inode < 0) 
+    if (inode < 0) { 
+_debug("Attempting to create file!");
       inode = Invoke(fs, create, relpath);
+    }
     if (inode < 0) {
 _debug("File not found!");
 UNLOCK
