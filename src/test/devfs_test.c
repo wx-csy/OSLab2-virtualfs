@@ -33,6 +33,17 @@ static void cmd_fd() {
   }
 }
 
+
+static void cmd_token() {
+  char buf[256];
+  term_getline(buf);
+  char *token = strtok(buf, " :|");
+  while (token) {
+    puts(token);
+    strtok(NULL, " :|");
+  }
+}
+
 struct cmd {
   const char *cmd;
   void (*func)();
