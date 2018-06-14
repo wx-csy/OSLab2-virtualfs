@@ -4,6 +4,7 @@
 #include <string.h>
 #include <assert.h>
 #include <os.h>
+#include <kernel.h>
 
 // #define DEBUG_ME
 #include <debug.h>
