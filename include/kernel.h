@@ -72,7 +72,7 @@ struct filesystem {
 struct file {
 
   Interface(file)
-    int     (*_ctor)  Member (inode_t inode, int flags);
+    int     (*_ctor)  Member (filesystem_t *fs, inode_t inode, int flags);
     ssize_t (*read)   Member (char *buf, size_t size);
     ssize_t (*write)  Member (const char *buf, size_t size);
     off_t   (*lseek)  Member (off_t offset, int whence);
