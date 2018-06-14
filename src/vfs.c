@@ -65,7 +65,7 @@ next:;
 
 static void init() {
   kmt->spin_init(&vfs_lock, "vfs_lock");
-  mount("/dev", New(devfs, "devfs"));
+  mount("/dev", (filesystem_t *) New(devfs, "devfs"));
 }
 
 static int mount(const char *path, filesystem_t *fs) {
