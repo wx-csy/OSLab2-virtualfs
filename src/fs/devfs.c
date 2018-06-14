@@ -4,7 +4,7 @@
 #include <string.h>
 #include <assert.h>
 
-// #define DEBUG_ME
+#define DEBUG_ME
 #include <debug.h>
 
 static int      _ctor   Member (const char *name);
