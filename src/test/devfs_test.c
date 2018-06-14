@@ -57,7 +57,7 @@ void devfs_test(void *igonre) {
         goto next;
       }
     } 
-    printf("Command `%s' not found!", buf);
+    printf("Command `%s' not found!\n", buf);
 next:;
   }
   printf("random: %d\n", data);
