@@ -52,7 +52,7 @@ static int _ctor Member (const char *name) {
 }
 
 static inode_t lookup Member (const char *path) {
-_debug("devfs.lookup path=%s", inode, flags);
+_debug("devfs.lookup path=%s", path);
   MemberOf(devfs);
 
   for (int i = 0; i < MAX_DEV; i++) {
