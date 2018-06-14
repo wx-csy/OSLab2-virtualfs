@@ -6,12 +6,12 @@
 // #define DEBUG_ME
 #include <debug.h>
 
-static int _ctor(filesystem_t *fs, const char *name);
-static inode_t lookup(filesystem_t *fs, const char *path);
-static inode_t create(filesystem_t *fs, const char *path);
-static int access(filesystem_t *fs, inode_t inode, int mode);
-static file_t *open(filesystem_t *fs, inode_t inode, int flags);
-static void _dtor(filesystem_t *fs);
+static int      _ctor   Member (const char *name);
+static inode_t  lookup  Member (const char *path);
+static inode_t  create  Member (const char *path);
+static int      access  Member (inode_t inode, int mode);
+static file_t*  open    Member (inode_t inode, int flags);
+static void     _dtor   Member ();
 
 Implementation(filesystem, devfs) = {
   ._ctor = _ctor, 
@@ -33,42 +33,50 @@ static void load_device(struct device *dev, const char *name, int (*getch)(),
   dev->putch = putch;
 }
 
-static int _ctor(filesystem_t *_fs, const char *name) {
-  strncpy(_fs->name, name, sizeof _fs->name);
-  _fs->name[(sizeof _fs->name) - 1] = 0;
-  devfs_t *fs = (devfs_t *)_fs;
+static int _ctor Member (const char *name) {
+  MemberOf(devfs);
+  
+  strncpy(base.name, name, sizeof base.name);
+  base.name[(sizeof base.name) - 1] = 0;
+  
   for (int i = 0; i < MAX_DEV; i++) {
-    fs->devices[i].valid = 0;
+    this.devices[i].valid = 0;
   }
-  load_device(&(fs->devices[0]), "null", dev_null_getch, dev_null_putch);
-  load_device(&(fs->devices[1]), "zero", dev_zero_getch, dev_null_putch);
-  load_device(&(fs->devices[2]), "random", dev_random_getch, NULL);
+
+  load_device(&(this.devices[0]), "null", dev_null_getch, dev_null_putch);
+  load_device(&(this.devices[1]), "zero", dev_zero_getch, dev_null_putch);
+  load_device(&(this.devices[2]), "random", dev_random_getch, NULL);
   return 0;  
 }
 
-static inode_t lookup(filesystem_t *_fs, const char *path) {
-  devfs_t *fs = (devfs_t *)_fs;
+static inode_t lookup Member (const char *path) {
+  MemberOf(devfs);
+
   for (int i = 0; i < MAX_DEV; i++) {
-    if (!fs->devices[i].valid) continue;
-    if (strcmp(path, fs->devices[i].name)) continue;
+    if (!this.devices[i].valid) continue;
+    if (strcmp(path, this.devices[i].name)) continue;
     return i;
   }
 _debug("Device not found!");
   return -1;
 }
 
-static inode_t create(filesystem_t *_fs, const char *path) {
+static inode_t create Member (const char *path) {
+  MemberOf(devfs);
+
   // this file system does not support creating new files
   return -1;
 }
 
-static int access(filesystem_t *_fs, inode_t inode, int mode) {
-  devfs_t *fs = (devfs_t *)_fs;
-  return mode == (fs->devices[inode].mode & mode) ? 0 : -1;
+static int access Member (inode_t inode, int mode) {
+  MemberOf(devfs);
+
+  return mode == (this.devices[inode].mode & mode) ? 0 : -1;
 }
 
-static file_t *open(filesystem_t *_fs, inode_t inode, int flags) {
-//  devfs_t *fs = (devfs_t *)_fs;
+static file_t *open Member (inode_t inode, int flags) {
+  MemberOf(devfs);
+  
   file_t *file = pmm->alloc(sizeof(file_t));
   if (file == NULL) {
 _debug("Memory allocation failed!");
@@ -83,8 +91,10 @@ _debug("Memory allocation failed!");
   return file;
 }
 
-static void _dtor(filesystem_t *_fs) {
-  assert(_fs->refcnt == 0);
+static void _dtor Member () {
+  MemberOf(devfs);
+
+  assert(base.refcnt == 0);
 //  devfs_t *fs = (devfs_t *)_fs;
   return ;
 }

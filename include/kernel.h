@@ -54,12 +54,11 @@ MODULE {
 struct filesystem {
   
   Interface(filesystem)
-    int (*_ctor)(struct filesystem *fs, const char *name);
-    inode_t (*lookup)(struct filesystem *fs, const char *path);
-    inode_t (*create)(struct filesystem *fs, const char *path);
-    int (*access)(struct filesystem *fs, inode_t inode, int mode);
-    file_t *(*open)(struct filesystem *fs, inode_t inode, int flags);
-    void (*_dtor)(struct filesystem *fs);
+    int     (*_ctor)  Member (const char *name);
+    inode_t (*lookup) Member (const char *path);
+    inode_t (*create) Member (const char *path);
+    int     (*access) Member (inode_t inode, int mode);
+    file_t* (*open)   Member (inode_t inode, int flags);
   End_Interface 
   
   char name[16];
@@ -73,13 +72,12 @@ struct filesystem {
 struct file {
 
   Interface(file)
-    int (*_ctor)(file_t *file, filesystem_t *fs, inode_t inode, int flags);
-    ssize_t (*read)(file_t *file, char *buf, size_t size);
-    ssize_t (*write)(file_t *file, const char *buf, size_t size);
-    off_t (*lseek)(file_t *file, off_t offset, int whence);
-    void (*_dtor)(file_t *file);
+    int     (*_ctor)  Member (inode_t inode, int flags);
+    ssize_t (*read)   Member (char *buf, size_t size);
+    ssize_t (*write)  Member (const char *buf, size_t size);
+    off_t   (*lseek)  Member (off_t offset, int whence);
   End_Interface
-
+  
   filesystem_t *fs;
   inode_t inode;
   int refcnt;

@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <fs/devfs.h>
+
 // #define DEBUG_ME
 #include <debug.h>
 
@@ -16,20 +17,16 @@ MOD_DEF(os) {
 };
 
 static void os_init() {
-//  for (const char *p = "Hello, OS World!\n"; *p; p++) {
-//    _putc(*p);
-//  }
+  for (const char *p = "Hello, OS World!\n"; *p; p++) {
+    _putc(*p);
+  }
 }
 
 static void init_thrd(void *ignore) {
   vfs->mount("/dev", New(devfs, "devfs")); 
   while (1) _yield();
 }
-/*
-static void idle(void *ignore) {
-  while (1) _yield();
-}
-*/
+
 static thread_t thrd_idle;
 static void os_run() {
   kmt->create(&thrd_idle, init_thrd, NULL);

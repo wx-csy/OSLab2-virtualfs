@@ -73,9 +73,7 @@ _debug("mounting `%s' to %s", fs->name, path);
 _debug("The length of path exceeds the limit (max %d).", MAX_PATH);
     return -1;
   }
-_debug("! holder=%p", vfs_lock.holder);
 LOCK
-_debug("! holder=%p", vfs_lock.holder);
   if (find_fs(path) >= 0) {
 _debug("A filesystem has already been mounted to the path");
 UNLOCK
@@ -86,9 +84,7 @@ UNLOCK
     mounts[i].valid = 1;
     strcpy(mounts[i].path, path);
     mounts[i].fs = fs;
-_debug("! holder=%p", vfs_lock.holder);
 UNLOCK
-_debug("@");
     return i;
   }
 _debug("The mount list is full.");
