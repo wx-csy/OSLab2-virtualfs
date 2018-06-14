@@ -36,6 +36,13 @@
   ptr; \
 })
 
+#define Delete(p_object) do { \
+  if ((p_object)->_vtable->_dtor) { \
+    (p_object)->_vtable->_dtor(p_object); \
+  } \
+  __Deallocate(p_object); \
+} while (0)
+
 #endif
 
  

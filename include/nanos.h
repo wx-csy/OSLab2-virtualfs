@@ -25,7 +25,9 @@
 #define panic(msg...) \
   do { \
     printf("Kernel panic: " msg); \
-    printf("\n"); _halt(1); \
+    printf("\n"); \
+    printf("in function `%s', %s:%d", __func__, __FILE__, __LINE__); \
+    _halt(1); \
   } while(0)
 
 // Statically-linked Kernel Modules (see defs in kernel.h)
