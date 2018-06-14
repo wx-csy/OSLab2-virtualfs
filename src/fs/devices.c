@@ -85,6 +85,7 @@ int dev_stdin_getch() {
   }
   while (1) {
     dev_input->read(_DEVREG_INPUT_KBD, &reg, sizeof reg);
+    _debug("keycode=%d, keypress=%d", reg.keycode, reg.keydown);
     if (reg.keycode == _KEY_NONE) return 0;
     if (reg.keycode == _KEY_LSHIFT || reg.keycode == _KEY_RSHIFT) {
       if (reg.keydown) shiftcnt++;
