@@ -26,13 +26,14 @@
 #define PMR_Init(p_object, cname) \
   ((p_object)->_vtable = &__GET_VTABLE_NAME(cname))
 
-#define New(pname, cname) ({ \
-  struct pname *ptr = pmm->alloc(sizeof(struct cname)); \
+#define New(cname, ...) ({ \
+  struct cname *ptr = pmm->alloc(sizeof(struct cname)); \
   if (ptr != NULL) { \
-    PMR_Init(ptr, cname); \
-    Invoke(ptr, _ctor); \
+    ptr->base._vtable = &__GET_VTABLE_NAME(cname); \
+    if (ptr->base._vtable->_ctor) \
+      ptr->base._vtable->_ctor(##__VA_ARGS__) \
   } \
-  (struct cname *) ptr; \
+  ptr; \
 })
 
 #endif
