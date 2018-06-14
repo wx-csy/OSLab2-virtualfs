@@ -22,17 +22,17 @@ static void os_init() {
 }
 
 static void init_thrd(void *ignore) {
-  vfs->mount("/dev", New(devfs, "devfs")); 
+  vfs->mount("/dev", New(devfs)); 
   while (1) _yield();
 }
-
+/*
 static void idle(void *ignore) {
   while (1) _yield();
 }
-
+*/
 static thread_t thrd_idle;
 static void os_run() {
-  kmt->create(&thrd_idle, idle, NULL);
+  kmt->create(&thrd_idle, init_thrd, NULL);
   _yield();
   assert(0);
   // should never return
