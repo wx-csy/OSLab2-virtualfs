@@ -1,5 +1,5 @@
 #include <fs/devfs.h>
-#include <fs/device.h>
+#include <fs/devices.h>
 #include <pmr.h>
 #include <stdint.h>
 #include <stdio.h>
