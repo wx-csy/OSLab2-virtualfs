@@ -22,7 +22,14 @@ static void cmd_exit() {
 
 static void cmd_fd() {
   for (int i = 0; i < 16; i++) {
-    printf("fd[%d] = %p\n", i, this_thread->fd[i]);
+    file_t *fp = this_thread->fd[i];
+    printf("fd[%d] -> %p", fp);
+    if (fd) {
+      printf(" : inode = %d, refcnt = %d, offset = %d, flags = %d\n",
+          fp->inode, fp->refcnt, fp->offset, fp->flags);
+    } else {
+      printf("\n");
+    }
   }
 }
 
