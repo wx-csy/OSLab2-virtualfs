@@ -69,7 +69,7 @@ static void init() {
 
 static int mount(const char *path, filesystem_t *fs) {
 _debug("mounting `%s' to %s", fs->name, path);
-  if (strlen(path) >= MAX_PATH) {
+  if (strlen(path) >= MAX_PATH - 1) {
 _debug("The length of path exceeds the limit (max %d).", MAX_PATH);
     return -1;
   }
@@ -83,6 +83,9 @@ UNLOCK
     if (mounts[i].valid) continue;
     mounts[i].valid = 1;
     strcpy(mounts[i].path, path);
+    int len = strlen(path);
+    mounts[i].path[len] = '/';
+    mounts[i].path[len+1] = 0;
     mounts[i].fs = fs;
 UNLOCK
     return i;
@@ -109,7 +112,7 @@ _debug("The filesystem is still buzy!");
 UNLOCK
     return -1;
   }
-  pmm->free(mounts[id].fs);
+  Delete(mounts[id].fs);
   mounts[id].valid = 0;
 UNLOCK
   return 0;
