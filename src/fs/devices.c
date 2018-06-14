@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-// #define DEBUG_ME
+#define DEBUG_ME
 #include <debug.h>
 
 // null device
@@ -22,6 +22,7 @@ int dev_zero_getch() {
 }
 
 int dev_random_getch() {
+_debug("dev/random");
   return rand() & 0xff;
 }
 
