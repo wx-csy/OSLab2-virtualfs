@@ -2,6 +2,8 @@
 #include <fs/devfs.h>
 #include <fs/devices.h>
 #include <string.h>
+#include <stdlib.h>
+#include <time.h>
 #include <assert.h>
 
 #define DEBUG_ME
