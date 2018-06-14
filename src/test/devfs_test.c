@@ -10,7 +10,9 @@ void devfs_test(void *igonre) {
   printf("Welcome to OSLab2!\n");
   while (1) {
     printf("> ");
-    vfs->read(fd, &data, 1);
+    do {
+      vfs->read(fd, &data, 1);
+    } while (data != '\n');
 //    _putc(data);
   }
   printf("random: %d\n", data);
