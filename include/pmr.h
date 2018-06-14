@@ -27,12 +27,12 @@
   ((p_object)->_vtable = &__GET_VTABLE_NAME(cname))
 
 #define New(pname, cname) ({ \
-  pname *ptr = pmm->alloc(sizeof(cname)); \
+  struct pname *ptr = pmm->alloc(sizeof(cname)); \
   if (ptr != NULL) { \
     PMR_Init(ptr, cname); \
     Invoke(ptr, _ctor); \
   } \
-  (cname *) ptr; \
+  (struct cname *) ptr; \
 })
 
 #endif
