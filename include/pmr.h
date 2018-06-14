@@ -33,7 +33,7 @@
     if (ptr->base._vtable->_ctor) \
       ptr->base._vtable->_ctor((void *)ptr, __VA_ARGS__); \
   } \
-  ptr; \
+  (void *)ptr; \
 })
 
 #define Delete(p_object) do { \
