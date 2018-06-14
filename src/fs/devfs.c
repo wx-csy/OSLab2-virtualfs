@@ -11,7 +11,7 @@ static inode_t  lookup  Member (const char *path);
 static inode_t  create  Member (const char *path);
 static int      access  Member (inode_t inode, int mode);
 static file_t*  open    Member (inode_t inode, int flags);
-static void     _dtor   Member ();
+static void     _dtor   Member();
 
 Implementation(filesystem, devfs) = {
   ._ctor  = _ctor, 
