@@ -21,6 +21,11 @@ typedef struct devfs {
 
 extern Implementation(filesystem, devfs);
 
+typedef struct devfile {
+  Inherits(file);
+
+} devfile_t;
+
 extern Implementation(file, devfile);
 
 #endif 
