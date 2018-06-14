@@ -88,7 +88,7 @@ int dev_stdin_getch() {
     if (reg.keycode) {
       _debug("keycode=%d, keypress=%d", reg.keycode, reg.keydown);
     }
-    if (reg.keycode == _KEY_NONE) return 0;
+    if (reg.keycode == _KEY_NONE) continue;
     if (reg.keycode == _KEY_LSHIFT || reg.keycode == _KEY_RSHIFT) {
       if (reg.keydown) shiftcnt = 1;
       else shiftcnt = 0;
