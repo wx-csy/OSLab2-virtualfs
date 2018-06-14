@@ -40,6 +40,7 @@ static ssize_t read Member (char *buf, size_t size) {
   while (size) {
     int tmp = dev->getch();
     if (tmp == -1) return 0;
+    else if (tmp == -2) return cnt;
     else if (tmp < 0 || tmp > 0xff) return -1;
     else {
       *buf = tmp;
