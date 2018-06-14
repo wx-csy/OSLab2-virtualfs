@@ -13,17 +13,17 @@ static off_t    lseek Member (off_t offset, int whence);
 static void     _dtor Member ();
 
 Implementation(file, devfile) = {
-  ._ctor = _ctor, 
-  .read = read,
-  .write = write,
-  .lseek = lseek,
-  ._dtor = _dtor
-};
+  ._ctor  = _ctor, 
+  .read   = read,
+  .write  = write,
+  .lseek  = lseek,
+  ._dtor  = _dtor
+};  
 
 static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
   MemberOf(devfile);
   
-  base.fs = fs;
+  this.fs = (devfs_t *)fs;
   base.inode = inode;
   base.refcnt = 0;
   base.offset = 0;

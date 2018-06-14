@@ -24,6 +24,7 @@ extern Implementation(filesystem, devfs);
 typedef struct devfile {
   Inherits(file);
 
+  devfs_t *fs;
 } devfile_t;
 
 extern Implementation(file, devfile);
