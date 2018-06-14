@@ -54,7 +54,16 @@ static ssize_t read Member (char *buf, size_t size) {
 static ssize_t write Member (const char *buf, size_t size) {
   MemberOf(devfile);
 
-  return size;  
+  struct device *dev = &(this.fs->devices[base.inode]);
+  if (dev->putch == NULL) return -1;
+  size_t cnt = 0;
+  while (size) {
+    if (dev->putch(*buf) != 0) return cnt;
+    buf++;
+    cnt++;
+    size--;
+  }
+  return cnt;
 }
 
 static int lseek Member (off_t offset, int whence) {
