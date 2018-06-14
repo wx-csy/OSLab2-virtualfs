@@ -13,11 +13,11 @@ static off_t    lseek Member (off_t offset, int whence);
 static void     _dtor Member ();
 
 Implementation(file, kvfile) = {
-  ._ctor  = _ctor, 
-  .read   = read,
-  .write  = write,
-  .lseek  = lseek,
-  ._dtor  = _dtor
+  ._ctor = _ctor, 
+  .read = read,
+  .write = write,
+  .lseek = lseek,
+  ._dtor = _dtor
 };
 
 static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
@@ -71,14 +71,14 @@ _debug("Failed to allocate memory!");
 }
 
 static int lseek Member (off_t offset, int whence) {
-  MemberOf(kvfile);
+  MemberOf(kvfile); 
 
   struct kvfs_kvp *kvp = &(this.fs->kvp[base.inode]);
   switch (whence) {
     case SEEK_SET:
       break;
     case SEEK_CUR:
-      offset += base.offset; 
+      offset += base.offset;
       break;
     case SEEK_END:
       offset += kvp->length;
@@ -95,8 +95,8 @@ _debug("Offset out of range!");
   return offset;
 }
 
-static void _dtor Member () {
-  MemberOf(kvfile);
+static void Member _dtor() {
+  MemberOf(devfile);
 
   assert(base.refcnt == 0);
   return;

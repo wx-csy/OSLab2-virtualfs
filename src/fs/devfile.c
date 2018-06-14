@@ -33,7 +33,7 @@ static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
 
 static ssize_t read Member (char *buf, size_t size) {
   MemberOf(devfile);
-
+  
   return size;
 }
 
