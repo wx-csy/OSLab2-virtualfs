@@ -9,7 +9,7 @@
 // #define DEBUG_ME
 #include <debug.h>
 
-static _Device *dev_input = NULL
+static _Device *dev_input = NULL;
 
 void dev_init() {
   for (int n = 1; ; n++) {
@@ -46,7 +46,7 @@ int dev_stdin_getch() {
     dev_input->read(_DEVREG_INPUT_KBD, &reg, sizeof reg);
     if (reg.keycode == _KEY_NONE) return 0;
     if (reg.keydown) {
-      _putc(reg,keycode);
+      _putc(reg.keycode);
       return reg.keycode;
     }
   }
