@@ -14,7 +14,10 @@
 #define Member(...) (void *_this, ##__VA_ARGS__)
 
 #define MemberOf(cname) \
-  struct cname *__this = _this
+  struct cname *__this = _this; \
+  do { \
+    __this; \
+  } while (0) 
 
 #define this (*__this)
 
