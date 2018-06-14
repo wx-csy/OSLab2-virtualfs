@@ -22,7 +22,7 @@ static void os_init() {
 }
 
 static void init_thrd(void *ignore) {
-  vfs->mount("/dev", New(devfs)); 
+  vfs->mount("/dev", New(devfs, "devfs")); 
   while (1) _yield();
 }
 /*
