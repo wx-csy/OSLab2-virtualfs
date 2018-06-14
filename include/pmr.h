@@ -18,7 +18,7 @@
 
 #define this (*__this)
 
-#define base this._base
+#define base (this._base)
 
 #define Interface(pname) \
   const struct __GET_VTABLE_TYPE(pname) { 
