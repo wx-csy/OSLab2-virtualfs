@@ -80,7 +80,6 @@ int dev_stdin_getch() {
   static int ret = 0;
   char ch;
   if (ret) {
-    printf("<return>\n");
     ret = 0;
     return -2;
   }

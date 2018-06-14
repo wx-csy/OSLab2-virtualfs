@@ -10,6 +10,7 @@ static void term_getline(char *buf) {
   int sz = 0;
   do {
     sz += vfs->read(fd, buf, 100);
+    printf("sz=%d, buf[sz-1]=%c\n", sz, buf[sz-1]);
   } while (buf[sz - 1] != '\n');
   buf[sz - 1] = 0;
 }
