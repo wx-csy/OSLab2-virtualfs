@@ -27,7 +27,7 @@
   const struct __GET_VTABLE_TYPE(pname) { 
 
 #define End_Interface \
-    void (*dtor)(void *_this); \
+    void (*_dtor)(void *_this); \
   } *_vtable;
 
 #define Inherits(pname) \
