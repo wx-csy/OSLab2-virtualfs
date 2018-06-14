@@ -7,7 +7,7 @@
 #define MAX_DEV   16
 
 typedef struct devfs {
-  struct filesystem base;
+  Inherits(filesystem);
 
   struct device {
     int valid;

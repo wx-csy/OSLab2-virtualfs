@@ -18,14 +18,17 @@
 
 #define this (*__this)
 
-#define base this.base
+#define base this._base
 
 #define Interface(pname) \
   const struct __GET_VTABLE_TYPE(pname) { 
- 
+
 #define End_Interface \
     void (*dtor)(void *ptr); \
   } *_vtable;
+
+#define Inherits(pname) \
+  struct pname _base
 
 #define Implementation(pname, cname) \
   const struct __GET_VTABLE_TYPE(pname) __GET_VTABLE_NAME(cname)

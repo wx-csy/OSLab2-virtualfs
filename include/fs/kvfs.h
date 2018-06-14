@@ -7,7 +7,7 @@
 #define MAX_KVP   128
 
 typedef struct kvfs {
-  struct filesystem base;
+  Inherits(filesystem);
 
   struct kvfs_kvp {
     int valid;
