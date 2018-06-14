@@ -23,8 +23,8 @@ static void cmd_exit() {
 static void cmd_fd() {
   for (int i = 0; i < 16; i++) {
     file_t *fp = this_thread->fd[i];
-    printf("fd[%d] -> %p", fp);
-    if (fd) {
+    printf("fd[%d] -> %p", i, fp);
+    if (fp) {
       printf(" : inode = %d, refcnt = %d, offset = %d, flags = %d\n",
           fp->inode, fp->refcnt, fp->offset, fp->flags);
     } else {
