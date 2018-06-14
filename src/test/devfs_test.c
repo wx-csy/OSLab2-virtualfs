@@ -11,8 +11,9 @@ void devfs_test(void *igonre) {
   while (1) {
     printf("> ");
     do {
-      vfs->read(fd, &data, 1);
+      while (vfs->read(fd, &data, 1) == 0);
     } while (data != '\n');
+    _putc('\n');
 //    _putc(data);
   }
   printf("random: %d\n", data);
