@@ -11,7 +11,7 @@
 
 #define __GET_VTABLE_NAME(cname) _##cname##_vtable
 
-#define Member(...) ((void *_this), ##__VA_ARGS__)
+#define Member(...) (void *_this, ##__VA_ARGS__)
 
 #define MemberOf(cname) \
   struct cname *__this = _this; \
