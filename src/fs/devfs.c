@@ -77,17 +77,8 @@ static int access Member (inode_t inode, int mode) {
 static file_t *open Member (inode_t inode, int flags) {
   MemberOf(devfs);
   
-  file_t *file = pmm->alloc(sizeof(file_t));
-  if (file == NULL) {
-_debug("Memory allocation failed!");
-    return NULL;
-  }
-  PMR_Init(file, devfile);
-  if (Invoke(file, _ctor, _fs, inode, flags) != 0) {
-    pmm->free(file);
-    return NULL; 
-  }
-  file->refcnt++;
+  file_t *file = New(devfile, (void *)&this, inode, flags);
+  if (file != NULL) file->refcnt++;
   return file;
 }
 
