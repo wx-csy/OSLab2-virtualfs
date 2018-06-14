@@ -1,3 +1,4 @@
+#include <pmr.h>
 #include <fs/devfs.h>
 #include <fs/devices.h>
 #include <string.h>
@@ -38,7 +39,8 @@ static int _ctor Member (const char *name) {
   
   strncpy(base.name, name, sizeof base.name);
   base.name[(sizeof base.name) - 1] = 0;
-  
+  base.refcnt = 0; 
+
   for (int i = 0; i < MAX_DEV; i++) {
     this.devices[i].valid = 0;
   }
@@ -86,7 +88,5 @@ static void _dtor Member () {
   MemberOf(devfs);
 
   assert(base.refcnt == 0);
-//  devfs_t *fs = (devfs_t *)_fs;
-  return ;
 }
 
