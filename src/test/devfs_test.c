@@ -4,17 +4,25 @@
 #include <assert.h>
 #include <time.h>
 
+int fd;
+
+static void term_getline(char *buf) {
+  int sz = 0;
+  do {
+    sz += vfs->read(fd, buf, 100);
+  } while (buf[sz - 1] != '\n');
+  buf[sz - 1] = 0;
+}
+
 void devfs_test(void *igonre) {
-  int fd = vfs->open("/dev/stdin", O_RDONLY);
+  fd = vfs->open("/dev/stdin", O_RDONLY);
   int data = 0;
   printf("Welcome to OSLab2!\n");
   while (1) {
     printf("> ");
-    do {
-      while (vfs->read(fd, &data, 1) == 0);
-    } while (data != '\n');
-    _putc('\n');
-//    _putc(data);
+    char buf[256];
+    term_getline(buf);
+    printf("%s\n", buf);
   }
   printf("random: %d\n", data);
 }

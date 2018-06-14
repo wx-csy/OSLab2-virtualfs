@@ -90,8 +90,8 @@ int dev_stdin_getch() {
     }
     if (reg.keycode == _KEY_NONE) return 0;
     if (reg.keycode == _KEY_LSHIFT || reg.keycode == _KEY_RSHIFT) {
-      if (reg.keydown) shiftcnt++;
-      else shiftcnt--;
+      if (reg.keydown) shiftcnt = 1;
+      else shiftcnt = 0;
     } else if (reg.keydown) {
       switch (reg.keycode) {
         case _KEY_CAPSLOCK: 
@@ -99,9 +99,10 @@ int dev_stdin_getch() {
           break;
         case _KEY_RETURN:
           ret = 1;
+          _putc('\n');
           return '\n';
         default:
-          ch = keymap[!shiftcnt ^ !capslock][reg.keycode];
+          ch = keymap[shiftcnt ^ capslock][reg.keycode];
           if (ch) {
             _putc(ch);
             return ch;
