@@ -95,6 +95,7 @@ static void cmd_type(char *args) {
   }
   char buf[4096];
   int length = atoi(s_bytes);
+  printf("len=%d\n", length);
   if (length == 0) {
     length = vfs->lseek(fd, 0, SEEK_END);
     vfs->lseek(fd, 0, SEEK_SET);
