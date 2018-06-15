@@ -20,7 +20,7 @@ static void     _dtor   Member ();
 
 Implementation(filesystem, devfs) = {
   ._ctor  = _ctor,
-  .walk   = walk; 
+  .walk   = walk, 
   .lookup = lookup,
   .create = create,
   .access = access,
