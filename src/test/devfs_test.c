@@ -89,9 +89,9 @@ static void cmd_write(char *args) {
 }
 
 static void cmd_type(char *args) {
-  int fd = kmt->open(args, O_RDONLY);
+  int fd = vfs->open(args, O_RDONLY);
   char buf[4096];
-  int sz = kmt->read(fd, buf, sizeof buf);
+  int sz = vfs->read(fd, buf, sizeof buf);
   buf[sz] = 0;
   printf("%s", buf);
 }
