@@ -93,12 +93,14 @@ static file_t *open Member (inode_t inode, int flags) {
   char *buf;
   int size;
   otrofile_t *file;
+  time_t curtime;
 
   switch (inode) {
     case CPUINFO_INODE:
       buf = pmm->alloc(512);
+      curtime = time(NULL);
       size = sprintf(buf, "CPU Type: Unknown\nTime: %s\n", 
-          ctime(&time(NULL)));
+          ctime(&curtime));
       file = New(otrofile, (void *)&this, inode, flags);
       file->length = size;
       file->data = file;
