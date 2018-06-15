@@ -23,7 +23,7 @@ Implementation(file, devfile) = {
 static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
   MemberOf(devfile);
   
-  this.fs = (devfs_t *)fs;
+  base.fs = fs;
   base.inode = inode;
   base.refcnt = 0;
   base.offset = 0;

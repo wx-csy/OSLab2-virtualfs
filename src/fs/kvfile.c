@@ -23,7 +23,7 @@ Implementation(file, kvfile) = {
 static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
   MemberOf(kvfile);
 
-  this.fs = (kvfs_t *)fs;
+  base.fs = fs;
   base.inode = inode;
   base.refcnt = 0;
   base.offset = 0;
