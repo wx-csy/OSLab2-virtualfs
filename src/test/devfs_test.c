@@ -35,10 +35,6 @@ static void cmd_fd(char *args) {
   }
 }
 
-static void cmd_ls(char *args) {
-  
-}
-
 static void cmd_token(char *args) {
   char buf[256];
   term_getline(buf);
