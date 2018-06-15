@@ -34,7 +34,7 @@ static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
 
 static ssize_t read Member (char *buf, size_t size) {
   MemberOf(devfile);
-  
+ 
   struct device *dev = &(this.devfs->devices[base.inode]);
   if (dev->getch == NULL) return -1;
   size_t cnt = 0;
