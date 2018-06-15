@@ -49,7 +49,7 @@ static void open(char *args) {
   int flags;
   if (s_flags == NULL) flags = O_RDWR; else flags = atoi(s_flags);
   printf("open(\"%s\", %d) = %d", path, s_flags, 
-      vfs->open(path. s_flags));
+      vfs->open(path, s_flags));
 }
 
 struct cmd {
