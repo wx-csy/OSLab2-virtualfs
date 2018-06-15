@@ -129,6 +129,19 @@ static void cmd_xtype(char *args) {
   vfs->close(fd);
 }
 
+static void cmd_seek(char *args) {
+  char *s_fd = strtok(args, " "),
+       *s_off = strtok(NULL, " "), 
+       *s_whence = strtok(NULL, " ");
+  int fd = atoi(s_fd), offset = atoi(s_off), whence;
+  whence = (s_whence == NULL) ? 0 : atoi(s_whence);
+  if (whence == 1) whence = SEEK_CUR;
+  else if (whence == 2) whence = SEEK_END;
+  else whence = SEEK_SET;
+  printf("seek(fd = %d, off = %d, whence = %d) = %d\n", 
+      fd, offset, whence, lseek(fd, offset, whence));
+}
+
 struct cmd {
   const char *cmd;
   void (*func)(char *args);
@@ -142,6 +155,7 @@ struct cmd {
   {"write", cmd_write},
   {"type", cmd_type},
   {"xtype", cmd_xtype},
+  {"seek", cmd_seek},
 };
 
 #define NR_CMD  (sizeof(cmds) / sizeof(struct cmd))
