@@ -35,7 +35,7 @@ MOD_DEF(kmt) {
 
 thread_t *this_thread;
 
-#define MAX_THREAD_NUM  32
+#define MAX_THREAD_NUM    NR_THREADS
 thread_t *threads[MAX_THREAD_NUM];
 
 static void kmt_init() {

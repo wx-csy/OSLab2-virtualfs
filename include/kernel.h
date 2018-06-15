@@ -20,6 +20,10 @@ MODULE {
 typedef struct thread thread_t;
 typedef struct spinlock spinlock_t;
 typedef struct semaphore sem_t;
+
+#define NR_THREADS    32
+thread_t *threads[NR_THREADS];
+
 MODULE {
   void (*init)();
   int (*create)(thread_t *thread, void (*entry)(void *arg), void *arg);

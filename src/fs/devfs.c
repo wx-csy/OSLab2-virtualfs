@@ -96,6 +96,8 @@ static inode_t create Member (const char *path) {
 static int access Member (inode_t inode, int mode) {
   MemberOf(devfs);
 
+  if (inode < 0 || inode >= MAX_DEV) return -2;
+  if (!this.devices[inode].valid) return -2;
   return mode == (this.devices[inode].mode & mode) ? 0 : -1;
 }
 
@@ -103,6 +105,8 @@ static file_t *open Member (inode_t inode, int flags) {
 _debug("devfs.open inode=%d, flags=%d", inode, flags);
   MemberOf(devfs);
   
+  if (inode < 0 || inode >= MAX_DEV) return -1;
+  if (!this.devices[inode].valid) return -1;
   file_t *file = New(devfile, (void *)&this, inode, flags);
   if (file != NULL) file->refcnt++;
   return file;
