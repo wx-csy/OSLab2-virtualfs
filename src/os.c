@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <fs/devfs.h>
+#include <fs/kvfs.h>
 
 // #define DEBUG_ME
 #include <debug.h>
