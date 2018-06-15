@@ -95,10 +95,13 @@ static void cmd_type(char *args) {
     return ;
   }
   char buf[4096];
-  int sz = vfs->read(fd, buf, sizeof buf);
-  buf[sz] = 0;
+  int length = vfs->fseek(fd, 0, SEEK_END);
+  vfs->fseek(fd, 0, SEEK_SET);
+  if (length > sizeof buf) length = sizeof buf;
+  vfs->read(fd, buf, length);
+  buf[length] = 0;
   printf("%s", buf);
-  printf("\nlen=%d\n", strlen(buf));
+  puts("");
   vfs->close(fd);
 }
 
