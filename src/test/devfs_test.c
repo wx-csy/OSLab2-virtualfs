@@ -40,7 +40,7 @@ static int lsfile(const char *path, inode_t inode,
   char smode[4] = {'-', '-', '\0'};
   if (mode & R_OK) smode[0] = 'r';
   if (mode & W_OK) smode[1] = 'w';
-  printf("\t%d\t%s\t%s\n", inode, smode, length);
+  printf("  %d\t%s  %s\n", inode, smode, length);
   return 0;
 }
 
