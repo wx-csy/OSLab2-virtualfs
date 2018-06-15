@@ -91,7 +91,7 @@ static file_t *open Member (inode_t inode, int flags) {
 
   char *buf;
   int size;
-  otrofile *file;
+  otrofile_t *file;
 
   switch (inode) {
     case CPUINFO_INODE:
