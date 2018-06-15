@@ -95,8 +95,8 @@ static void cmd_type(char *args) {
     return ;
   }
   char buf[4096];
-  int length = vfs->fseek(fd, 0, SEEK_END);
-  vfs->fseek(fd, 0, SEEK_SET);
+  int length = vfs->lseek(fd, 0, SEEK_END);
+  vfs->lseek(fd, 0, SEEK_SET);
   if (length > sizeof buf) length = sizeof buf;
   vfs->read(fd, buf, length);
   buf[length] = 0;
