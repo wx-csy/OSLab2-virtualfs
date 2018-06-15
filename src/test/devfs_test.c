@@ -35,6 +35,26 @@ static void cmd_fd(char *args) {
   }
 }
 
+static int lsfile(const char *path, inode_t inode, 
+    int mode, int length) {
+  char smode[4] = {'-', '-', '\0'};
+  if (mode & R_OK) smode[0] = 'r';
+  if (mode & W_OK) smode[1] = 'w';
+  printf("\t%d\t%s\t%s\n", inode, smode, length);
+  return 0;
+}
+
+static int lsfs(const char *path, filesystem_t *fs) {
+  printf("[%s] %s\n", fs->name, path);
+  fs->walk(lsfile);
+  printf("\n");
+  return 0;
+}
+
+static void cmd_ls(char *args) {
+  vfs->fsls(lsfs);  
+}
+
 static void cmd_token(char *args) {
   char buf[256];
   term_getline(buf);
@@ -62,6 +82,7 @@ struct cmd {
   {"fd", cmd_fd},
   {"token", cmd_token},
   {"open", cmd_open},
+  {"ls", cmd_ls},
 };
 
 #define NR_CMD  (sizeof(cmds) / sizeof(struct cmd))
