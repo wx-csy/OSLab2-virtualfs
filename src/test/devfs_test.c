@@ -29,6 +29,7 @@ static void cmd_fd(char *args) {
       printf(" : fs = \"%s\", inode = %d, refcnt = %d, offset = %d, "
           "flags = %d\n",
           fp->fs->name, fp->inode, fp->refcnt, fp->offset, fp->flags);
+      printf("refcnt=%d\n", fp->fs->refcnt):
     } else {
       printf("\n");
     }
