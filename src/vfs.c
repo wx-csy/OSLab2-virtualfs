@@ -16,6 +16,7 @@ static void init();
 static int access(const char *path, int mode);
 static int mount(const char *path, filesystem_t *fs);
 static int unmount(const char *path);
+static int fsls(int (*fn)(const char *path, filesystem_t *fs));
 static int open(const char *path, int flags);
 static ssize_t read(int fd, void *buf, size_t nbyte);
 static ssize_t write(int fd, const void *buf, size_t nbyte);
@@ -27,6 +28,7 @@ MOD_DEF(vfs) {
   .access = access,
   .mount = mount,
   .unmount = unmount,
+  .fsls = fsls,
   .open = open,
   .read = read,
   .write = write,
@@ -116,6 +118,21 @@ UNLOCK
   }
   Delete(mounts[id].fs);
   mounts[id].valid = 0;
+UNLOCK
+  return 0;
+}
+
+static int fsls(int (*fn)(const char *path, filesystem_t *fs)) {
+LOCK
+  for (int i = 0; i < NR_MOUNTPOINTS; i++) {
+    if (mounts[i].valid) {
+      int val = fn(mounts[i].path, mounts[i].fs);
+      if (val != 0) {
+UNLOCK
+        return val;
+      }
+    }
+  }
 UNLOCK
   return 0;
 }

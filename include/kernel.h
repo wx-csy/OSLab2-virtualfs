@@ -42,6 +42,7 @@ MODULE {
   int (*access)(const char *path, int mode);
   int (*mount)(const char *path, filesystem_t *fs);
   int (*unmount)(const char *path);
+  int (*fsls)(int (*fn)(const char *path, filesystem_t *fs));
   int (*open)(const char *path, int flags);
   ssize_t (*read)(int fd, void *buf, size_t nbyte);
   ssize_t (*write)(int fd, const void *buf, size_t nbyte);
