@@ -86,7 +86,7 @@ static int access Member (inode_t inode, int mode) {
 static file_t *open Member (inode_t inode, int flags) {
 _debug("devfs.open inode=%d, flags=%d", inode, flags);
   MemberOf(devfs);
-  _debug("this=%p", &this);
+_debug("this=%p", &this);
   file_t *file = New(devfile, (void *)&this, inode, flags);
   if (file != NULL) file->refcnt++;
   return file;
