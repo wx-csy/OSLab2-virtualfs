@@ -43,8 +43,6 @@ static void cmd_token(const char *args) {
   }
 }
 
-static void cmd_open
-
 struct cmd {
   const char *cmd;
   void (*func)(const char *args);
