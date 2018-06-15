@@ -88,6 +88,29 @@ static int access Member (inode_t inode, int mode) {
 
 static file_t *open Member (inode_t inode, int flags) {
   MemberOf(procfs);
+
+  char *buf;
+  int size;
+  otrofile *file;
+
+  switch (inode) {
+    case CPUINFO_INODE:
+      buf = pmm->alloc(512);
+      size = sprintf(buf, "CPU Type: Unknown\nTime: %s\n", asctime());
+      file = New(otrofile, (void *)&this, inode, flags);
+      file->length = size;
+      file->data = file;
+      return file;
+    case MEMINFO_INODE:
+      buf = pmm->alloc(512);
+      size = sprintf(buf, "Memory Type: Unknown\n", asctime());
+      file = New(otrofile, (void *)&this, inode, flags);
+      file->length = size;
+      file->data = file;
+      return file;
+    default:
+      return NULL;
+  }
 /*  
   file_t *file = New(devfile, (void *)&this, inode, flags);
   if (file != NULL) file->refcnt++;
