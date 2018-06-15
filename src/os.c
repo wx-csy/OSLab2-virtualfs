@@ -24,6 +24,7 @@ static void os_init() {
 
 static void init_thrd(void *ignore) {
   vfs->mount("/dev", New(devfs, "devfs"));
+  vfs->mount("/", New(kvfs, "kvfs"));
   void devfs_test(void *ignore);
   devfs_test(NULL); 
   while (1) _yield();
