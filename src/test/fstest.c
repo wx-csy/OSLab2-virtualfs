@@ -98,6 +98,7 @@ static void cmd_type(char *args) {
   int sz = vfs->read(fd, buf, sizeof buf);
   buf[sz] = 0;
   printf("%s", buf);
+  printf("\nlen=%d\n", strlen(buf));
   vfs->close(fd);
 }
 
