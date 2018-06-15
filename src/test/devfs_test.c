@@ -77,14 +77,23 @@ static void cmd_open(char *args) {
 static void cmd_close(char *args) {
   int fd = atoi(args);
 
-  printf("close(fd = %d)) = %d\n", fd, vfs->close(fd));
+  printf("close(fd = %d) = %d\n", fd, vfs->close(fd));
 }
+
 static void cmd_write(char *args) {
   char *s_fd = strtok(args, " "),
        *content = strtok(NULL, " ");
   int fd = atoi(s_fd);
   printf("write(fd = %d, \"%s\") = %d\n", fd, content,
       vfs->write(fd, content, strlen(content)));
+}
+
+static void cmd_type(char *args) {
+  int fd = kmt->open(args, O_RDONLY);
+  char buf[4096];
+  int sz = kmt->read(fd, buf, sizeof buf);
+  buf[sz] = 0;
+  printf("%s", buf);
 }
 
 struct cmd {
