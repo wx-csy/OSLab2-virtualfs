@@ -95,7 +95,6 @@ static void cmd_type(char *args) {
   }
   char buf[4096];
   int length = atoi(s_bytes);
-  printf("len=%d\n", length);
   if (length == 0) {
     length = vfs->lseek(fd, 0, SEEK_END);
     vfs->lseek(fd, 0, SEEK_SET);
@@ -118,14 +117,14 @@ static void cmd_xtype(char *args) {
   }
   char buf[4096];
   int length = atoi(s_bytes);
-  printf("len=%d\n", length);
   if (length == 0) {
     length = vfs->lseek(fd, 0, SEEK_END);
     vfs->lseek(fd, 0, SEEK_SET);
   }
   if (length > sizeof buf) length = sizeof buf;
   vfs->read(fd, buf, length);
-  for (int i = 0; i < length; i++) printf("%2x ", (unsigned char) buf[i]);
+  for (int i = 0; i < length; i++) 
+    printf("%02x ", (unsigned char) buf[i]);
   puts("");
   vfs->close(fd);
 }
