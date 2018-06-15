@@ -33,7 +33,6 @@ static void cmd_fd() {
   }
 }
 
-
 static void cmd_token() {
   char buf[256];
   term_getline(buf);
@@ -44,9 +43,11 @@ static void cmd_token() {
   }
 }
 
+static void cmd_open
+
 struct cmd {
   const char *cmd;
-  void (*func)();
+  void (*func)(const char *args);
 } cmds[] = {
   {"exit", cmd_exit},
   {"fd", cmd_fd},
@@ -63,9 +64,10 @@ void devfs_test(void *igonre) {
     printf("$ ");
     char buf[256];
     term_getline(buf);
+    strtok(buf, " ");
     for (int i = 0; i < NR_CMD; i++) {
       if (strcmp(buf, cmds[i].cmd) == 0) {
-        cmds[i].func();
+        cmds[i].func(buf + strlen(buf) + 1);
         goto next;
       }
     } 
