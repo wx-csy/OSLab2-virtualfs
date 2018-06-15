@@ -104,14 +104,14 @@ static file_t *open Member (inode_t inode, int flags) {
       file = New(otrofile, (void *)&this, inode, flags);
       file->length = size;
       file->data = buf;
-      return file;
+      return (file_t *)file;
     case MEMINFO_INODE:
       buf = pmm->alloc(512);
       size = sprintf(buf, "Memory Type: Unknown\n", asctime());
       file = New(otrofile, (void *)&this, inode, flags);
       file->length = size;
       file->data = buf;
-      return file;
+      return (file_t *)file;
     default:
       return NULL;
   }
