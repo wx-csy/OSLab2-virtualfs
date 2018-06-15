@@ -43,7 +43,9 @@ static ssize_t read Member (char *buf, size_t size) {
     base.offset = this.length;
     return 0;
   } else {
-    memcpy(buf, this.data + base.offset, 
+    memcpy(buf, this.data + base.offset, size);
+    base.offset += size;
+    return size; 
   }
 }
 
