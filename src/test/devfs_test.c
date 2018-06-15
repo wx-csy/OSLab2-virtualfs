@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <time.h>
 
+static spinlock_t test_lock;
 int fd;
 
 static void term_getline(char *buf) {
@@ -45,10 +46,10 @@ static void cmd_token(char *args) {
 
 static void cmd_open(char *args) {
   char *path = strtok(args, " "), 
-       *s_flags = strtok(path + strlen(path) + 1, " ");
+       *s_flags = strtok(path + strlen(path), " ");
   int flags;
   if (s_flags == NULL) flags = O_RDWR; else flags = atoi(s_flags);
-  printf("open(\"%s\", %d) = %d\n", path, s_flags, 
+  printf("open(\"%s\", %d) = %d\n", path, flags, 
       vfs->open(path, flags));
 }
 
@@ -65,6 +66,7 @@ struct cmd {
 #define NR_CMD  (sizeof(cmds) / sizeof(struct cmd))
 
 void devfs_test(void *igonre) {
+  kmt->spin_init(&test_lock, "test_lock");
   fd = vfs->open("/dev/stdin", O_RDONLY);
   int data = 0;
   printf("Welcome to OSLab2!\n");
@@ -72,6 +74,7 @@ void devfs_test(void *igonre) {
     printf("$ ");
     char buf[256];
     term_getline(buf);
+    kmt->spin_lock(&test_lock);
     char *cmd = strtok(buf, " ");
     for (int i = 0; i < NR_CMD; i++) {
       if (strcmp(cmd, cmds[i].cmd) == 0) {
@@ -81,6 +84,7 @@ void devfs_test(void *igonre) {
     } 
     printf("Command `%s' not found!\n", cmd);
 next:;
+    kmt->spin_unlock(&test_lock);
   }
   printf("random: %d\n", data);
 }
