@@ -88,7 +88,7 @@ static void cmd_write(char *args) {
 static void cmd_type(char *args) {
   char *path = strtok(args, " "),
        *s_bytes = strtok(NULL, " ");
-  int fd = vfs->open(args, O_RDONLY);
+  int fd = vfs->open(path, O_RDONLY);
   if (fd < 0) {
     printf("Failed to open file `%s'\n", args);
     return ;
