@@ -3,7 +3,7 @@
 #include <string.h>
 #include <assert.h>
 
-// #define DEBUG_ME
+#define DEBUG_ME
 #include <debug.h>
 
 static int      _ctor Member (filesystem_t *fs, inode_t inode, int flags);
@@ -33,6 +33,7 @@ static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
 }
 
 static ssize_t read Member (char *buf, size_t size) {
+_debug("devfile.read size=%d", size);
   MemberOf(devfile);
   
   struct device *dev = &(this.devfs->devices[base.inode]);
