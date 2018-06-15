@@ -16,11 +16,11 @@ static void term_getline(char *buf) {
   buf[sz - 1] = 0;
 }
 
-static void cmd_exit() {
+static void cmd_exit(const char *args) {
   _Exit(0);
 }
 
-static void cmd_fd() {
+static void cmd_fd(const char *args) {
   for (int i = 0; i < 16; i++) {
     file_t *fp = this_thread->fd[i];
     printf("fd[%d] -> %p", i, fp);
@@ -33,7 +33,7 @@ static void cmd_fd() {
   }
 }
 
-static void cmd_token() {
+static void cmd_token(const char *args) {
   char buf[256];
   term_getline(buf);
   char *token = strtok(buf, " :|");
