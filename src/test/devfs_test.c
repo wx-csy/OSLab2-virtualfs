@@ -67,7 +67,7 @@ static void cmd_token(char *args) {
 
 static void cmd_open(char *args) {
   char *path = strtok(args, " "), 
-       *s_flags = strtok(path + strlen(path), " ");
+       *s_flags = strtok(NULL, " ");
   int flags;
   if (s_flags == NULL) flags = O_RDWR; else flags = atoi(s_flags);
   printf("open(\"%s\", %d) = %d\n", path, flags, 
