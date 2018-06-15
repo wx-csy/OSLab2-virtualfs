@@ -125,7 +125,7 @@ static void cmd_xtype(char *args) {
   }
   if (length > sizeof buf) length = sizeof buf;
   vfs->read(fd, buf, length);
-  for (int i = 0; i < length; i++) printf("%2x ", buf[i]);
+  for (int i = 0; i < length; i++) printf("%2x ", (unsigned char) buf[i]);
   puts("");
   vfs->close(fd);
 }
