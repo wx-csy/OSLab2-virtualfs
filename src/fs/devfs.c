@@ -105,8 +105,8 @@ static file_t *open Member (inode_t inode, int flags) {
 _debug("devfs.open inode=%d, flags=%d", inode, flags);
   MemberOf(devfs);
   
-  if (inode < 0 || inode >= MAX_DEV) return -1;
-  if (!this.devices[inode].valid) return -1;
+  if (inode < 0 || inode >= MAX_DEV) return NULL;
+  if (!this.devices[inode].valid) return NULL;
   file_t *file = New(devfile, (void *)&this, inode, flags);
   if (file != NULL) file->refcnt++;
   return file;
