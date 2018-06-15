@@ -18,6 +18,7 @@ static void     _dtor   Member ();
 
 Implementation(filesystem, kvfs) = {
   ._ctor = _ctor, 
+  .walk = walk,
   .lookup = lookup,
   .create = create,
   .access = access,
