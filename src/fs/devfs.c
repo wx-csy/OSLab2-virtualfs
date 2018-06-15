@@ -42,7 +42,7 @@ static int _ctor Member (const char *name) {
   strncpy(base.name, name, sizeof base.name);
   base.name[(sizeof base.name) - 1] = 0;
   base.refcnt = 0; 
-
+_debug("Initializing \"%s\" ...", base.name);
   for (int i = 0; i < MAX_DEV; i++) {
     this.devices[i].valid = 0;
   }
