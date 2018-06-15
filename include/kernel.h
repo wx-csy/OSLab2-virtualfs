@@ -55,6 +55,8 @@ struct filesystem {
   
   Interface(filesystem)
     int     (*_ctor)  Member (const char *name);
+    int     (*walk)   Member 
+      (int (*fn)(const char *path, inode_t inode, int mode, int length));
     inode_t (*lookup) Member (const char *path);
     inode_t (*create) Member (const char *path);
     int     (*access) Member (inode_t inode, int mode);

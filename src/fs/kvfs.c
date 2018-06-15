@@ -8,6 +8,8 @@
 #include <debug.h>
 
 static int      _ctor   Member (const char *name);
+static int      walk    Member 
+    (int (*fn)(const char *path, inode_t inode, int mode, int length));
 static inode_t  lookup  Member (const char *path);
 static inode_t  create  Member (const char *path);
 static int      access  Member (inode_t inode, int mode);
@@ -34,6 +36,17 @@ static int _ctor Member (const char *name) {
     this.kvp[i].valid = 0;
   }
 
+  return 0;
+}
+
+static int walk Member 
+    (int (*fn)(const char *path, inode_t inode, int mode, int length)) {
+  for (int i = 0; i < MAX_KVP; i++) {
+    if (this.kvp[i].valid) {
+      int val = fn(this.kvp[i].key, i, R_OK | W_OK, this.kvp[i].length);
+      if (val != 0) return val;
+    }
+  }  
   return 0;
 }
 

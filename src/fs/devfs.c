@@ -10,6 +10,8 @@
 #include <debug.h>
 
 static int      _ctor   Member (const char *name);
+static int      walk    Member 
+    (int (*fn)(const char *path, inode_t inode, int mode, int length));
 static inode_t  lookup  Member (const char *path);
 static inode_t  create  Member (const char *path);
 static int      access  Member (inode_t inode, int mode);
@@ -17,7 +19,8 @@ static file_t*  open    Member (inode_t inode, int flags);
 static void     _dtor   Member ();
 
 Implementation(filesystem, devfs) = {
-  ._ctor  = _ctor, 
+  ._ctor  = _ctor,
+  .walk   = walk; 
   .lookup = lookup,
   .create = create,
   .access = access,
@@ -25,8 +28,8 @@ Implementation(filesystem, devfs) = {
   ._dtor  = _dtor
 };
 
-static void load_device(struct device *dev, const char *name, int (*getch)(), 
-    int (*putch)(int ch)) {
+static void load_device(struct device *dev, const char *name, 
+    int (*getch)(), int (*putch)(int ch)) {
   dev->valid = 1;
   strcpy(dev->name, name);
   dev->mode = 0;
@@ -55,6 +58,17 @@ _debug("Initializing \"%s\" ...", base.name);
   load_device(&(this.devices[3]), "stdin", dev_stdin_getch, NULL);
   load_device(&(this.devices[4]), "stdout", NULL, dev_stdout_putch);
   return 0;  
+}
+
+static int walk Member 
+    (int (*fn)(const char *path, inode_t inode, int mode, int length)) {
+  for (int i = 0; i < MAX_DEV; i++) {
+    if (this.devices[i].valid) {
+      int val = fn(this.devices[i].name, i, this.devices[i].mode, 0);
+      if (val != 0) return val;
+    }
+  }
+  return 0;
 }
 
 static inode_t lookup Member (const char *path) {
