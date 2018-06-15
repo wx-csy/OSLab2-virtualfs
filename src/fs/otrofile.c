@@ -63,7 +63,7 @@ static int lseek Member (off_t offset, int whence) {
     case SEEK_SET:
       break;
     case SEEK_CUR:
-      offset += base.offsret;
+      offset += base.offset;
       break;
     case SEEK_END:
       offset += this.length;
