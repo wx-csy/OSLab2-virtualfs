@@ -62,14 +62,14 @@ void devfs_test(void *igonre) {
     printf("$ ");
     char buf[256];
     term_getline(buf);
-    strtok(buf, " ");
+    const char *cmd = strtok(buf, " ");
     for (int i = 0; i < NR_CMD; i++) {
-      if (strcmp(buf, cmds[i].cmd) == 0) {
-        cmds[i].func(buf + strlen(buf) + 1);
+      if (strcmp(cmd, cmds[i].cmd) == 0) {
+        cmds[i].func(cmd + strlen(cmd) + 1);
         goto next;
       }
     } 
-    printf("Command `%s' not found!\n", buf);
+    printf("Command `%s' not found!\n", cmd);
 next:;
   }
   printf("random: %d\n", data);
