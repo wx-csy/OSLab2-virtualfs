@@ -74,6 +74,11 @@ static void cmd_open(char *args) {
       vfs->open(path, flags));
 }
 
+static void cmd_close(char *args) {
+  int fd = atoi(args);
+
+  printf("close(fd = %d)) = %d\n", fd, vfs->close(fd));
+}
 static void cmd_write(char *args) {
   char *s_fd = strtok(args, " "),
        *content = strtok(NULL, " ");
@@ -90,6 +95,7 @@ struct cmd {
   {"fd", cmd_fd},
   {"token", cmd_token},
   {"open", cmd_open},
+  {"close", cmd_close},
   {"ls", cmd_ls},
   {"write", cmd_write},
 };
