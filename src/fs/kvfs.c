@@ -41,6 +41,8 @@ static int _ctor Member (const char *name) {
 
 static int walk Member 
     (int (*fn)(const char *path, inode_t inode, int mode, int length)) {
+  MemberOf(kvfs);
+
   for (int i = 0; i < MAX_KVP; i++) {
     if (this.kvp[i].valid) {
       int val = fn(this.kvp[i].key, i, R_OK | W_OK, this.kvp[i].length);
