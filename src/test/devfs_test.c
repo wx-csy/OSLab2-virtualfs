@@ -16,11 +16,11 @@ static void term_getline(char *buf) {
   buf[sz - 1] = 0;
 }
 
-static void cmd_exit(const char *args) {
+static void cmd_exit(char *args) {
   _Exit(0);
 }
 
-static void cmd_fd(const char *args) {
+static void cmd_fd(char *args) {
   for (int i = 0; i < 16; i++) {
     file_t *fp = this_thread->fd[i];
     printf("fd[%d] -> %p", i, fp);
@@ -33,7 +33,7 @@ static void cmd_fd(const char *args) {
   }
 }
 
-static void cmd_token(const char *args) {
+static void cmd_token(char *args) {
   char buf[256];
   term_getline(buf);
   char *token = strtok(buf, " :|");
@@ -43,9 +43,18 @@ static void cmd_token(const char *args) {
   }
 }
 
+static void open(char *args) {
+  char *path = strtok(args, " "), 
+       *s_flags = strtok(path + strlen(path) + 1, " ");
+  int flags;
+  if (s_flags == NULL) flags = O_RDWR; else flags = atoi(s_flags);
+  printf("open(\"%s\", %d) = %d", path, s_flags, 
+      vfs->open(path. s_flags));
+}
+
 struct cmd {
   const char *cmd;
-  void (*func)(const char *args);
+  void (*func)(char *args);
 } cmds[] = {
   {"exit", cmd_exit},
   {"fd", cmd_fd},
