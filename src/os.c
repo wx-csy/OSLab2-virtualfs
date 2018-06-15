@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <fs/devfs.h>
 #include <fs/kvfs.h>
+#include <fs/procfs.h>
 
 // #define DEBUG_ME
 #include <debug.h>
