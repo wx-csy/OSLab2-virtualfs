@@ -62,6 +62,8 @@ _debug("Initializing \"%s\" ...", base.name);
 
 static int walk Member 
     (int (*fn)(const char *path, inode_t inode, int mode, int length)) {
+  MemberOf(devfs);
+
   for (int i = 0; i < MAX_DEV; i++) {
     if (this.devices[i].valid) {
       int val = fn(this.devices[i].name, i, this.devices[i].mode, 0);
