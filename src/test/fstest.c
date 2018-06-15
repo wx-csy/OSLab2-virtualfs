@@ -90,6 +90,10 @@ static void cmd_write(char *args) {
 
 static void cmd_type(char *args) {
   int fd = vfs->open(args, O_RDONLY);
+  if (fd < 0) {
+    printf("Failed to open file `%s'\n", args);
+    return ;
+  }
   char buf[4096];
   int sz = vfs->read(fd, buf, sizeof buf);
   buf[sz] = 0;
