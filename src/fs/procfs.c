@@ -107,7 +107,7 @@ static file_t *open Member (inode_t inode, int flags) {
       return (file_t *)file;
     case MEMINFO_INODE:
       buf = pmm->alloc(512);
-      size = sprintf(buf, "Memory Type: Unknown\n", asctime());
+      size = sprintf(buf, "Memory Type: Unknown\n");
       file = New(otrofile, (void *)&this, inode, flags);
       file->length = size;
       file->data = buf;
