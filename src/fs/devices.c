@@ -6,7 +6,7 @@
 #include <am.h>
 #include <amdev.h>
 
-// #define DEBUG_ME
+#define DEBUG_ME
 #include <debug.h>
 
 static _Device *dev_input = NULL;
@@ -34,7 +34,9 @@ int dev_zero_getch() {
   return 0;
 }
 
+#define DEBUG_ME
 int dev_random_getch() {
+  _debug("random!");
   return rand() & 0xff;
 }
 
