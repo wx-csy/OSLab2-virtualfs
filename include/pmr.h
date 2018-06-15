@@ -37,7 +37,7 @@
   const struct __GET_VTABLE_TYPE(pname) __GET_VTABLE_NAME(cname)
 
 #define Invoke(p_object, method, ...) \
-{ printf("obj=%p, method=%s", p_object, #method); ((p_object)->_vtable->method((p_object), ##__VA_ARGS__)); }
+  ((p_object)->_vtable->method((p_object), ##__VA_ARGS__))
 
 #define New(cname, ...) ({ \
   struct cname *ptr = __Allocate(sizeof(struct cname)); \
