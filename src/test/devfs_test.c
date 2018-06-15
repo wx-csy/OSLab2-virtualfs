@@ -107,6 +107,7 @@ struct cmd {
   {"close", cmd_close},
   {"ls", cmd_ls},
   {"write", cmd_write},
+  {"type", cmd_type}
 };
 
 #define NR_CMD  (sizeof(cmds) / sizeof(struct cmd))
