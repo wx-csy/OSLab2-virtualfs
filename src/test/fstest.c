@@ -139,7 +139,7 @@ static void cmd_seek(char *args) {
   else if (whence == 2) whence = SEEK_END;
   else whence = SEEK_SET;
   printf("seek(fd = %d, off = %d, whence = %d) = %d\n", 
-      fd, offset, whence, lseek(fd, offset, whence));
+      fd, offset, whence, vfs->lseek(fd, offset, whence));
 }
 
 struct cmd {
