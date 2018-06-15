@@ -34,7 +34,7 @@ static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
 
 static ssize_t read Member (char *buf, size_t size) {
   MemberOf(kvfile);
-
+_debug("size=%d", size);
   struct kvfs_kvp *kvp = &(this.kvfs->kvp[base.inode]);
   if (base.offset + size > kvp->length) {
     size = kvp->length - base.offset;
