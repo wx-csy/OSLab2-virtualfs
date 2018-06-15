@@ -95,10 +95,12 @@ static int access Member (inode_t inode, int mode) {
 }
 
 static file_t *open Member (inode_t inode, int flags) {
+_debug("kvfs.open inode=%d, flags=%d", inode, flags);
   MemberOf(kvfs);
-//  kvfs_t *fs = (kvfs_t *)_fs;
   
-  return NULL; 
+  file_t *file = New(kvfile, (void *)&this, inode, flags);
+  if (file != NULL) file->refcnt++;
+  return file; 
 }
 
 static void _dtor Member () {
