@@ -86,14 +86,19 @@ static void cmd_write(char *args) {
 }
 
 static void cmd_type(char *args) {
+  char *path = strtok(args, " "),
+       *s_bytes = strtok(NULL, " ");
   int fd = vfs->open(args, O_RDONLY);
   if (fd < 0) {
     printf("Failed to open file `%s'\n", args);
     return ;
   }
   char buf[4096];
-  int length = vfs->lseek(fd, 0, SEEK_END);
-  vfs->lseek(fd, 0, SEEK_SET);
+  int length = atoi(s_bytes);
+  if (length == 0) {
+    length = vfs->lseek(fd, 0, SEEK_END);
+    vfs->lseek(fd, 0, SEEK_SET);
+  }
   if (length > sizeof buf) length = sizeof buf;
   vfs->read(fd, buf, length);
   buf[length] = 0;
