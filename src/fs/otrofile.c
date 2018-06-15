@@ -1,6 +1,7 @@
 #include <kernel.h>
 #include <string.h>
 #include <assert.h>
+#include <fs/procfs.h>
 
 // #define DEBUG_ME
 #include <debug.h>
