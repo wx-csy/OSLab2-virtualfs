@@ -26,6 +26,6 @@ typedef struct kvfile {
   kvfs_t *kvfs;  
 } kvfile_t;
 
-extern Implementation(file, kvfile_t);
+extern Implementation(file, kvfile);
 
 #endif 
