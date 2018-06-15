@@ -78,7 +78,7 @@ static void cmd_write(char *args) {
   char *s_fd = strtok(args, " "),
        *content = strtok(NULL, " ");
   int fd = atoi(s_fd);
-  printf("write(fd = %d, \"%s\" = %d\n", fd, content,
+  printf("write(fd = %d, \"%s\") = %d\n", fd, content,
       vfs->write(fd, content, strlen(content)));
 }
 
