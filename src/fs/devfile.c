@@ -23,6 +23,7 @@ Implementation(file, devfile) = {
 static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
   MemberOf(devfile);
   
+  this.devfs = (devfs_t *)fs;
   base.fs = fs;
   base.inode = inode;
   base.refcnt = 0;
@@ -34,7 +35,7 @@ static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
 static ssize_t read Member (char *buf, size_t size) {
   MemberOf(devfile);
   
-  struct device *dev = &(this.fs->devices[base.inode]);
+  struct device *dev = &(this.devfs->devices[base.inode]);
   if (dev->getch == NULL) return -1;
   size_t cnt = 0;
   while (size) {
@@ -55,7 +56,7 @@ static ssize_t read Member (char *buf, size_t size) {
 static ssize_t write Member (const char *buf, size_t size) {
   MemberOf(devfile);
 
-  struct device *dev = &(this.fs->devices[base.inode]);
+  struct device *dev = &(this.devfs->devices[base.inode]);
   if (dev->putch == NULL) return -1;
   size_t cnt = 0;
   while (size) {

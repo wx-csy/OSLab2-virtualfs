@@ -22,7 +22,8 @@ Implementation(file, kvfile) = {
 
 static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
   MemberOf(kvfile);
-
+  
+  this.kvfs = (kvfs_t *)fs;
   base.fs = fs;
   base.inode = inode;
   base.refcnt = 0;
@@ -34,7 +35,7 @@ static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
 static ssize_t read Member (char *buf, size_t size) {
   MemberOf(kvfile);
 
-  struct kvfs_kvp *kvp = &(this.fs->kvp[base.inode]);
+  struct kvfs_kvp *kvp = &(this.kvfs->kvp[base.inode]);
   if (base.offset + size > kvp->length) {
     size = kvp->length - base.offset;
     memcpy(buf, kvp->data, size);
@@ -50,7 +51,7 @@ static ssize_t read Member (char *buf, size_t size) {
 static ssize_t write Member (const char *buf, size_t size) {
   MemberOf(kvfile);
 
-  struct kvfs_kvp *kvp = &(this.fs->kvp[base.inode]);
+  struct kvfs_kvp *kvp = &(this.kvfs->kvp[base.inode]);
   if (base.offset + size > kvp->capacity) {
     int newcap = ((base.offset + size) * 2);
     char *newdata = pmm->alloc(newcap);
@@ -73,7 +74,7 @@ _debug("Failed to allocate memory!");
 static int lseek Member (off_t offset, int whence) {
   MemberOf(kvfile); 
 
-  struct kvfs_kvp *kvp = &(this.fs->kvp[base.inode]);
+  struct kvfs_kvp *kvp = &(this.kvfs->kvp[base.inode]);
   switch (whence) {
     case SEEK_SET:
       break;
