@@ -38,11 +38,11 @@ _debug("size=%d", size);
   struct kvfs_kvp *kvp = &(this.kvfs->kvp[base.inode]);
   if (base.offset + size > kvp->length) {
     size = kvp->length - base.offset;
-    memcpy(buf, kvp->data, size);
+    memcpy(buf, kvp->data + base.offset, size);
     base.offset = kvp->length;
     return 0;
   } else {
-    memcpy(buf, kvp->data, size);
+    memcpy(buf, kvp->data + base.offset, size);
     base.offset += size;
     return size;
   }

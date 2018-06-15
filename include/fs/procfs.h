@@ -16,6 +16,7 @@ extern Implementation(filesystem, procfs);
 typedef struct otrofile {
   Inherits(file);
   
+  int length;  
   char *data;
 } otrofile_t;
 
