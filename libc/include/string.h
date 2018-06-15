@@ -14,6 +14,8 @@ size_t strlen(const char *str);
 char *strcpy(char *restrict dest, const char *restrict src);
 char *strncpy(char *restrict dest, const char *restrict src, 
     size_t count);
+int strcmp(const char *lhs, const char *rhs);
+char *strtok(char *restrict str, const char *restrict delim);
 
 #endif
 

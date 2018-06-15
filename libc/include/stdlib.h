@@ -31,5 +31,7 @@ ldiv_t  ldiv  (long x, long y);
 lldiv_t lldiv (long long x, long long y);
 */
 
+int atoi(const char *str);
+
 #endif
 
