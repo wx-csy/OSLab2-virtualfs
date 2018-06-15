@@ -24,13 +24,10 @@ static void cmd_exit(char *args) {
 static void cmd_fd(char *args) {
   for (int i = 0; i < 16; i++) {
     file_t *fp = this_thread->fd[i];
-    printf("fd[%d] -> %p", i, fp);
     if (fp) {
-      printf(" : fs = \"%s\", inode = %d, refcnt = %d, offset = %d, "
-          "flags = %d\n",
-          fp->fs->name, fp->inode, fp->refcnt, fp->offset, fp->flags);
-    } else {
-      printf("\n");
+      printf("fd[%d] -> %p : fs = \"%s\", inode = %d, "
+          "refcnt = %d, offset = %d, flags = %d\n",
+          i, fp, fp->fs->name, fp->inode, fp->refcnt, fp->offset, fp->flags);
     }
   }
 }
