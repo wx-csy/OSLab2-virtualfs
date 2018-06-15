@@ -108,6 +108,28 @@ static void cmd_type(char *args) {
   vfs->close(fd);
 }
 
+static void cmd_xtype(char *args) {
+  char *path = strtok(args, " "),
+       *s_bytes = strtok(NULL, " ");
+  int fd = vfs->open(path, O_RDONLY);
+  if (fd < 0) {
+    printf("Failed to open file `%s'\n", args);
+    return ;
+  }
+  char buf[4096];
+  int length = atoi(s_bytes);
+  printf("len=%d\n", length);
+  if (length == 0) {
+    length = vfs->lseek(fd, 0, SEEK_END);
+    vfs->lseek(fd, 0, SEEK_SET);
+  }
+  if (length > sizeof buf) length = sizeof buf;
+  vfs->read(fd, buf, length);
+  for (int i = 0; i < length; i++) printf("%2x ", buf[i]);
+  puts("");
+  vfs->close(fd);
+}
+
 struct cmd {
   const char *cmd;
   void (*func)(char *args);
@@ -119,7 +141,8 @@ struct cmd {
   {"close", cmd_close},
   {"ls", cmd_ls},
   {"write", cmd_write},
-  {"type", cmd_type}
+  {"type", cmd_type},
+  {"xtype", cmd_xtype},
 };
 
 #define NR_CMD  (sizeof(cmds) / sizeof(struct cmd))
