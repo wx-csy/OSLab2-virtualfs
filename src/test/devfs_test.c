@@ -74,6 +74,14 @@ static void cmd_open(char *args) {
       vfs->open(path, flags));
 }
 
+static void cmd_write(char *args) {
+  char *s_fd = strtok(args, " "),
+       *content = strtok(NULL, " ");
+  int fd = atoi(s_flags);
+  printf("write(fd = %d, \"%s\" = %d\n", fd, content,
+      vfs->write(fd, content, strlen(content)));
+}
+
 struct cmd {
   const char *cmd;
   void (*func)(char *args);
@@ -83,6 +91,7 @@ struct cmd {
   {"token", cmd_token},
   {"open", cmd_open},
   {"ls", cmd_ls},
+  {"write", cmd_write},
 };
 
 #define NR_CMD  (sizeof(cmds) / sizeof(struct cmd))
