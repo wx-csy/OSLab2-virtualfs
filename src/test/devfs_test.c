@@ -26,8 +26,7 @@ static void cmd_fd(char *args) {
     file_t *fp = this_thread->fd[i];
     printf("fd[%d] -> %p", i, fp);
     if (fp) {
-      printf(" : inode = %d, refcnt = %d, offset = %d, flags = %d\n",
-          fp->inode, fp->refcnt, fp->offset, fp->flags);
+      printf(" : fs = "%s", inode = %d, refcnt = %d, offset = %d, flags = %d\n", fp->fs->name, fp->inode, fp->refcnt, fp->offset, fp->flags);
     } else {
       printf("\n");
     }
