@@ -48,7 +48,7 @@ static void cmd_open(char *args) {
        *s_flags = strtok(path + strlen(path) + 1, " ");
   int flags;
   if (s_flags == NULL) flags = O_RDWR; else flags = atoi(s_flags);
-  printf("open(\"%s\", %d) = %d", path, s_flags, 
+  printf("open(\"%s\", %d) = %d\n", path, s_flags, 
       vfs->open(path, flags));
 }
 
