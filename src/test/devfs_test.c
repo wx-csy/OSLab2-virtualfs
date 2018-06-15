@@ -46,7 +46,7 @@ static int lsfile(const char *path, inode_t inode,
 
 static int lsfs(const char *path, filesystem_t *fs) {
   printf("[%s] %s\n", fs->name, path);
-  fs->walk(lsfile);
+  Invoke(fs, walk, lsfile);
   printf("\n");
   return 0;
 }
