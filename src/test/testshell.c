@@ -15,15 +15,20 @@ struct testcase {
   {"Concurrent R/W Test", test_concrw, 0}
 };
 
-void testshell(void *igonre) {
-  
-  test_mttest();
-  test_mttest2();
-  test_procfs(); 
-  test_devfs();
-  test_kvfs();
-  test_concrw();
+#define NR_TESTCASES (sizeof(testcases) / sizeof(struct testcase))
 
+void testshell() {
+  for (int i = 0; i < NR_TESTCASES; i++) {
+    testcases[i].result = testcases[i].fn();
+  }
+  
+  SLEEP(200);
+
+  puts("========== TEST SUMMARY ===========");
+  for (int i = 0; i < NR_TESTCASES; i++) {
+    printf("%s: ", testcases[i].name);
+    VERDICT(testcases[i].result, "");
+  }
   _Exit(0);
 }
 

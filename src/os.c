@@ -30,9 +30,8 @@ static void init_thrd(void *ignore) {
   vfs->mount("/proc/", New(procfs, "procfs"));
   vfs->mount("/", New(kvfs, "kvfs"));
   
-  init_test();
-  void devfs_test(void *ignore);
-  devfs_test(NULL); 
+  testshell();
+  
   while (1) _yield();
 }
 

@@ -42,5 +42,8 @@ int test_devfs();
 int test_kvfs();
 int test_concrw();
 
+void testshell();
+void terminal();
+
 #endif
 
