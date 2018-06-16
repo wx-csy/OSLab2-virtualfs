@@ -78,7 +78,8 @@ _debug("The length of path exceeds the limit (max %d).", MAX_PATH);
     return -1;
   }
 LOCK
-  if (find_fs(path) >= 0) {
+  int fsid = find_fs(path);
+  if (fsid >= 0 && strcmp(mounts[fsid].path, path) == 0) {
 _debug("A filesystem has already been mounted to the path");
 UNLOCK
     return -1;
