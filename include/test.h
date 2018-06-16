@@ -1,6 +1,8 @@
 #ifndef __TEST_H__
 #define __TEST_H__
 
+#include <kernel.h>
+#include <os.h>
 #include <stdio.h>
 
 #define SLEEP(n) do { \
@@ -37,7 +39,7 @@ int test_mttest();
 int test_mttest2();
 int test_procfs();
 int test_devfs();
-int test_kvfs();
+int test_kvfst();
 int test_concrw();
 
 #endif
