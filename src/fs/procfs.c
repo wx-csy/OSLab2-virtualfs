@@ -116,7 +116,7 @@ static file_t *open Member (inode_t inode, int flags) {
       return (file_t *)file;
     default:
       if (inode < 0 || inode >= NR_THREADS) return NULL;
-      if (threads[inode]->status = THRD_STATUS_INVALID) return NULL;
+      if (threads[inode]->status == THRD_STATUS_INVALID) return NULL;
       buf = pmm->alloc(1024);
       size = sprintf(buf, 
           "pid: %d\n" 
