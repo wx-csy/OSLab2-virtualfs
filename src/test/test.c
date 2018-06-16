@@ -43,7 +43,7 @@ void sh_teardown(thread_t *thread) {
   RETURN;
 }
 
-void shb_type(const char *path) {
+int shb_type(const char *path) {
   ENTER;
   
   SHELL_PRINT("$ type %s", path);
@@ -51,7 +51,7 @@ void shb_type(const char *path) {
   int fd = vfs->open(path, O_RDONLY);
   if (fd < 0) {
     printf("Failed to open file `%s'\n", path);
-    RETURN;
+    RETURN -1;
   }
 
   char *buf;
@@ -62,6 +62,6 @@ void shb_type(const char *path) {
   printf("%s", buf);
   pmm->free(buf);
 
-  RETURN;
+  RETURN 0;
 }
 
