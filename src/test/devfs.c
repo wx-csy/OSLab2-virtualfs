@@ -18,7 +18,7 @@ int test_devfs() {
   
   int fd;
 
-  SLEEP(100);
+  SLEEP(1000);
 
   // 5 checkpoints for /dev/null
   if (sh_access("/dev/null", R_OK | W_OK) == 0) chk_cnt++;
@@ -27,7 +27,7 @@ int test_devfs() {
   if (sh_read(fd, buf, sizeof buf) == 0) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
 
-  SLEEP(100);
+  SLEEP(1000);
 
   // 6 checkpoints for /dev/zero
   if (sh_access("/dev/zero", R_OK | W_OK) == 0) chk_cnt++;
@@ -37,7 +37,7 @@ int test_devfs() {
   if (buf[0] == 0) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
   
-  SLEEP(100);
+  SLEEP(1000);
 
   // 5 checkpoints for /dev/random
   if (sh_access("/dev/random", R_OK | W_OK) < 0) chk_cnt++;
@@ -47,6 +47,6 @@ int test_devfs() {
   printf("random number read: %d\n", buf[0]);
   if (sh_close(fd) == 0) chk_cnt++;
 
-  VERDICT(!(chk_cnt == 15), "%d of 15 checkpoints passed", chk_cnt);
+  VERDICT(!(chk_cnt == 16), "%d of 16 checkpoints passed", chk_cnt);
 }
 
