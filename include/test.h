@@ -10,11 +10,6 @@
     printf(fmt, ##__VA_ARGS__); \
   } while (0) 
 
-inline void verdict(int result) {
-  if (result == 0) {
-    printf("\033[92m" 
-  }
-}
 
 int sh_create_thread(thread_t *thread, void *entry(void *arg), void *arg);
 void sh_teardown(thread_t *thread);
