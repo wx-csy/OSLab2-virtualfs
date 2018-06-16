@@ -26,8 +26,10 @@ int test_kvfstest() {
 
   if (shb_type("/test/file0") == 0) chk_cnt++;
 
+  shb_ls();
+  
   if (sh_unmount("/test/") == 0) chk_cnt++;
-
+  
   VERDICT(chk_cnt == 2 ? 0 : 1,
       "%d of 2 checkpoints passed", chk_cnt);
 }
