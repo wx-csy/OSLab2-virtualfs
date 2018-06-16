@@ -20,7 +20,7 @@ int is_prime(int x) {
 static void worker(int *result) {
   int cnt = 0;
   int last_prime;
-  for (int i = 2; cnt < 100000; i++) {
+  for (int i = 2; cnt < 50000; i++) {
     if (is_prime(i)) {
       cnt++;
       last_prime = i;
@@ -28,7 +28,7 @@ static void worker(int *result) {
   }
   *result = last_prime;
   kmt->spin_lock(&io_lock);
-  printf("[%x] the 100000th prime is %d\n", this_thread->tid, last_prime);
+  printf("[%x] the 50000th prime is %d\n", this_thread->tid, last_prime);
   kmt->spin_unlock(&io_lock);
   
   kmt->sem_signal(&sem);
