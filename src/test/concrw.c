@@ -29,7 +29,7 @@ void worker(int *count) {
     int val; 
     vfs->lseek(fds[fn], -4, SEEK_CUR);
     vfs->read(fds[fn], &val, 4);
-    if (val == tid) *count++;
+    if (val == tid) (*count)++;
   }
   for (int i = 0; i < 4; i++) {
     vfs->close(fds[i]);
