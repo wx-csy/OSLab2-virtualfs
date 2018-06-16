@@ -12,7 +12,8 @@ static spinlock_t io_lock;
 static sem_t sem;
 
 static thread_t workers[8];
-const char files[4][64];
+static int counts[8];
+static const char files[4][64];
 
 void worker(int *count) {
   int fds[4];
@@ -58,7 +59,7 @@ int test_concrw() {
   }
 
   for (int i = 0; i < 8; i++) {
-    sh_create_thread(&workers[i], worker, NULL);
+    sh_create_thread(&workers[i], (void *)worker, &counts[i]);
   }
   
   for (int i = 0; i < 8; i++) {
