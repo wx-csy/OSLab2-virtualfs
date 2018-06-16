@@ -39,7 +39,7 @@ int test_mttest();
 int test_mttest2();
 int test_procfs();
 int test_devfs();
-int test_kvfst();
+int test_kvfs();
 int test_concrw();
 
 #endif
