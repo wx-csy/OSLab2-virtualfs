@@ -17,10 +17,30 @@ int test_devfs() {
   for (int i = 0; i < 128; i++) buf[i] = rand();
   
   int fd;
+
+  // 5 checkpoints for /dev/null
+  if (access("/dev/null", R_OK | W_OK) == 0) chk_cnt++;
   if ((fd = sh_open("/dev/null", O_RDWR)) >= 0) chk_cnt++;
   if (sh_write(fd, buf, sizeof buf) == sizeof buf) chk_cnt++;
   if (sh_read(fd, buf, sizeof buf) == 0) chk_cnt++;
+  if (sh_close(fd) == 0) chk_cnt++;
 
-  VERDICT(!(chk_cnt == 3), "%d of 3 checkpoints passed", chk_cnt);
+  // 6 checkpoints for /dev/zero
+  if (access("/dev/zero", R_OK | W_OK) == 0) chk_cnt++;
+  if ((fd = sh_open("/dev/zero", O_RDWR)) >= 0) chk_cnt++;
+  if (sh_write(fd, buf, sizeof buf) == sizeof buf) chk_cnt++;
+  if (sh_read(fd, buf, sizeof(int)) == 0) chk_cnt++;
+  if (buf[0] == 0) chk_cnt++;
+  if (sh_close(fd) == 0) chk_cnt++;
+  
+  // 5 checkpoints for /dev/random
+  if (access("/dev/random", W_OK) < 0) chk_cnt++;
+  if (access("/dev/random", R_OK) == 0) chk_cnt++;
+  if ((fd = sh_open("/dev/random", O_RDONLY)) >= 0) chk_cnt++;
+  if (sh_read(fd, buf, sizeof(int)) == sizeof(int)) chk_cnt++;
+  printf("random number read: %d\n", buf[0]);
+  if (sh_close(fd) == 0) chk_cnt++;
+
+  VERDICT(!(chk_cnt == 16), "%d of 16 checkpoints passed", chk_cnt);
 }
 
