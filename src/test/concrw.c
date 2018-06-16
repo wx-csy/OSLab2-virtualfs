@@ -14,7 +14,7 @@ static sem_t sem;
 
 static thread_t workers[8];
 static int counts[8];
-static const char files[4][64];
+static char files[4][64];
 
 void worker(int *count) {
   int fds[4];
