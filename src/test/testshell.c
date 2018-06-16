@@ -27,7 +27,7 @@ void testshell() {
   puts("========== TEST SUMMARY ===========");
   for (int i = 0; i < NR_TESTCASES; i++) {
     printf("%s: ", testcases[i].name);
-    if (testcasts[i].result == 0) {
+    if (testcases[i].result == 0) {
       puts("\033[92mOK\033[0m");
     } else {
       puts("\033[91mFAIL\033[0m");
