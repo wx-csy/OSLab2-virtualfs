@@ -12,10 +12,13 @@ int test_procfstest() {
   puts("# test functions of procfs");
   int cnt = 0;
   if (shb_type("/proc/cpuinfo") == 0) cnt++;
+  SLEEP(100);
   if (shb_type("/proc/meminfo") == 0) cnt++;
+  SLEEP(100);
   char path[256];
   sprintf(path, "/proc/%d", this_thread->tid);
   if (shb_type(path) == 0) cnt++; 
+  SLEEP(100);
 
   if (cnt == 3) {
     VERDICT(0, "%d files", cnt);
