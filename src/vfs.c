@@ -113,7 +113,7 @@ UNLOCK
     return -1;
   }
   if (mounts[id].fs->refcnt) {
-_debug("The filesystem is still buzy!");
+_debug("The filesystem is still buzy! (refcnt = %d)", mounts[id].fs->refcnt);
 UNLOCK
     return -1;
   }
