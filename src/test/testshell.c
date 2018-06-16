@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include <test.h>
 
-struct {
+struct testcase {
   const char *name;
   int (*fn)();
   int result;
-} testcases = {
+} testcases[] = {
   {"Multi-threading Test (1)", test_mttest, 0},
   {"Multi-threading Test (2)", test_mttest2, 0},
   {"procfs Functional Test", test_procfs, 0},
