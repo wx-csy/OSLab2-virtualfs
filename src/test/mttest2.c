@@ -23,7 +23,7 @@ static void worker(void *ignore) {
   } 
 
   kmt->spin_lock(&io_lock);
-  printf("[%d] done\n", this_thread->tid);
+  printf("[%d] done, cnt=%d\n", this_thread->tid, cnt);
   kmt->spin_unlock(&io_lock);
 
   kmt->sem_signal(&sem);
