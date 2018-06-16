@@ -36,6 +36,7 @@ void shb_ls();
 int test_mttest();
 int test_mttest2();
 int test_procfstest();
+int test_devfs();
 int test_kvfstest();
 int test_concrw();
 

@@ -166,6 +166,7 @@ void devfs_test(void *igonre) {
   test_mttest();
   test_mttest2();
   test_procfstest(); 
+  test_devfs();
   test_kvfstest();
   test_concrw();
 
