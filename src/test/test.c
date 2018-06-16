@@ -24,8 +24,8 @@ int sh_create_thread(thread_t *thread, void entry(void *arg), void *arg) {
   int ret = kmt->create(thread, entry, arg);
   int tid = ret == 1 ? thread->tid : -1;
 
-  SYSCALL_PRINT("create_thread(thread = %p, entry = %p, arg = %p) = %d" "
-      (tid = %d)", thread, entry, arg, ret, tid);
+  SYSCALL_PRINT("create_thread(thread = %p, entry = %p, arg = %p) = %d"
+      "(tid = %d)", thread, entry, arg, ret, tid);
 
   RETURN ret;
 }
