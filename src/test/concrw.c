@@ -69,6 +69,10 @@ int test_concrw() {
   for (int i = 0; i < 8; i++) {
     kmt->sem_wait(&sem);
   }
+  
+  for (int i = 0; i < 8; i++) {
+    sh_teardown(&workers[i]);
+  }
 
   shb_ls();
   
