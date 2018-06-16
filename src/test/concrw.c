@@ -49,7 +49,7 @@ int test_concrw() {
   puts("# test thread safety of kvfs");
   
   kmt->spin_init(&io_lock, "concrw.io_lock");
-  kmt->sem_init(&sem, 0, "concrw.sem");
+  kmt->sem_init(&sem, "concrw.sem", 0);
   
   srand(time(NULL));
   sh_mount("/concrw_tmp/", New(kvfs, "concrw_temp"));
