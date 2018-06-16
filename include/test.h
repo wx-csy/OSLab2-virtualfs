@@ -25,10 +25,13 @@ int sh_mount(const char *path, filesystem_t *fs);
 int sh_unmount(const char *path);
 int sh_access(const char *path, int mode);
 int sh_open(const char *path, int flags);
-int sh_read(int fd, void *buf, size_t nbyte);
-int sh_write(int fd, const void* buf, size_t nbyte);
+ssize_t sh_read(int fd, void *buf, size_t nbyte);
+ssize_t sh_write(int fd, const void* buf, size_t nbyte);
+off_t sh_lseek(int fd, off_t offset, int whence);
+int sh_close(int fd);
 
 int shb_type(const char *path);
+void shb_ls();
 
 int test_mttest();
 int test_mttest2();

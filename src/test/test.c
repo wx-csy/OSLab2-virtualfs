@@ -64,7 +64,7 @@ int sh_open(const char *path, int flags) {
 ssize_t sh_read(int fd, void *buf, size_t nbyte) {
   ENTER;
   ssize_t ret = vfs->read(fd, buf, nbyte);
-  SYSCALL_PRINT("read(fd = %d, buf = %p, nbyte = %d) = %d", 
+  SYSCALL_PRINT("read(fd = %d, \"%20s\", nbyte = %d) = %d", 
       fd, buf, nbyte);
   RETURN ret; 
 }
@@ -72,7 +72,7 @@ ssize_t sh_read(int fd, void *buf, size_t nbyte) {
 ssize_t sh_write(int fd, const void *buf, size_t nbyte) {
   ENTER;
   ssize_t ret = vfs->write(fd, buf, nbyte);
-  SYSCALL_PRINT("write(fd = %d, buf = %p, nbyte = %d) = %d", 
+  SYSCALL_PRINT("write(fd = %d, \"%20s\", nbyte = %d) = %d", 
       fd, buf, nbyte);
   RETURN ret; 
 }
@@ -82,6 +82,18 @@ int sh_access(const char *path, int mode) {
   int ret = vfs->access(path, mode);
   SYSCALL_PRINT("access(\"%s\", %d) = %d", path, mode, ret);
   RETURN ret;
+}
+
+off_t sh_lseek(int fd, off_t offset, int whence) {
+  ENTER;
+  int ret = vfs->access(path, mode);
+  SYSCALL_PRINT("lseek(fd = %d, offset = %d, whence = %d) = %d", 
+      fd, offset, whence, ret);
+  RETURN ret;
+}
+
+int sh_close(int fd, off_t offset, int whence) {
+
 }
 
 int shb_type(const char *path) {
