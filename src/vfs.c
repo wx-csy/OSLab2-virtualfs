@@ -228,8 +228,8 @@ LOCK
   if (this_thread->fd[fd]->refcnt == 0) {
     this_thread->fd[fd]->fs->refcnt--;
     Delete(this_thread->fd[fd]);
-    this_thread->fd[fd] = NULL;
   }
+  this_thread->fd[fd] = NULL;
 UNLOCK
   return 0;
 }
