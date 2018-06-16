@@ -18,7 +18,7 @@ void init_test() {
   kmt->spin_init(&exec_lock, "test.lock");
 }
 
-int sh_create_thread(threat_t *thread, void entry(void *arg), void *arg) {
+int sh_create_thread(thread_t *thread, void entry(void *arg), void *arg) {
   ENTER;
 
   int ret = kmt->create(thread, entry, arg);
