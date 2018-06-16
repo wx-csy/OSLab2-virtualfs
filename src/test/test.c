@@ -56,7 +56,7 @@ int sh_unmount(const char *path) {
 
 int sh_open(const char *path, int flags) {
   ENTER;
-  int ret = vfs->open(path);
+  int ret = vfs->open(path, flags);
   SYSCALL_PRINT("open(\"%s\", flags = %d) = %d", path, flags, ret);
   RETURN ret;
 }
