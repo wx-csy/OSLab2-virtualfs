@@ -18,6 +18,7 @@ int is_prime(int x) {
 }
 
 static void worker(int *result) {
+printf("!")
   int cnt = 0;
   int last_prime;
   for (int i = 2; cnt < 10000; i++) {
@@ -41,7 +42,6 @@ int results[4];
 int test_mttest() {
   kmt->spin_init(&io_lock, "mttest.io_lock");
   kmt->sem_init(&sem, "mttest.sem", 0);
-  printf("!");
   for (int i = 0; i < 4; i++) 
     sh_create_thread(&workers[i], (void (*)(void *))worker, &results[i]);
   for (int i = 0; i < 4; i++)
