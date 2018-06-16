@@ -116,6 +116,7 @@ int shb_type(const char *path) {
   buf = pmm->alloc(length);
   vfs->read(fd, buf, length);
   printf("%s", buf);
+  puts("");
   pmm->free(buf);
 
   RETURN 0;
