@@ -80,7 +80,7 @@ int test_concrw() {
 
   int numbers[8];
   for (int i = 0; i < 4; i++) {
-    int fd = vfs->open(files[i], O_RD);
+    int fd = vfs->open(files[i], O_RDONLY);
     vfs->read(fd, &numbers[0], sizeof numbers);
     int exp;
     for (int j = 0; j < 8; j++) {
