@@ -92,8 +92,11 @@ off_t sh_lseek(int fd, off_t offset, int whence) {
   RETURN ret;
 }
 
-int sh_close(int fd, off_t offset, int whence) {
-
+int sh_close(int fd, off_t offset, int whence) { 
+  ENTER;
+  int ret = vfs->close(fd);
+  SYSCALL_PRINT("close(fd = %d) = %d", fd, ret);
+  RETURN ret;
 }
 
 int shb_type(const char *path) {
