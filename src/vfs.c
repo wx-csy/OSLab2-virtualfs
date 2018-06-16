@@ -75,6 +75,7 @@ static int mount(const char *path, filesystem_t *fs) {
 _debug("mounting `%s' to %s", fs->name, path);
   if (strlen(path) >= MAX_PATH) {
 _debug("The length of path exceeds the limit (max %d).", MAX_PATH);
+    Delete(fs);
     return -1;
   }
 LOCK
@@ -82,6 +83,7 @@ LOCK
   if (fsid >= 0 && strcmp(mounts[fsid].path, path) == 0) {
 _debug("A filesystem has already been mounted to the path");
 UNLOCK
+    Delete(fs);
     return -1;
   }
   for (int i = 0; i < NR_MOUNTPOINTS; i++) {
@@ -94,6 +96,7 @@ UNLOCK
   }
 _debug("The mount list is full.");
 UNLOCK
+  Delete(fs);
   return -1;
 }
 

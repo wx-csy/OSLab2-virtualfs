@@ -14,8 +14,9 @@ int test_kvfstest() {
   puts("# test functions of kvfs");
   int chk_cnt = 0;
   
-  if (sh_mount("/test/", New(kvfs, "kvfs_test")) == 0) chk_cnt++;
-//  if (sh_unmount("/test/") == 0) chk_cnt++;
+  if (sh_mount("/", New(kvfs, "kvfs_fail")) < 0) chk_cht++;
+  if (sh_mount("/test/", New(kvfs, "kvfs_test")) >= 0) chk_cnt++;
+  if (sh_unmount("/test/") == 0) chk_cnt++;
 
   VERDICT(chk_cnt == 2 ? 0 : 1,
       "%d of 2 checkpoints passed", chk_cnt);
