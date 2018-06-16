@@ -25,7 +25,7 @@ int test_kvfstest() {
   const char test_text[] = "the quick brown fox jumps over a lazy dog\n";
   if (sh_write(fd, test_text, sizeof test_text) == sizeof test_text) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
-  if ((fd = sh_open("/test/file0", O_RD)) >= 0) chk_cnt++;
+  if ((fd = sh_open("/test/file0", O_RDONLY)) >= 0) chk_cnt++;
   memset(buf, 0, sizeof buf);
   sh_read(fd, buf, sizeof buf);
   if (strcmp(buf, test_text) == 0) chk_cnt++;
