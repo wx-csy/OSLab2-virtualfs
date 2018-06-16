@@ -86,7 +86,7 @@ int sh_access(const char *path, int mode) {
 
 off_t sh_lseek(int fd, off_t offset, int whence) {
   ENTER;
-  int ret = vfs->access(path, mode);
+  int ret = vfs->lseek(fd, offset, whence);
   SYSCALL_PRINT("lseek(fd = %d, offset = %d, whence = %d) = %d", 
       fd, offset, whence, ret);
   RETURN ret;
