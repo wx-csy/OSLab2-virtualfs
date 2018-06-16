@@ -11,15 +11,15 @@ int test_procfstest() {
   puts("====== procfs Functional Test (1) ======");
   puts("# test functions of procfs");
   int cnt = 0;
-  SLEEP(20);
+  SLEEP(200);
   if (shb_type("/proc/cpuinfo") == 0) cnt++;
-  SLEEP(20);
+  SLEEP(200);
   if (shb_type("/proc/meminfo") == 0) cnt++;
   char path[256];
   sprintf(path, "/proc/%d", this_thread->tid);
-  SLEEP(20);
+  SLEEP(200);
   if (shb_type(path) == 0) cnt++; 
-  SLEEP(20);
+  SLEEP(200);
 
   if (cnt == 3) {
     VERDICT(0, "%d files", cnt);
