@@ -168,6 +168,7 @@ void devfs_test(void *igonre) {
   test_procfstest();
   */
   test_kvfstest();
+  test_concrw();
 
   kmt->spin_init(&test_lock, "test_lock");
   fd = vfs->open("/dev/stdin", O_RDONLY);
