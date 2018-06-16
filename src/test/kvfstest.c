@@ -35,7 +35,7 @@ int test_kvfstest() {
   if (sh_close(fd) == 0) chk_cnt++;
 
   SLEEP(150);
-  // 8 test points
+  // 13 test points
   fd = sh_open("/test/file1", O_WRONLY);
   if (fd >= 0) chk_cnt++;
   if (sh_lseek(fd, 4, SEEK_SET) == 4) chk_cnt++;
@@ -45,7 +45,7 @@ int test_kvfstest() {
   if (sh_lseek(fd, -1, SEEK_END) == 9) chk_cnt++;
   if (sh_write(fd, "@!#$%^&", 7) == 7) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
-  if ((fd = sh_open("/test/file1")) >= 0) chk_cnt++;
+  if ((fd = sh_open("/test/file1", O_RDONLY)) >= 0) chk_cnt++;
   if (sh_lseek(fd, 1, SEEK_CUR) == 1) chk_cnt++;
   memset(buf, 0, sizeof buf);
   if (sh_read(fd, buf, 10) == 10) chk_cnt++;
@@ -59,7 +59,7 @@ int test_kvfstest() {
   if (shb_type("/test/file1") == 0) chk_cnt++;
   if (sh_unmount("/test/") == 0) chk_cnt++;
   
-  VERDICT(chk_cnt == 22 ? 0 : 1,
-      "%d of 22 checkpoints passed", chk_cnt);
+  VERDICT(chk_cnt == 26 ? 0 : 1,
+      "%d of 26 checkpoints passed", chk_cnt);
 }
 
