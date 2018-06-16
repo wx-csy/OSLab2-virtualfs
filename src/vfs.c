@@ -221,8 +221,7 @@ static int close(int fd) {
 LOCK
   this_thread->fd[fd]->refcnt--;
   if (this_thread->fd[fd]->refcnt == 0) {
-    Invoke(this_thread->fd[fd], _dtor);
-    pmm->free(this_thread->fd[fd]);
+    Delete(this_thread->fd[fd]);
     this_thread->fd[fd] = NULL;
   }
 UNLOCK
