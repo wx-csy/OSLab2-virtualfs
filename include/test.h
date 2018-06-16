@@ -13,7 +13,7 @@
 
 #define SLEEP(n) do { \
     for (volatile int i = 0; i < n * 1000000; i++) \
-  while (0)
+  } while (0)
 
 void init_test();
 
