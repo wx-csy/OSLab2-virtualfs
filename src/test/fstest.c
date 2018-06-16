@@ -161,7 +161,7 @@ struct cmd {
 
 #define NR_CMD  (sizeof(cmds) / sizeof(struct cmd))
 
-void devfs_test(void *igonre) {i
+void devfs_test(void *igonre) {
   test_mttest();
   kmt->spin_init(&test_lock, "test_lock");
   fd = vfs->open("/dev/stdin", O_RDONLY);
