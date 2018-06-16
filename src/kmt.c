@@ -117,6 +117,7 @@ _debug("Thread scheduled: tid=%d", this_thread->tid);
 
 #define SPIN_MAGIC  0x8732f8a1
 static void kmt_spin_init(spinlock_t *lk, const char *name) {
+_debug("name=`%s'", name);
   int last_intr = _intr_read();
   _intr_write(0);
   if (name == NULL) name = "(anon)";
@@ -151,6 +152,7 @@ _debug("unlock[%s], tid=%d", lk->name, this_thread->tid);
 
 #define SEM_MAGIC   0xb128c183
 static void kmt_sem_init(sem_t *sem, const char *name, int value) {
+_debug("name=`%s'", name);
   kmt->spin_init(&(sem->lock), name);
   
   int last_intr = _intr_read();
@@ -168,6 +170,8 @@ static void kmt_sem_init(sem_t *sem, const char *name, int value) {
 }
 
 static void kmt_sem_wait(sem_t *sem) {
+_debug("name=`%s'", sem->name);
+
   kmt->spin_lock(&(sem->lock));
   
   assert(sem->magic == SEM_MAGIC);
@@ -183,6 +187,7 @@ static void kmt_sem_wait(sem_t *sem) {
 }
 
 static void kmt_sem_signal(sem_t *sem) {
+_debug("name=`%s'", sem->name);
   kmt->spin_lock(&(sem->lock));
 
   assert(sem->magic == SEM_MAGIC);
