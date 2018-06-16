@@ -25,6 +25,12 @@ int test_kvfstest() {
   const char test_text[] = "the quick brown fox jumps over a lazy dog\n";
   if (sh_write(fd, test_text, sizeof test_text) == sizeof test_text) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
+  if ((fd = sh_open("/test/file0")) >= 0) chk_cnt++;
+  memset(buf, 0, sizeof buf);
+  sh_read(fd, buf, sizeof buf);
+  if (strcmp(buf, test_text) == 0) chk_cnt++;
+  if (sh_close(fd) == 0) chk_cnt++;
+
   if (shb_type("/test/file0") == 0) chk_cnt++;
   
 
@@ -32,7 +38,7 @@ int test_kvfstest() {
   
   if (sh_unmount("/test/") == 0) chk_cnt++;
   
-  VERDICT(chk_cnt == 9 ? 0 : 1,
-      "%d of 2 checkpoints passed", chk_cnt);
+  VERDICT(chk_cnt == 12 ? 0 : 1,
+      "%d of 12 checkpoints passed", chk_cnt);
 }
 
