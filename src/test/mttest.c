@@ -39,11 +39,11 @@ thread_t workers[4];
 int results[4];
 
 int test_mttest() {
+  puts("====== Multi-threading Test (1) ======");
   kmt->spin_init(&io_lock, "mttest.io_lock");
   kmt->sem_init(&sem, "mttest.sem", 0);
   for (int i = 0; i < 4; i++) 
     sh_create_thread(&workers[i], (void (*)(void *))worker, &results[i]);
-  printf("!!!\n");
   for (int i = 0; i < 4; i++)
     kmt->sem_wait(&sem);
   if (results[0] == 611953 && results[1] == 611953 && results[2] == 611953 &&

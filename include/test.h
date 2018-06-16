@@ -7,7 +7,7 @@
   do { \
     if ((result) == 0) printf("\033[92mOK \033[0m"); \
     else printf("\033[91mFAIL \033[0m"); \
-    printf(fmt "\n", ##__VA_ARGS__); \
+    printf(fmt "\n\n\n", ##__VA_ARGS__); \
     return result; \
   } while (0) 
 
