@@ -50,6 +50,7 @@ int test_kvfstest() {
   memset(buf, 0, sizeof buf);
   if (sh_read(fd, buf, 10) == 10) chk_cnt++;
   if (strcmp(buf, "bcde5678@!") == 0) chk_cnt++;
+  if (sh_unmount("/test/") < 0) chk_cnt++;  // fs is still buzy
   if (sh_close(fd) == 0) chk_cnt++;
 
   SLEEP(150);
