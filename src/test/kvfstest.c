@@ -40,15 +40,14 @@ int test_kvfstest() {
   if (sh_write(fd, "456789", 6) == 6) chk_cnt++;
   if (sh_lseek(fd, -4, SEEK_CUR) == 0) chk_cnt++;
   if (sh_write(fd, "abcde", 5) == 5) chk_cnt++;
-  if (sh_lseek(fd, -1, SEEK_END) == 9) chk_cnt++;
+  if (sh_lseek(fd, -1, SEEK_END) == 10) chk_cnt++;
   if (sh_write(fd, "@!#$%^&", 7) == 7) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
 
   // 3 test points
   shb_ls();
   if (shb_type("/test/file0") == 0) chk_cnt++;
-
-  
+  if (shb_type("/test/file1") == 0) chk_cnt++;
   if (sh_unmount("/test/") == 0) chk_cnt++;
   
   VERDICT(chk_cnt == 22 ? 0 : 1,
