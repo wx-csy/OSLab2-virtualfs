@@ -163,6 +163,8 @@ struct cmd {
 
 void devfs_test(void *igonre) {
   test_mttest();
+  test_mttest2();
+
   kmt->spin_init(&test_lock, "test_lock");
   fd = vfs->open("/dev/stdin", O_RDONLY);
   int data = 0;
