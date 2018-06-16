@@ -41,6 +41,7 @@ int results[4];
 int test_mttest() {
   kmt->spin_init(&io_lock, "mttest.io_lock");
   kmt->sem_init(&sem, "mttest.sem", 0);
+_debug("!");
   for (int i = 0; i < 4; i++) 
     sh_create_thread(&workers[i], (void (*)(void *))worker, &results[i]);
   for (int i = 0; i < 4; i++)
