@@ -113,8 +113,8 @@ int shb_type(const char *path) {
   char *buf;
   int length = vfs->lseek(fd, 0, SEEK_END);
   vfs->lseek(fd, 0, SEEK_SET);
-  buf = pmm->alloc(length);
-  memset(buf, 0, sizeof buf);
+  buf = pmm->alloc(length + 1);
+  buf[length+1] = 0;
   vfs->read(fd, buf, length);
   printf("%s", buf);
   puts("");
