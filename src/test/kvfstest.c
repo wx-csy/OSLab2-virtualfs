@@ -14,10 +14,12 @@ int test_kvfstest() {
   puts("# test functions of kvfs");
   int chk_cnt = 0;
   
+  // 3 test points 
   if (sh_mount("/", New(kvfs, "kvfs_fail")) < 0) chk_cnt++;
   if (sh_mount("/test/", New(kvfs, "kvfs_test")) >= 0) chk_cnt++;
   if (sh_access("/test/inexist", R_OK | W_OK) < 0) chk_cnt++;
   
+  // 8 test points
   int fd = sh_open("/test/file0", O_RDWR);
   if (fd >= 0) chk_cnt++;
   char buf[512];
@@ -31,14 +33,25 @@ int test_kvfstest() {
   if (strcmp(buf, test_text) == 0) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
 
-  if (shb_type("/test/file0") == 0) chk_cnt++;
-  
+  // 8 test points
+  fd = sh_open("/test/file1", O_WR);
+  if (fd >= 0) chk_cnt++;
+  if (sh_lseek(fd, 4, SEEK_SET) == 4) chk_cnt++;
+  if (sh_write(fd, "456789", 6) == 6) chk_cnt++;
+  if (sh_lseek(fd, -4, SEEK_CUR) == 0) chk_cnt++;
+  if (sh_write(fd, "abcde", 5) == 5) chk_cht++;
+  if (sh_lseek(fd, -1, SEEK_END) == 9) chk_cnt++;
+  if (sh_write(fd, "@!#$%^&", 7) == 7) chk_cnt++;
+  if (sh_close(fd) == 0) chk_cnt++;
 
+  // 3 test points
   shb_ls();
+  if (shb_type("/test/file0") == 0) chk_cnt++;
+
   
   if (sh_unmount("/test/") == 0) chk_cnt++;
   
-  VERDICT(chk_cnt == 12 ? 0 : 1,
-      "%d of 12 checkpoints passed", chk_cnt);
+  VERDICT(chk_cnt == 22 ? 0 : 1,
+      "%d of 22 checkpoints passed", chk_cnt);
 }
 
