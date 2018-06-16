@@ -18,7 +18,7 @@ struct testcase {
 #define NR_TESTCASES (sizeof(testcases) / sizeof(struct testcase))
 
 void testshell() {
-  test_init();
+  init_test();
 
   for (int i = 0; i < NR_TESTCASES; i++) {
     testcases[i].result = testcases[i].fn();
