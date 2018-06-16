@@ -23,7 +23,7 @@ int test_procfstest() {
   if (sh_access(path, R_OK) == 0&& shb_type(path) == 0) cnt++; 
   SLEEP(100);
 
-  if (cnt == 3) {
+  if (cnt == 4) {
     VERDICT(0, "%d files", cnt);
   } else {
     VERDICT(1, "%d of 3 files succeeded", cnt);

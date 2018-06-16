@@ -46,7 +46,7 @@ void sh_teardown(thread_t *thread) {
 int sh_access(const char *path, int mode) {
   ENTER;
 
-  int ret = kmt->access(path, mode);
+  int ret = vfs->access(path, mode);
 
   SYSCALL_PRINT("access(\"%s\", %d) = %d", path, mode, ret);
 
