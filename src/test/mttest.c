@@ -20,7 +20,7 @@ int is_prime(int x) {
 static void worker(int *result) {
   int cnt = 0;
   int last_prime;
-  for (int i = 2; cnt < 50000; i++) {
+  for (int i = 2; cnt < 100000; i++) {
     if (is_prime(i)) {
       cnt++;
       last_prime = i;
@@ -28,7 +28,7 @@ static void worker(int *result) {
   }
   *result = last_prime;
   kmt->spin_lock(&io_lock);
-  printf("[%x] the 50000th prime is %d\n", this_thread->tid, last_prime);
+  printf("[%x] the 100000th prime is %d\n", this_thread->tid, last_prime);
   kmt->spin_unlock(&io_lock);
   
   kmt->sem_signal(&sem);
@@ -40,7 +40,7 @@ int results[4];
 
 int test_mttest() {
   puts("====== Multi-threading Test (1) ======");
-  puts("# Computing the 50000th prime with 4 threads running independently");
+  puts("# Computing the 100000th prime with 4 threads running independently");
   kmt->spin_init(&io_lock, "mttest.io_lock");
   kmt->sem_init(&sem, "mttest.sem", 0);
   for (int i = 0; i < 4; i++) 
