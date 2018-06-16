@@ -86,7 +86,7 @@ int test_concrw() {
     int exp;
     for (int j = 0; j < 8; j++) {
       exp = (i + j) % 8;
-      if (numbers[i] != exp) {
+      if (numbers[j] != exp) {
         VERDICT(1, "%d-th number in %d-th file differ: expected %d, found %d",
             j, i, exp, numbers[i]);
       }
