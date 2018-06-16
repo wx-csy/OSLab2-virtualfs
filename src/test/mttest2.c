@@ -13,9 +13,9 @@ static spinlock_t cnt_lock;
 static volatile int cnt;
 
 static void worker(void *ignore) {
-  while (cnt < 1000000) {
+  while (1) {
     kmt->spin_lock(&cnt_lock);
-    cnt++;
+    if (cnt < 10000000) cnt++; else break;
     kmt->spin_unlock(&cnt_lock);
   } 
 
@@ -42,10 +42,10 @@ int test_mttest2() {
     kmt->sem_wait(&sem);
   for (int i = 0; i < 6; i++) 
     sh_teardown(&workers[i]);
-  if (cnt == 100000000) {
-    VERDICT(0, "expected 100000000, found %d", cnt);
+  if (cnt == 10000000) {
+    VERDICT(0, "expected 10000000, found %d", cnt);
   } else {
-    VERDICT(1, "expected 100000000, found %d", cnt);
+    VERDICT(1, "expected 10000000, found %d", cnt);
   }
 }
 
