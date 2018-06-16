@@ -1,5 +1,6 @@
 #include <pmr.h>
 #include <kernel.h>
+#include <os.h>
 #include <fs/procfs.h>
 #include <string.h>
 #include <stdlib.h>
