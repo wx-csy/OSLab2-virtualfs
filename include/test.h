@@ -24,6 +24,7 @@ int shb_type(const char *path);
 
 int test_mttest();
 int test_mttest2();
+int test_procfstest();
 
 #endif
 
