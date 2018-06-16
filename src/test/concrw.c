@@ -9,6 +9,8 @@
 #include <assert.h>
 #include <time.h>
 
+#define COUNT_N   300000
+
 static spinlock_t io_lock;
 static sem_t sem;
 
@@ -23,7 +25,7 @@ void worker(int *count) {
     fds[i] = vfs->open(files[i], O_RDWR);
   }
   int tid = this_thread->tid;
-  for (int i = 0; i < 200000; i++) {
+  for (int i = 0; i < COUNT_N; i++) {
     int fn = i % 4;
     vfs->lseek(fds[fn], 4 * ((fn + tid) % 8), SEEK_SET);
     vfs->write(fds[fn], &tid, 4);
@@ -69,6 +71,12 @@ int test_concrw() {
 
   shb_ls();
   sh_unmount("/concrw_tmp/");
+  
+  for (int i = 0; i < 8; i++) {
+    if (counts[i] != COUNT_N + 1) 
+      VERDICT(0, "%d-th count differ: expected %d, found %d", 
+          i, COUNT_N, counts[i]);
+  }
 
   VERDICT(0, "numbers are correct");
 }
