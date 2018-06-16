@@ -37,7 +37,7 @@ static int expand(struct kvfs_kvp *kvp, size_t newsize) {
   if (newsize > kvp->capacity) {
     int newcap = newsize * 2;
     char *newdata = pmm->alloc(newcap);
-    if (newdata = NULL) {
+    if (newdata == NULL) {
 _debug("Failed to allocate memory!");
       return -1;
     }
