@@ -18,7 +18,7 @@ int is_prime(int x) {
 }
 
 static void worker(int *result) {
-printf("!")
+printf("!");
   int cnt = 0;
   int last_prime;
   for (int i = 2; cnt < 10000; i++) {
