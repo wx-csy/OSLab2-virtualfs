@@ -22,8 +22,8 @@ void worker(void *ignore) {
   int tid = this_thread->tid;
   for (int i = 0; i < 1000000; i++) {
     int fn = i % 4;
-    kmt->lseek(fds[fn], 4 * ((fn + tid) % 8), SEEK_SET);
-    kmt->write(fds[fn], tid, 4);
+    vfs->lseek(fds[fn], 4 * ((fn + tid) % 8), SEEK_SET);
+    vfs->write(fds[fn], tid, 4);
   }
   for (int i = 0; i < 4; i++) {
     vfs->close(fds[i]);
@@ -31,7 +31,7 @@ void worker(void *ignore) {
 
   kmt->spin_lock(&io_lock);
   printf("[%d] done\n", tid);
-  kmt->spin_unlock(&io_unlock);
+  kmt->spin_unlock(&io_lock);
     
   kmt->sem_signal(&sem);
 
@@ -43,7 +43,7 @@ int test_concrw() {
   puts("# test thread safety of kvfs");
   
   kmt->spin_init(&io_lock, "concrw.io_lock");
-  kmt->sem_init(&sem, "concrw.sem");
+  kmt->sem_init(&sem, 0, "concrw.sem");
   
   srand(time(NULL));
   sh_mount("/concrw_tmp/", New(kvfs, "concrw_temp"));
