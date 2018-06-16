@@ -34,7 +34,7 @@ static void worker(int *result) {
   while (1); 
 }
 
-void thread_t workers[4];
+thread_t workers[4];
 int results[4];
 
 int test_mttest() {
