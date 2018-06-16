@@ -60,7 +60,7 @@ void shb_type(const char *path) {
   buf = pmm->alloc(length);
   vfs->read(fd, buf, length);
   printf("%s", buf);
-  puts("~")
+  puts("\033[97m~\033[0m");
   pmm->free(buf);
 
   RETURN;
