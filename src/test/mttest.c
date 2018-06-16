@@ -40,6 +40,7 @@ int results[4];
 
 int test_mttest() {
   puts("====== Multi-threading Test (1) ======");
+  puts("# Computing the 50000th prime with 4 threads running independently");
   kmt->spin_init(&io_lock, "mttest.io_lock");
   kmt->sem_init(&sem, "mttest.sem", 0);
   for (int i = 0; i < 4; i++) 
