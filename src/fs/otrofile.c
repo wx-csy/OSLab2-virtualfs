@@ -36,7 +36,8 @@ static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
 
 static ssize_t read Member (char *buf, size_t size) {
   MemberOf(otrofile);
-
+  
+  if ((this.flags & O_RD) == 0) return -1;
   if (base.offset + size > this.length) {
     size = this.length - base.offset;
     memcpy(buf, this.data + base.offset, size);

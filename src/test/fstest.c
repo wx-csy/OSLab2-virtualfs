@@ -162,11 +162,10 @@ struct cmd {
 #define NR_CMD  (sizeof(cmds) / sizeof(struct cmd))
 
 void devfs_test(void *igonre) {
-  /*
+  
   test_mttest();
   test_mttest2();
-  test_procfstest();
-  */
+  test_procfstest(); 
   test_kvfstest();
   test_concrw();
 
