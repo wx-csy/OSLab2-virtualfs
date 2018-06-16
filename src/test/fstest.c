@@ -167,7 +167,7 @@ void devfs_test(void *igonre) {
   test_mttest2();
   test_procfs(); 
   test_devfs();
-  test_kvfstest();
+  test_kvfs();
   test_concrw();
 
   kmt->spin_init(&test_lock, "test_lock");

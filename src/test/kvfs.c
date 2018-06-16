@@ -9,7 +9,7 @@
 #include <assert.h>
 #include <time.h>
 
-int test_kvfstest() {
+int test_kvfs() {
   puts("====== kvfs Functional Test ======");
   puts("# test functions of kvfs");
   int chk_cnt = 0;
