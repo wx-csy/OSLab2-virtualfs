@@ -82,6 +82,7 @@ int test_concrw() {
   for (int i = 0; i < 4; i++) {
     int fd = vfs->open(files[i], O_RDONLY);
     vfs->read(fd, &numbers[0], sizeof numbers);
+    printf("file[%d] (%s): ", i, files[i]);
     for (int i = 0; i < 8; i++) printf("%d ", numbers[i]); puts("");
     int exp;
     for (int j = 0; j < 8; j++) {
