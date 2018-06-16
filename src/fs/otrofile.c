@@ -72,7 +72,7 @@ static int lseek Member (off_t offset, int whence) {
 _debug("Invalid whence parameter (%d)", whence);
       return -1;
   }
-  if (offset < 0 || offset >= this.length) {
+  if (offset < 0 || offset > this.length) {
 _debug("Offset out of range!");
     return -1;
   }

@@ -59,6 +59,7 @@ static ssize_t write Member (const char *buf, size_t size) {
 _debug("Failed to allocate memory!");
       return -1;
     }
+    memset(newdata, 0, newcap);
     memcpy(newdata, kvp->data, kvp->length);
     pmm->free(kvp->data);
     kvp->data = newdata;
@@ -88,9 +89,12 @@ static int lseek Member (off_t offset, int whence) {
 _debug("Invalid whence paramenter (%d)", whence);
       return -1;
   }
-  if (offset < 0 || offset >= kvp->length) {
+  if (offset < 0) {
 _debug("Offset out of range!");
     return -1;
+  }
+  if (offset > kvp->length) { // expand file
+    
   }
   base.offset = offset;
   return offset;
