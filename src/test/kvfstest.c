@@ -35,9 +35,10 @@ int test_kvfstest() {
   if (sh_close(fd) == 0) chk_cnt++;
 
   SLEEP(150);
-  // 14 test points
+  // 16 test points
   fd = sh_open("/test/file1", O_WRONLY);
   if (fd >= 0) chk_cnt++;
+  if (sh_read(fd, buf, 2) < 0) chk_cnt++;
   if (sh_lseek(fd, 4, SEEK_SET) == 4) chk_cnt++;
   if (sh_write(fd, "456789", 6) == 6) chk_cnt++;
   if (sh_lseek(fd, -10, SEEK_CUR) == 0) chk_cnt++;
@@ -47,6 +48,7 @@ int test_kvfstest() {
   if (sh_close(fd) == 0) chk_cnt++;
   if ((fd = sh_open("/test/file1", O_RDONLY)) >= 0) chk_cnt++;
   if (sh_lseek(fd, 1, SEEK_CUR) == 1) chk_cnt++;
+  if (sh_write(fd, buf, 2) < 0) chk_cnt++;
   memset(buf, 0, sizeof buf);
   if (sh_read(fd, buf, 10) == 10) chk_cnt++;
   if (strcmp(buf, "bcde5678@!") == 0) chk_cnt++;
