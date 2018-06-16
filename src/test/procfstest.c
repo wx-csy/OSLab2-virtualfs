@@ -15,7 +15,7 @@ int test_procfstest() {
   if (shb_type("/proc/cpuinfo") == 0) cnt++;
   SLEEP(20);
   if (shb_type("/proc/meminfo") == 0) cnt++;
-  const char path[256];
+  char path[256];
   sprintf(path, "/proc/%d", this_thread->tid);
   SLEEP(20);
   if (shb_type("/proc/0") == 0) cnt++; 
