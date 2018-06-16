@@ -15,7 +15,10 @@ static volatile int cnt;
 static void worker(void *ignore) {
   while (1) {
     kmt->spin_lock(&cnt_lock);
-    if (cnt < 10000000) cnt++; else break;
+    if (cnt < 10000000) cnt++; else {
+      kmt->spin_unlock(&cnt_lock);
+      break;
+    }
     kmt->spin_unlock(&cnt_lock);
   } 
 
