@@ -85,7 +85,7 @@ int test_concrw() {
     for (int i = 0; i < 8; i++) printf("%d ", numbers[i]); puts("");
     int exp;
     for (int j = 0; j < 8; j++) {
-      exp = (i + j) % 8;
+      exp = (8 - i + j) % 8;
       if (numbers[j] != exp) {
         VERDICT(1, "%d-th number in %d-th file differ: expected %d, found %d",
             j, i, exp, numbers[i]);
