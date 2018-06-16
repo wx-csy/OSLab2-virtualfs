@@ -95,6 +95,7 @@ static file_t *open Member (inode_t inode, int flags) {
   char *buf;
   int size;
   otrofile_t *file;
+  file_t *fl;
   time_t curtime;
 
   switch (inode) {
@@ -106,16 +107,18 @@ static file_t *open Member (inode_t inode, int flags) {
       file = New(otrofile, (void *)&this, inode, flags);
       file->length = size;
       file->data = buf;
-      file->base.refcnt++;
-      return (file_t *)file;
+      fl = (file_t *)file;
+      fl->refcnt++;
+      return fl;
     case MEMINFO_INODE:
       buf = pmm->alloc(512);
       size = sprintf(buf, "Memory Type: Unknown\n");
       file = New(otrofile, (void *)&this, inode, flags);
       file->length = size;
       file->data = buf;
-      file->base.refcnt++;
-      return (file_t *)file;
+      fl = (file_t *)file;
+      fl->refcnt++;
+      return fl;
     default:
       if (inode < 0 || inode >= NR_THREADS) return NULL;
       if (threads[inode]->status == THRD_STATUS_INVALID) return NULL;
@@ -132,8 +135,9 @@ static file_t *open Member (inode_t inode, int flags) {
       file = New(otrofile, (void *)&this, inode, flags);
       file->length = size;
       file->data = buf;
-      file->base.refcnt++;
-      return (file_t *)file;
+      fl = (file_t *)file;
+      fl->refcnt++;
+      return fl;
   }
 /*  
   file_t *file = New(devfile, (void *)&this, inode, flags);
