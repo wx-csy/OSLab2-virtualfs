@@ -20,7 +20,7 @@ int is_prime(int x) {
 static void worker(int *result) {
   int cnt = 0;
   int last_prime;
-  for (int i = 2; cnt < 50000; i++) {
+  for (int i = 2; cnt < 50002; i++) {
     if (is_prime(i)) {
       cnt++;
       last_prime = i;
@@ -46,7 +46,12 @@ int test_mttest() {
   printf("!!!\n");
   for (int i = 0; i < 4; i++)
     kmt->sem_wait(&sem);
-  VERDICT(0, "numbers are correct");
-  return 0;
+  if (results[0] == 611953 && results[1] == 611953 && results[2] == 611953 &&
+      results[3] == 611953) {
+    VERDICT(0, "numbers are correct (611953)");
+  } else {
+    VERDICT(1, "incorrect numbers: expected 611953, found {%d, %d, %d, %d}",
+        results[0], results[1], results[2], results[3]);
+  }
 }
 
