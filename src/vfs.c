@@ -192,6 +192,7 @@ UNLOCK
       return -1;
     }
     this_thread->fd[i] = file;
+    fs->refcnt++;
 UNLOCK
     return i;
   }
@@ -225,6 +226,7 @@ static int close(int fd) {
 LOCK
   this_thread->fd[fd]->refcnt--;
   if (this_thread->fd[fd]->refcnt == 0) {
+    this_thread->fd[fd]->fs->refcnt--;
     Delete(this_thread->fd[fd]);
     this_thread->fd[fd] = NULL;
   }
