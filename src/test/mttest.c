@@ -26,11 +26,11 @@ static void worker(int *result) {
     }
   }
   *result = last_prime;
-  kmt->lock(&io_lock);
+  kmt->spin_lock(&io_lock);
   printf("[%x] the 10000th prime is %s\n", this_thread->tid, last_prime);
-  kmt->unlock(&io_lock);
+  kmt->spin_unlock(&io_lock);
   
-  kmt->signal(&sem);
+  kmt->sem_signal(&sem);
   while (1); 
 }
 
