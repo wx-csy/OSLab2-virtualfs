@@ -49,6 +49,8 @@ int test_mttest2() {
     kmt->sem_wait(&sem);
   for (int i = 0; i < 6; i++) 
     sh_teardown(&workers[i]);
+
+  SLEEP(200);
   if (cnt == 10000000) {
     VERDICT(0, "expected 10000000, found %d", cnt);
   } else {

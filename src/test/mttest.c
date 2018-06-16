@@ -49,6 +49,8 @@ int test_mttest() {
     kmt->sem_wait(&sem);
   for (int i = 0; i < 4; i++) 
     sh_teardown(&workers[i]);
+
+  SLEEP(200);
   if (results[0] == 611953 && results[1] == 611953 && results[2] == 611953 &&
       results[3] == 611953) {
     VERDICT(0, "numbers are correct (611953)");
