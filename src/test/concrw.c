@@ -23,7 +23,7 @@ void worker(void *ignore) {
   for (int i = 0; i < 1000000; i++) {
     int fn = i % 4;
     vfs->lseek(fds[fn], 4 * ((fn + tid) % 8), SEEK_SET);
-    vfs->write(fds[fn], tid, 4);
+    vfs->write(fds[fn], &tid, 4);
   }
   for (int i = 0; i < 4; i++) {
     vfs->close(fds[i]);
