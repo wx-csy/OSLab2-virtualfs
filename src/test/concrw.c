@@ -70,7 +70,6 @@ int test_concrw() {
   }
 
   shb_ls();
-  sh_unmount("/concrw_tmp/");
   
   for (int i = 0; i < 8; i++) {
     if (counts[i] != COUNT_N) 
@@ -93,6 +92,7 @@ int test_concrw() {
     vfs->close(fd);
   }
 
+  sh_unmount("/concrw_tmp/");
   VERDICT(0, "all values are correct");
 }
 
