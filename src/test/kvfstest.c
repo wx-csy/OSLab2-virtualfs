@@ -34,7 +34,7 @@ int test_kvfstest() {
   if (strcmp(buf, test_text) == 0) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
 
-  SLEEP(1500);
+  SLEEP(15000);
   // 16 test points
   fd = sh_open("/test/file1", O_WRONLY);
   if (fd >= 0) chk_cnt++;
