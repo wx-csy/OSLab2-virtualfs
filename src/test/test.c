@@ -22,10 +22,10 @@ int sh_create_thread(thread_t *thread, void entry(void *arg), void *arg) {
   ENTER;
 
   int ret = kmt->create(thread, entry, arg);
-  int pid = ret == 1 ? thread->pid : -1;
+  int tid = ret == 1 ? thread->tid : -1;
 
   SYSCALL_PRINT("create_thread(thread = %p, entry = %p, arg = %p) = %d" "
-      (pid = %d)", thread, entry, arg, ret);
+      (tid = %d)", thread, entry, arg, ret, tid);
 
   RETURN ret;
 }
