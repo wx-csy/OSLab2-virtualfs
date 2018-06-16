@@ -27,7 +27,7 @@ void worker(int* count) {
   }
   for (int i = 0; i < COUNT_N; i++) {
     int fn = i % 4;
-    vfs->lseek(fds[fn], 4 * ((fn + wid) % 8), SEEK_SET);
+    vfs->lseek(fds[fn], 4 * ((8 - fn + wid) % 8), SEEK_SET);
     vfs->write(fds[fn], &wid, 4);
     int val; 
     vfs->lseek(fds[fn], -4, SEEK_CUR);
