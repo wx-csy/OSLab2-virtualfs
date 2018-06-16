@@ -73,11 +73,26 @@ int test_concrw() {
   sh_unmount("/concrw_tmp/");
   
   for (int i = 0; i < 8; i++) {
-    if (counts[i] != COUNT_N + 1) 
+    if (counts[i] != COUNT_N) 
       VERDICT(1, "worker %d gives wrong answer: expected %d, found %d", 
           i, COUNT_N, counts[i]);
   }
 
-  VERDICT(0, "numbers are correct");
+  int numbers[8];
+  for (int i = 0; i < 4; i++) {
+    int fd = vfs->open(files[i]);
+    vfs->read(fd, &numbers[0], sizeof numbers);
+    int exp;
+    for (int j = 0; j < 8; j++) {
+      exp = (i + j) % 8;
+      if (numbers[i] != exp) {
+        VERDICT(1, "%d-th number in %d-th file differ: expected %d, found %d",
+            j, i, exp, numbers[i]);
+      }
+    }
+    vfs->close(fd);
+  }
+
+  VERDICT(0, "all values are correct");
 }
 
