@@ -19,7 +19,7 @@ int test_kvfstest() {
   if (sh_mount("/test/", New(kvfs, "kvfs_test")) >= 0) chk_cnt++;
   if (sh_access("/test/inexist", R_OK | W_OK) < 0) chk_cnt++;
   
-  SLEEP(200);
+  SLEEP(150);
   // 7 test points
   int fd = sh_open("/test/file0", O_RDWR);
   if (fd >= 0) chk_cnt++;
@@ -34,7 +34,7 @@ int test_kvfstest() {
   if (strcmp(buf, test_text) == 0) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
 
-  SLEEP(200);
+  SLEEP(150);
   // 8 test points
   fd = sh_open("/test/file1", O_WRONLY);
   if (fd >= 0) chk_cnt++;
@@ -45,8 +45,14 @@ int test_kvfstest() {
   if (sh_lseek(fd, -1, SEEK_END) == 9) chk_cnt++;
   if (sh_write(fd, "@!#$%^&", 7) == 7) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
+  if ((fd = sh_open("/test/file1")) >= 0) chk_cnt++;
+  if (sh_lseek(fd, 1, SEEK_CUR) == 1) chk_cnt++;
+  memset(buf, 0, sizeof buf);
+  if (sh_read(fd, buf, 10) == 10) chk_cnt++;
+  if (strcmp(buf, "bcde5678@!") == 0) chk_cnt++;
+  if (sh_close(fd) == 0) chk_cnt++;
 
-  SLEEP(200);
+  SLEEP(150);
   // 3 test points
   shb_ls();
   if (shb_type("/test/file0") == 0) chk_cnt++;
