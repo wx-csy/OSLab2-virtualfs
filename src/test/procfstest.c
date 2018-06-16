@@ -31,9 +31,9 @@ int test_procfstest() {
   char path[256];
   sprintf(path, "/proc/%d", this_thread->tid);
   if (sh_access(path, R_OK) == 0 && shb_type(path) == 0) cnt++; 
-  SLEEP(100);
+  SLEEP(1000);
 
-  VERDICT(chk_cnt == 5 && cnt == 3, 
+  VERDICT(!(chk_cnt == 5 && cnt == 3), 
       "%d of 5 checkpoints passed, %d of 3 files succeeded", 
       chk_cnt, cnt);
 }
