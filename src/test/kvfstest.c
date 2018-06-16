@@ -34,12 +34,12 @@ int test_kvfstest() {
   if (sh_close(fd) == 0) chk_cnt++;
 
   // 8 test points
-  fd = sh_open("/test/file1", O_WR);
+  fd = sh_open("/test/file1", O_WRONLY);
   if (fd >= 0) chk_cnt++;
   if (sh_lseek(fd, 4, SEEK_SET) == 4) chk_cnt++;
   if (sh_write(fd, "456789", 6) == 6) chk_cnt++;
   if (sh_lseek(fd, -4, SEEK_CUR) == 0) chk_cnt++;
-  if (sh_write(fd, "abcde", 5) == 5) chk_cht++;
+  if (sh_write(fd, "abcde", 5) == 5) chk_cnt++;
   if (sh_lseek(fd, -1, SEEK_END) == 9) chk_cnt++;
   if (sh_write(fd, "@!#$%^&", 7) == 7) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
