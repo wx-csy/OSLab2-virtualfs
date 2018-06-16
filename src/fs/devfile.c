@@ -3,7 +3,7 @@
 #include <string.h>
 #include <assert.h>
 
-#define DEBUG_ME
+// #define DEBUG_ME
 #include <debug.h>
 
 static int      _ctor Member (filesystem_t *fs, inode_t inode, int flags);

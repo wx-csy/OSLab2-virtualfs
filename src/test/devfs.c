@@ -33,7 +33,7 @@ int test_devfs() {
   if (sh_access("/dev/zero", R_OK | W_OK) == 0) chk_cnt++;
   if ((fd = sh_open("/dev/zero", O_RDWR)) >= 0) chk_cnt++;
   if (sh_write(fd, buf, sizeof buf) == sizeof buf) chk_cnt++;
-  if (sh_read(fd, buf, sizeof(int)) == 0) chk_cnt++;
+  if (sh_read(fd, buf, sizeof(int)) == sizeof(int)) chk_cnt++;
   printf("zero read: %d\n", buf[0]);
   if (buf[0] == 0) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
