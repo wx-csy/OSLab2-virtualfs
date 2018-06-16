@@ -27,6 +27,7 @@ int test_devfs() {
   if (sh_read(fd, buf, sizeof buf) == 0) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
 
+  printf("chk_cnt=%d\n", chk_cnt);
   SLEEP(1000);
 
   // 6 checkpoints for /dev/zero
@@ -37,6 +38,7 @@ int test_devfs() {
   if (buf[0] == 0) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
   
+  printf("chk_cnt=%d\n", chk_cnt);
   SLEEP(1000);
 
   // 5 checkpoints for /dev/random
