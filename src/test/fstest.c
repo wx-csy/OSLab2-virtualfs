@@ -93,7 +93,7 @@ static void cmd_type(char *args) {
     printf("Failed to open file `%s'\n", args);
     return ;
   }
-  char buf[4096];
+  char buf[4096] = {0};
   int length = atoi(s_bytes);
   if (length == 0) {
     length = vfs->lseek(fd, 0, SEEK_END);
