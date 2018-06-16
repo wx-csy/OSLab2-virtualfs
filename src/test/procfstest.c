@@ -22,6 +22,5 @@ int test_procfstest() {
   } else {
     VERDICT(1, "%d of 3 files succeeded", cnt);
   }
-  SLEEP(200);
 }
 
