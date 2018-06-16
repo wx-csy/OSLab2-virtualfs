@@ -113,7 +113,22 @@ static file_t *open Member (inode_t inode, int flags) {
       file->data = buf;
       return (file_t *)file;
     default:
-      return NULL;
+      if (inode < 0 || inode >= NR_THREADS) return NULL;
+      if (threads[inode]->status = THRD_STATUS_INVALID) return NULL;
+      buf = pmm->alloc(1024);
+      size = sprintf(buf, 
+          "pid: %d\n" 
+          "status: %d\n"
+          "intr_cnt: %d\n" 
+          "stack: 0x%p - 0x%p\n",
+          threads[inode]->tid,
+          threads[inode]->status,
+          threads[inode]->intr_cnt,
+          threads[inode]->stack.start, threads[inode]->stack.end);
+      file = New(otrofile, (void *)&this, inode, flags);
+      file->length = size;
+      file->data = buf;
+      return (file_t *)file;
   }
 /*  
   file_t *file = New(devfile, (void *)&this, inode, flags);
