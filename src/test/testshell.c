@@ -26,15 +26,19 @@ void testshell() {
   
   SLEEP(200);
 
+  int passcnt = 0;
   puts("========== TEST SUMMARY ===========");
   for (int i = 0; i < NR_TESTCASES; i++) {
-    printf("%s: ", testcases[i].name);
+    printf("  %s: ", testcases[i].name);
     if (testcases[i].result == 0) {
+      passcnt++;
       puts("\033[92mOK\033[0m");
     } else {
       puts("\033[91mFAIL\033[0m");
     }
   }
+  puts("");
+  printf("%d of %d test cases passed", passcnt, NR_TESTCASES);
   _Exit(0);
 }
 

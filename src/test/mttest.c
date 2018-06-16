@@ -20,7 +20,7 @@ int is_prime(int x) {
 static void worker(int *result) {
   int cnt = 0;
   int last_prime;
-  for (int i = 2; cnt < 50000; i++) {
+  for (int i = 2; cnt <= 50000; i++) {
     if (is_prime(i)) {
       cnt++;
       last_prime = i;
