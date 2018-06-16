@@ -13,7 +13,7 @@ static spinlock_t cnt_lock;
 static volatile int cnt;
 
 static void worker(void *ignore) {
-  while (cnt < 100000) {
+  while (cnt < 1000000) {
     kmt->spin_lock(&cnt_lock);
     cnt++;
     kmt->spin_unlock(&cnt_lock);
