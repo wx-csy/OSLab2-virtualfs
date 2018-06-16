@@ -74,7 +74,7 @@ int test_concrw() {
   
   for (int i = 0; i < 8; i++) {
     if (counts[i] != COUNT_N + 1) 
-      VERDICT(0, "%d-th count differ: expected %d, found %d", 
+      VERDICT(1, "worker %d gives wrong answer: expected %d, found %d", 
           i, COUNT_N, counts[i]);
   }
 
