@@ -26,6 +26,7 @@ int sh_unmount(const char *path);
 int sh_access(const char *path, int mode);
 int sh_open(const char *path, int flags);
 int sh_read(int fd, void *buf, size_t nbyte);
+int sh_write(int fd, const void* buf, size_t nbyte);
 
 int shb_type(const char *path);
 

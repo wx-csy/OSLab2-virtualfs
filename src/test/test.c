@@ -69,6 +69,14 @@ ssize_t sh_read(int fd, void *buf, size_t nbyte) {
   RETURN ret; 
 }
 
+ssize_t sh_write(int fd, const void *buf, size_t nbyte) {
+  ENTER;
+  ssize_t ret = vfs->write(fd, buf, nbyte);
+  SYSCALL_PRINT("write(fd = %d, buf = %p, nbyte = %d) = %d", 
+      fd, buf, nbyte);
+  RETURN ret; 
+}
+
 int sh_access(const char *path, int mode) {
   ENTER;
   int ret = vfs->access(path, mode);

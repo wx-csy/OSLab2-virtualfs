@@ -21,6 +21,10 @@ int test_kvfstest() {
   int fd = sh_open("/test/file0", O_RDWR);
   char buf[512];
   if (sh_read(fd, buf, 10) == 0) chk_cnt++;
+  const char test_text[] = "the quick brown fox jumps over a lazy dog";
+  if (sh_write(fd, test_text, sizeof test_text) == sizeof test_text) chk_cnt++;
+
+  if (shb_type("/test/file0") == 0) chk_cnt++;
 
   if (sh_unmount("/test/") == 0) chk_cnt++;
 
