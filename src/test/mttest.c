@@ -28,7 +28,7 @@ static void worker(int *result) {
   }
   *result = last_prime;
   kmt->spin_lock(&io_lock);
-  printf("[%x] the 10000th prime is %s\n", this_thread->tid, last_prime);
+  printf("[%x] the 10000th prime is %d\n", this_thread->tid, last_prime);
   kmt->spin_unlock(&io_lock);
   
   kmt->sem_signal(&sem);
