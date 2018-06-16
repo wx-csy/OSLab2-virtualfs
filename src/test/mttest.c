@@ -18,7 +18,6 @@ int is_prime(int x) {
 }
 
 static void worker(int *result) {
-printf("!");
   int cnt = 0;
   int last_prime;
   for (int i = 2; cnt < 10000; i++) {
@@ -44,6 +43,7 @@ int test_mttest() {
   kmt->sem_init(&sem, "mttest.sem", 0);
   for (int i = 0; i < 4; i++) 
     sh_create_thread(&workers[i], (void (*)(void *))worker, &results[i]);
+  printf("!!!\n");
   for (int i = 0; i < 4; i++)
     kmt->sem_wait(&sem);
   VERDICT(0, "numbers are correct");
