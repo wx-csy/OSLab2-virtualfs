@@ -33,14 +33,13 @@ int test_devfs() {
   if (buf[0] == 0) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
   
-  // 5 checkpoints for /dev/random
-  if (sh_access("/dev/random", W_OK) < 0) chk_cnt++;
+  // 4 checkpoints for /dev/random
   if (sh_access("/dev/random", R_OK) == 0) chk_cnt++;
   if ((fd = sh_open("/dev/random", O_RDONLY)) >= 0) chk_cnt++;
   if (sh_read(fd, buf, sizeof(int)) == sizeof(int)) chk_cnt++;
   printf("random number read: %d\n", buf[0]);
   if (sh_close(fd) == 0) chk_cnt++;
 
-  VERDICT(!(chk_cnt == 16), "%d of 16 checkpoints passed", chk_cnt);
+  VERDICT(!(chk_cnt == 15), "%d of 15 checkpoints passed", chk_cnt);
 }
 
