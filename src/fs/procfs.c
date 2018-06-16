@@ -106,7 +106,7 @@ static file_t *open Member (inode_t inode, int flags) {
       file = New(otrofile, (void *)&this, inode, flags);
       file->length = size;
       file->data = buf;
-      file->refcnt++;
+      file->base.refcnt++;
       return (file_t *)file;
     case MEMINFO_INODE:
       buf = pmm->alloc(512);
@@ -114,7 +114,7 @@ static file_t *open Member (inode_t inode, int flags) {
       file = New(otrofile, (void *)&this, inode, flags);
       file->length = size;
       file->data = buf;
-      file->refcnt++;
+      file->base.refcnt++;
       return (file_t *)file;
     default:
       if (inode < 0 || inode >= NR_THREADS) return NULL;
@@ -132,7 +132,7 @@ static file_t *open Member (inode_t inode, int flags) {
       file = New(otrofile, (void *)&this, inode, flags);
       file->length = size;
       file->data = buf;
-      file->refcnt++;
+      file->base.refcnt++;
       return (file_t *)file;
   }
 /*  
