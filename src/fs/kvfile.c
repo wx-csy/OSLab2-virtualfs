@@ -32,6 +32,25 @@ static int _ctor Member (filesystem_t *fs, inode_t inode, int flags) {
   return 0;
 }
 
+static int expand(struct kvfs_kvp *kvp, size_t newsize) {
+  if (newsize <= kvp->length) return 1;
+  if (newsize > kvp->capacity) {
+    int newcap = newsize * 2;
+    char *newdata = pmm->alloc(newcap);
+    if (newdata = NULL) {
+_debug("Failed to allocate memory!");
+      return -1;
+    }
+    memcpy(newdata, kvp->data, kvp->length);
+    pmm->free(kvp->data);
+    kvp->data = newdata;
+    kvp->capacity = newcap;
+  }
+  memset(kvp->data + kvp->length, 0, newsize - kvp->length);
+  kvp->length = newsize;
+  return 0;
+}
+
 static ssize_t read Member (char *buf, size_t size) {
   MemberOf(kvfile);
 _debug("size=%d", size);
@@ -52,23 +71,9 @@ static ssize_t write Member (const char *buf, size_t size) {
   MemberOf(kvfile);
 
   struct kvfs_kvp *kvp = &(this.kvfs->kvp[base.inode]);
-  if (base.offset + size > kvp->capacity) {
-    int newcap = ((base.offset + size) * 2);
-    char *newdata = pmm->alloc(newcap);
-    if (newdata == NULL) {
-_debug("Failed to allocate memory!");
-      return -1;
-    }
-    memset(newdata, 0, newcap);
-    memcpy(newdata, kvp->data, kvp->length);
-    pmm->free(kvp->data);
-    kvp->data = newdata;
-    kvp->capacity = newcap;
-  }
+  if (expand(kvp, base.offset + size) < 0) return -1;
   memcpy(kvp->data + base.offset, buf, size);
   base.offset += size;
-  if (base.offset > kvp->length)
-    kvp->length = base.offset;
   return size;  
 }
 
@@ -93,9 +98,7 @@ _debug("Invalid whence paramenter (%d)", whence);
 _debug("Offset out of range!");
     return -1;
   }
-  if (offset > kvp->length) { // expand file
-    
-  }
+  if (expand(kvp, offset) < 0) return -1;
   base.offset = offset;
   return offset;
 }
