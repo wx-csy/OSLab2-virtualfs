@@ -54,7 +54,7 @@ _debug("Failed to allocate memory!");
 static ssize_t read Member (char *buf, size_t size) {
   MemberOf(kvfile);
 
-  if ((this.flags & R_OK) == 0) return -1;
+  if ((base.flags & R_OK) == 0) return -1;
   struct kvfs_kvp *kvp = &(this.kvfs->kvp[base.inode]);
   if (base.offset + size > kvp->length) {
     size = kvp->length - base.offset;
@@ -71,7 +71,7 @@ static ssize_t read Member (char *buf, size_t size) {
 static ssize_t write Member (const char *buf, size_t size) {
   MemberOf(kvfile);
 
-  if ((this.flags & W_OK) == 0) return -1;
+  if ((base.flags & W_OK) == 0) return -1;
   struct kvfs_kvp *kvp = &(this.kvfs->kvp[base.inode]);
   if (expand(kvp, base.offset + size) < 0) return -1;
   memcpy(kvp->data + base.offset, buf, size);
