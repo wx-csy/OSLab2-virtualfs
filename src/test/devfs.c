@@ -18,12 +18,16 @@ int test_devfs() {
   
   int fd;
 
+  SLEEP(100);
+
   // 5 checkpoints for /dev/null
   if (sh_access("/dev/null", R_OK | W_OK) == 0) chk_cnt++;
   if ((fd = sh_open("/dev/null", O_RDWR)) >= 0) chk_cnt++;
   if (sh_write(fd, buf, sizeof buf) == sizeof buf) chk_cnt++;
   if (sh_read(fd, buf, sizeof buf) == 0) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
+
+  SLEEP(100);
 
   // 6 checkpoints for /dev/zero
   if (sh_access("/dev/zero", R_OK | W_OK) == 0) chk_cnt++;
@@ -33,7 +37,10 @@ int test_devfs() {
   if (buf[0] == 0) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
   
-  // 4 checkpoints for /dev/random
+  SLEEP(100);
+
+  // 5 checkpoints for /dev/random
+  if (sh_access("/dev/random", R_OK | W_OK) < 0) chk_cnt++;
   if (sh_access("/dev/random", R_OK) == 0) chk_cnt++;
   if ((fd = sh_open("/dev/random", O_RDONLY)) >= 0) chk_cnt++;
   if (sh_read(fd, buf, sizeof(int)) == sizeof(int)) chk_cnt++;
