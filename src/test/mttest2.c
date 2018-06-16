@@ -19,9 +19,9 @@ static void worker(void *ignore) {
     kmt->spin_unlock(&cnt_lock);
   } 
 
-  kmt->sem_lock(&io_lock);
+  kmt->spin_lock(&io_lock);
   printf("[%d] done\n", this_thread->tid);
-  kmt->sem_unlock(&io_lock);
+  kmt->spin_unlock(&io_lock);
 
   kmt->sem_signal(&sem);
   while (1); 
