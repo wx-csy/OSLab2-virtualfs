@@ -17,6 +17,8 @@ void init_test();
 int sh_create_thread(thread_t *thread, void entry(void *arg), void *arg);
 void sh_teardown(thread_t *thread);
 
+void shb_type(const char *path);
+
 int test_mttest();
 int test_mttest2();
 

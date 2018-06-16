@@ -14,6 +14,9 @@ static spinlock_t exec_lock;
 #define SYSCALL_PRINT(fmt, ...) \
   printf("\033[93m" fmt "\n\033[0m", ##__VA_ARGS__)
 
+#define SHELL_PRINT(fmt, ...) \
+  printf("\033[96m" fmt "\n\033[0m", ##__VA_ARGS__)
+
 void init_test() {
   kmt->spin_init(&exec_lock, "test.lock");
 }
@@ -39,3 +42,27 @@ void sh_teardown(thread_t *thread) {
 
   RETURN;
 }
+
+void shb_type(const char *path) {
+  ENTER;
+  
+  SHELL_PRINT("$ type %s", path);
+  
+  int fd = vfs->open(path, O_RDONLY);
+  if (fd < 0) {
+    printf("Failed to open file `%s'\m", path);
+    RETURN;
+  }
+
+  char *buf;
+  int length = vfs->lseek(fd, 0, SEEK_END);
+  vfs->lseek(fd, 0, SEEK_SET);
+  buf = pmm.alloc(length);
+  vfs->read(fd, buf, length);
+  printf("%s", buf);
+  puts("~")
+  pmm.free(buf);
+
+  RETURN;
+}
+
