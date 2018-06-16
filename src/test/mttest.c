@@ -42,7 +42,7 @@ int test_mttest() {
   kmt->spin_init(&io_lock, "mttest.io_lock");
   kmt->sem_init(&sem, "mttest.sem", 0);
   for (int i = 0; i < 4; i++) 
-    sh_create_thread(&workers[i], worker, &results[i]);
+    sh_create_thread(&workers[i], (void *)worker, &results[i]);
   for (int i = 0; i < 4; i++)
     kmt->sem_wait(&sem);
   VERDICT(0, "numbers are correct");
