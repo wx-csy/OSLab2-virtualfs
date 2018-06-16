@@ -21,6 +21,8 @@ void init_test();
 
 int sh_create_thread(thread_t *thread, void entry(void *arg), void *arg);
 void sh_teardown(thread_t *thread);
+void sh_mount(filesystem_t *fs);
+int sh_access(const char *path, int mode);
 
 int shb_type(const char *path);
 

@@ -43,6 +43,16 @@ void sh_teardown(thread_t *thread) {
   RETURN;
 }
 
+int sh_access(const char *path, int mode) {
+  ENTER;
+
+  int ret = kmt->access(path, mode);
+
+  SYSCALL_PRINT("access(\"%s\", %d) = %d", path, mode, ret);
+
+  RETURN ret;
+}
+
 int shb_type(const char *path) {
   ENTER;
   
@@ -65,3 +75,25 @@ int shb_type(const char *path) {
   RETURN 0;
 }
 
+static int lsfile(const char *path, inode_t inode, 
+    int mode, int length) {
+  char smode[4] = {'-', '-', '\0'};
+  if (mode & R_OK) smode[0] = 'r';
+  if (mode & W_OK) smode[1] = 'w';
+  printf("%5d %s %5d %s\n", inode, smode, length, path);
+  return 0;
+}
+
+static int lsfs(const char *path, filesystem_t *fs) {
+  printf("[%s] %s\n", fs->name, path);
+  Invoke(fs, walk, lsfile);
+  printf("\n");
+  return 0;
+}
+
+void shb_ls() {
+  ENTER;
+  SHELL_PRINT("$ ls");
+  vfs->fsls(lsfs);
+  RETURN;
+}
