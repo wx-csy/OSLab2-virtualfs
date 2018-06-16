@@ -50,18 +50,18 @@ void shb_type(const char *path) {
   
   int fd = vfs->open(path, O_RDONLY);
   if (fd < 0) {
-    printf("Failed to open file `%s'\m", path);
+    printf("Failed to open file `%s'\n", path);
     RETURN;
   }
 
   char *buf;
   int length = vfs->lseek(fd, 0, SEEK_END);
   vfs->lseek(fd, 0, SEEK_SET);
-  buf = pmm.alloc(length);
+  buf = pmm->alloc(length);
   vfs->read(fd, buf, length);
   printf("%s", buf);
   puts("~")
-  pmm.free(buf);
+  pmm->free(buf);
 
   RETURN;
 }
