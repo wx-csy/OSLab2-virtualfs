@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <time.h>
 
 static spinlock_t io_lock;
 static sem_t sem;
