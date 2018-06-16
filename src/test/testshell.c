@@ -38,7 +38,7 @@ void testshell() {
     }
   }
   puts("");
-  printf("%d of %d test cases passed", passcnt, NR_TESTCASES);
+  printf("%d of %d test cases passed\n\n", passcnt, NR_TESTCASES);
   _Exit(0);
 }
 
