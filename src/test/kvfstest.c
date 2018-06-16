@@ -38,7 +38,7 @@ int test_kvfstest() {
   if (fd >= 0) chk_cnt++;
   if (sh_lseek(fd, 4, SEEK_SET) == 4) chk_cnt++;
   if (sh_write(fd, "456789", 6) == 6) chk_cnt++;
-  if (sh_lseek(fd, -4, SEEK_CUR) == 0) chk_cnt++;
+  if (sh_lseek(fd, -10, SEEK_CUR) == 0) chk_cnt++;
   if (sh_write(fd, "abcde", 5) == 5) chk_cnt++;
   if (sh_lseek(fd, -1, SEEK_END) == 10) chk_cnt++;
   if (sh_write(fd, "@!#$%^&", 7) == 7) chk_cnt++;
