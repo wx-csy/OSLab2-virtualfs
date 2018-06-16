@@ -18,17 +18,17 @@ static thread_t workers[8];
 static int counts[8];
 static char files[4][64];
 
-void worker(int *count) {
+void worker(int* count) {
   int fds[4];
+  int wid = *count;
   *count = 0;
   for (int i = 0; i < 4; i++) {
     fds[i] = vfs->open(files[i], O_RDWR);
   }
-  int tid = this_thread->tid;
   for (int i = 0; i < COUNT_N; i++) {
     int fn = i % 4;
-    vfs->lseek(fds[fn], 4 * ((fn + tid) % 8), SEEK_SET);
-    vfs->write(fds[fn], &tid, 4);
+    vfs->lseek(fds[fn], 4 * ((fn + wid) % 8), SEEK_SET);
+    vfs->write(fds[fn], &wid, 4);
     int val; 
     vfs->lseek(fds[fn], -4, SEEK_CUR);
     vfs->read(fds[fn], &val, 4);
@@ -39,7 +39,7 @@ void worker(int *count) {
   }
 
   kmt->spin_lock(&io_lock);
-  printf("[%d] done (count = %d)\n", tid, *count);
+  printf("[%d] done (wid = %d, count = %d)\n", this_thread->tid, wid, *count);
   kmt->spin_unlock(&io_lock);
     
   kmt->sem_signal(&sem);
@@ -62,6 +62,7 @@ int test_concrw() {
   }
 
   for (int i = 0; i < 8; i++) {
+    counts[i] = i;
     sh_create_thread(&workers[i], (void *)worker, &counts[i]);
   }
   
