@@ -56,7 +56,7 @@ int test_kvfstest() {
   if (sh_close(fd) == 0) chk_cnt++;
 
   SLEEP(150);
-  // 6 test points
+  // 5 test points
   shb_ls();
   if (sh_access("/test/file0", R_OK | W_OK) == 0) chk_cnt++;
   if (sh_access("/test/file1", R_OK | W_OK) == 0) chk_cnt++;
@@ -64,7 +64,7 @@ int test_kvfstest() {
   if (shb_type("/test/file1") == 0) chk_cnt++;
   if (sh_unmount("/test/") == 0) chk_cnt++;
   
-  VERDICT(chk_cnt == 29 ? 0 : 1,
-      "%d of 29 checkpoints passed", chk_cnt);
+  VERDICT(chk_cnt == 31 ? 0 : 1,
+      "%d of 31 checkpoints passed", chk_cnt);
 }
 

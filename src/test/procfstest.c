@@ -10,8 +10,18 @@
 int test_procfstest() {
   puts("====== procfs Functional Test ======");
   puts("# test functions of procfs");
-  int cnt = 0;
+  int cnt = 0, chk_cnt = 0;
   
+  // 5 checkpoints
+  if (sh_access("/proc/cpuinfo", W_OK) < 0) chk_cnt++;
+  int fd = sh_open("/proc/cpuinfo", O_RDWR);
+  int dummy;
+  if (fd < 0) chk_cnt++;
+  if ((fd = sh_open("/proc/cpuinfo", O_RDONLY)) >= 0) chk_cnt++;
+  if (sh_write(fd, &dummy, sizeof dummy) < 0) chk_cnt++;
+  if (sh_close(fd) == 0) chk_cnt++;
+
+  SLEEP(100);
   if (sh_access("/proc/cpuinfo", R_OK) == 0 &&
       shb_type("/proc/cpuinfo") == 0) cnt++;
   SLEEP(100);
@@ -26,7 +36,9 @@ int test_procfstest() {
   if (cnt == 3) {
     VERDICT(0, "%d files", cnt);
   } else {
-    VERDICT(1, "%d of 3 files succeeded", cnt);
+    VERDICT(chk_cnt == 5 && cnt == 3, 
+        "%d of 5 checkpoints passed, %d of 3 files succeeded", 
+        chk_cnt, cnt);
   }
 }
 
