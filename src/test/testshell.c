@@ -3,7 +3,7 @@
 #include <test.h>
 
 struct {
-  char *name;
+  const char *name;
   int (*fn)();
   int result;
 } testcases = {
