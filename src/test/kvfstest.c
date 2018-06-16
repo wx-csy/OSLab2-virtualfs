@@ -19,7 +19,7 @@ int test_kvfstest() {
   if (sh_mount("/test/", New(kvfs, "kvfs_test")) >= 0) chk_cnt++;
   if (sh_access("/test/inexist", R_OK | W_OK) < 0) chk_cnt++;
   
-  SLEEP(150);
+  SLEEP(100);
   // 7 test points
   int fd = sh_open("/test/file0", O_RDWR);
   if (fd >= 0) chk_cnt++;
@@ -34,10 +34,11 @@ int test_kvfstest() {
   if (strcmp(buf, test_text) == 0) chk_cnt++;
   if (sh_close(fd) == 0) chk_cnt++;
 
-  SLEEP(15000);
+  SLEEP(100);
   // 16 test points
   fd = sh_open("/test/file1", O_WRONLY);
   if (fd >= 0) chk_cnt++;
+  memset(buf, 0, sizeof buf);
   if (sh_read(fd, buf, 2) < 0) chk_cnt++;
   if (sh_lseek(fd, 4, SEEK_SET) == 4) chk_cnt++;
   if (sh_write(fd, "456789", 6) == 6) chk_cnt++;
@@ -55,7 +56,7 @@ int test_kvfstest() {
   if (sh_unmount("/test/") < 0) chk_cnt++;  // fs is still buzy
   if (sh_close(fd) == 0) chk_cnt++;
 
-  SLEEP(150);
+  SLEEP(100);
   // 5 test points
   shb_ls();
   if (sh_access("/test/file0", R_OK | W_OK) == 0) chk_cnt++;

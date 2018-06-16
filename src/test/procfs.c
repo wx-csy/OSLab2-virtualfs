@@ -7,7 +7,7 @@
 #include <assert.h>
 #include <time.h>
 
-int test_procfstest() {
+int test_procfs() {
   puts("====== procfs Functional Test ======");
   puts("# test functions of procfs");
   int cnt = 0, chk_cnt = 0;
@@ -30,7 +30,6 @@ int test_procfstest() {
   char path[256];
   sprintf(path, "/proc/%d", this_thread->tid);
   if (sh_access(path, R_OK) == 0 && shb_type(path) == 0) cnt++; 
-  SLEEP(1000);
 
   VERDICT(!(chk_cnt == 4 && cnt == 3), 
       "%d of 4 checkpoints passed, %d of 3 files succeeded", 
