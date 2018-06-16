@@ -18,7 +18,7 @@ int test_procfstest() {
   char path[256];
   sprintf(path, "/proc/%d", this_thread->tid);
   SLEEP(20);
-  if (shb_type("/proc/0") == 0) cnt++; 
+  if (shb_type(path) == 0) cnt++; 
   SLEEP(20);
 
   if (cnt == 3) {
