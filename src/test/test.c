@@ -65,7 +65,7 @@ ssize_t sh_read(int fd, void *buf, size_t nbyte) {
   ENTER;
   ssize_t ret = vfs->read(fd, buf, nbyte);
   SYSCALL_PRINT("read(fd = %d, \"%.20s\"... , nbyte = %d) = %d", 
-      fd, buf, nbyte);
+      fd, buf, nbyte, ret);
   RETURN ret; 
 }
 
@@ -73,7 +73,7 @@ ssize_t sh_write(int fd, const void *buf, size_t nbyte) {
   ENTER;
   ssize_t ret = vfs->write(fd, buf, nbyte);
   SYSCALL_PRINT("write(fd = %d, \"%.20s\"... , nbyte = %d) = %d", 
-      fd, buf, nbyte);
+      fd, buf, nbyte, ret);
   RETURN ret; 
 }
 
