@@ -41,6 +41,10 @@ int test_mttest2() {
   cnt = 0;
   for (int i = 0; i < 6; i++) 
     sh_create_thread(&workers[i], (void (*)(void *))worker, NULL);
+  for (int i = 0; i < 6; i++) {
+    char path[256]; sprintf(path, "/proc/%d", workers[i].tid);
+    shb_type(path);
+  }
   for (int i = 0; i < 6; i++)
     kmt->sem_wait(&sem);
   for (int i = 0; i < 6; i++) 
