@@ -14,9 +14,9 @@ static volatile int cnt;
 
 static void worker(void *ignore) {
   while (cnt < 100000000) {
-    kmt->sem_lock(&cnt_lock);
+    kmt->spin_lock(&cnt_lock);
     cnt++;
-    kmt->sem_unlock(&cnt_lock);
+    kmt->spin_unlock(&cnt_lock);
   } 
 
   kmt->sem_lock(&io_lock);
