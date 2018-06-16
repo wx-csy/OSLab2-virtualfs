@@ -47,6 +47,7 @@ int test_mttest() {
     sh_create_thread(&workers[i], (void (*)(void *))worker, &results[i]);
   for (int i = 0; i < 4; i++)
     kmt->sem_wait(&sem);
+  for (int i = 0; i < 4; i++)
   if (results[0] == 611953 && results[1] == 611953 && results[2] == 611953 &&
       results[3] == 611953) {
     VERDICT(0, "numbers are correct (611953)");
