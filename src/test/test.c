@@ -35,21 +35,29 @@ int sh_create_thread(thread_t *thread, void entry(void *arg), void *arg) {
 
 void sh_teardown(thread_t *thread) {
   ENTER;
-
   SYSCALL_PRINT("teardown(thread = %p [tid = %d])", thread, thread->tid);
-  
   kmt->teardown(thread);
-
   RETURN;
+}
+
+int sh_mount(const char *path, filesystem_t *fs) {
+  ENTER;
+  int ret = vfs->mount(path, fs);
+  SYSCALL_PRINT("mount(\"%s\", \"%s\") = %d", path, fs->name, ret);
+  RETURN ret;
+}
+
+int sh_unmount(const char *path) {
+  ENTER;
+  int ret = vfs->unmount(path);
+  SYSCALL_PRINT("unmount(\"%s\") = %d", path, ret);
+  RETURN ret;
 }
 
 int sh_access(const char *path, int mode) {
   ENTER;
-
   int ret = vfs->access(path, mode);
-
   SYSCALL_PRINT("access(\"%s\", %d) = %d", path, mode, ret);
-
   RETURN ret;
 }
 

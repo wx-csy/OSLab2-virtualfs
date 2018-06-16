@@ -8,7 +8,7 @@
 #include <time.h>
 
 int test_procfstest() {
-  puts("====== procfs Functional Test (1) ======");
+  puts("====== procfs Functional Test ======");
   puts("# test functions of procfs");
   int cnt = 0;
   
@@ -20,10 +20,10 @@ int test_procfstest() {
   SLEEP(100);
   char path[256];
   sprintf(path, "/proc/%d", this_thread->tid);
-  if (sh_access(path, R_OK) == 0&& shb_type(path) == 0) cnt++; 
+  if (sh_access(path, R_OK) == 0 && shb_type(path) == 0) cnt++; 
   SLEEP(100);
 
-  if (cnt == 4) {
+  if (cnt == 3) {
     VERDICT(0, "%d files", cnt);
   } else {
     VERDICT(1, "%d of 3 files succeeded", cnt);
