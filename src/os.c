@@ -4,6 +4,7 @@
 #include <fs/devfs.h>
 #include <fs/kvfs.h>
 #include <fs/procfs.h>
+#include <test.h>
 
 // #define DEBUG_ME
 #include <debug.h>
@@ -28,7 +29,8 @@ static void init_thrd(void *ignore) {
   vfs->mount("/dev/", New(devfs, "devfs"));
   vfs->mount("/proc/", New(procfs, "procfs"));
   vfs->mount("/", New(kvfs, "kvfs"));
-
+  
+  init_test();
   void devfs_test(void *ignore);
   devfs_test(NULL); 
   while (1) _yield();
