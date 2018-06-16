@@ -118,6 +118,7 @@ int shb_type(const char *path) {
   printf("%s", buf);
   puts("");
   pmm->free(buf);
+  // vfs->close(fd);
 
   RETURN 0;
 }
