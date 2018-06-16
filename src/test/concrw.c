@@ -14,23 +14,28 @@ static sem_t sem;
 static thread_t workers[8];
 const char files[4][64];
 
-void worker(void *ignore) {
+void worker(int *count) {
   int fds[4];
+  *count = 0;
   for (int i = 0; i < 4; i++) {
     fds[i] = vfs->open(files[i], O_RDWR);
   }
   int tid = this_thread->tid;
-  for (int i = 0; i < 1000000; i++) {
+  for (int i = 0; i < 200000; i++) {
     int fn = i % 4;
     vfs->lseek(fds[fn], 4 * ((fn + tid) % 8), SEEK_SET);
     vfs->write(fds[fn], &tid, 4);
+    int val; 
+    vfs->lseek(fds[fn], -4, SEEK_CUR);
+    vfs->read(fds[fn], &val, 4);
+    if (val == tid) *count++;
   }
   for (int i = 0; i < 4; i++) {
     vfs->close(fds[i]);
   }
 
   kmt->spin_lock(&io_lock);
-  printf("[%d] done\n", tid);
+  printf("[%d] done (count = %d)\n", tid, *count);
   kmt->spin_unlock(&io_lock);
     
   kmt->sem_signal(&sem);
