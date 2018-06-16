@@ -24,6 +24,7 @@ void sh_teardown(thread_t *thread);
 int sh_mount(const char *path, filesystem_t *fs);
 int sh_unmount(const char *path);
 int sh_access(const char *path, int mode);
+int sh_open(const char *path, int flags);
 
 int shb_type(const char *path);
 

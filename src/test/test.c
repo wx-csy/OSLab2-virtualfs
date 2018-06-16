@@ -54,6 +54,21 @@ int sh_unmount(const char *path) {
   RETURN ret;
 }
 
+int sh_open(const char *path, int flags) {
+  ENTER;
+  int ret = vfs->open(path);
+  SYSCALL_PRINT("open(\"%s\", flags = %d) = %d", path, flags, ret);
+  RETURN ret;
+}
+
+ssize_t sh_read(int fd, void *buf, size_t nbyte) {
+  ENTER;
+  ssize_t ret = vfs->read(fd, buf, nbyte);
+  SYSCALL_PRINT("read(fd = %d, buf = %p, nbyte = %d) = %d", 
+      fd, buf, nbyte);
+  RETURN ret; 
+}
+
 int sh_access(const char *path, int mode) {
   ENTER;
   int ret = vfs->access(path, mode);

@@ -16,6 +16,12 @@ int test_kvfstest() {
   
   if (sh_mount("/", New(kvfs, "kvfs_fail")) < 0) chk_cnt++;
   if (sh_mount("/test/", New(kvfs, "kvfs_test")) >= 0) chk_cnt++;
+  if (sh_access("/test/inexist", R_OK | W_OK) < 0) chk_cnt++;
+  
+  int fd = sh_open("/test/file0", O_RDWR);
+  char buf[512];
+  if (sh_read(fd, buf, 10) == 0) chk_cnt++;
+
   if (sh_unmount("/test/") == 0) chk_cnt++;
 
   VERDICT(chk_cnt == 2 ? 0 : 1,
