@@ -34,6 +34,7 @@ int test_mttest2() {
   puts("# counting 10000000 with 6 parallel threads");
   kmt->spin_init(&io_lock, "mttest2.io_lock");
   kmt->sem_init(&sem, "mttest2.sem", 0);
+  kmt->spin_init(&cnt_lock, "mttest2.cnt");
   cnt = 0;
   for (int i = 0; i < 6; i++) 
     sh_create_thread(&workers[i], (void (*)(void *))worker, NULL);
