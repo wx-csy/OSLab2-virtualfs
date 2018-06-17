@@ -124,7 +124,7 @@ static file_t *open Member (inode_t inode, int flags) {
       if (threads[inode]->status == THRD_STATUS_INVALID) return NULL;
       buf = pmm->alloc(1024);
       size = sprintf(buf, 
-          "pid: %d\n" 
+          "tid: %d\n" 
           "status: %d\n"
           "intr_cnt: %d\n" 
           "stack: 0x%p - 0x%p\n",
